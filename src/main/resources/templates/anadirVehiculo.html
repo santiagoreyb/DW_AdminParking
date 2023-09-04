@@ -5,17 +5,15 @@
         <link rel="stylesheet" type="text/css" th:href="@{/styleGestionParqueaderos.css}">
 
         <title>Aplicación AdminParking</title>
-<<<<<<< HEAD
-
-=======
->>>>>>> e702cb8179cb505f062c8d088b68063329260077
     </head>
     <body>
 
         <div class="barra">
-            <a class="botones_barra" href="crearPiso.html">Pisos</a>
-            <a class="botones_barra" href="tarifas y espacios.html">Tarifas y Espacios</a>
-            <i>Gestion de parqueos</i>
+            
+            <i>Añadir Vehiculo</i>
+            <a class="botones_barra" th:href="@{/tarifas/anadirTarifa}">Anadir Tarifa</a>
+            <a class="botones_barra" th:href="@{/pisos/anadirPiso}">Anadir Piso</a>
+            <a class="botones_barra" th:href="@{/admin/tarifas-espacios}">Tarifas y Espacios</a>
             <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
         </div>
 
