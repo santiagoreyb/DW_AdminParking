@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
+    <title>Aplicación AdminParking</title>
+    <link rel="stylesheet" type="text/css" href="style - pisos.css">
+</head>
+<body>
+    <div class="barra">
+        <i>Pisos</i>
+        <a class="botones_barra" href="tarifas y espacios.html">Tarifas y Espacios</a>
+        <a class="botones_barra" href="gestioon de parqueos.html">Gestión de parqueo</a>
+        <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
+    </div>
+
+    <form>
+        <label>
+            <input type="radio" name="options" value="opcioon_crear"> Crear piso
+        </label>
+        <br>
+        <br>
+        <label>
+            <input type="radio" name="options" value="opcioon_actualizar"> Actualizar piso
+        </label>
+        <br>
+        <br>
+        <label>
+            <input type="radio" name="options" value="opcioon_eliminar"> Eliminar piso
+        </label>
+    </form>
+
+    <h4>Ingrese la información del piso</h4>
+
+    <div>
+        <!-- Mensaje de éxito -->
+        <p th:if="${exito}">[[${exito}]]</p>
+        <!-- Mensaje de error -->
+        <p th:if="${error}">[[${error}]]</p>
+    </div>
+
+    <form method="post" action="/pisos/"> <!-- pisos: Nombre del metodo -->
+        <label for="area">Área (solo números):</label>
+        <input type="number" id="area" name="area" pattern="[0-9]+" title="Por favor, ingrese un valor numérico" required><br>
+        <!-- Menú desplegable para tipo de vehículo -->
+        <label for="tipoVehiculo">Tipo de Vehículo:</label>
+        <select id="tipoVehiculo" name="tipoVehiculo" required>
+            <option value="Carro">Carro</option>
+            <option value="Moto">Moto</option>
+            <option value="Camión">Camión</option>
+            <option value="Scooter">Scooter</option>
+        </select>
+        <br>
+        <input type="submit" value="Crear Piso" class="botoon">
+    </form>
+
+    <a class="botoon" href="recuperar pisos.html">Recuperar pisos</a>
+
+</body>
+</html>
