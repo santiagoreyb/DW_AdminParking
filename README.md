@@ -16,4 +16,7 @@ Link de diagrama: [AdminParking | Lucidchart](https://lucid.app/lucidchart/65218
 
 ## Pendiente
 
-* Implementar las clases propuestas en el UML.
+* Crear archivos HTML tipo formulario para "Pisos" y "Tarifas".
+* Crear diagrama de flujo.
+* Grabar video.
+
