@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
     <title>Aplicación AdminParking</title>
-    <link rel="stylesheet" type="text/css" href="style - pisos.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylepisos.css}">
 </head>
 <body>
     <div class="barra">
@@ -52,8 +52,5 @@
         <br>
         <input type="submit" value="Crear Piso" class="botoon">
     </form>
-
-    <a class="botoon" href="recuperar pisos.html">Recuperar pisos</a>
-
 </body>
 </html>
