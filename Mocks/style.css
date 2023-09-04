@@ -1,0 +1,49 @@
+
+div {
+    margin-bottom: 20px;
+}
+
+.botoon {
+    /* Letra */
+    color: black;
+    font-size: 24px; /* Increase the font size */
+    text-align: center;
+    text-decoration: none;
+    /* Fondo */
+    background-color: darkgrey;
+    /* Borde */
+    border: 4px solid black;
+    border-radius: 8px;
+    /* Botón */
+    padding: 16px;
+    height: 36px; /* Increase line height for more height */
+    width: 280px; /* Set a fixed width for the link */
+    display: inline-block; /* Make it an inline block to adjust height */
+}
+
+.botoon:hover {
+    background-color: grey;
+}
+
+.barra {
+    /* Letra */
+    font-size : 24px ;
+    text-align : center ;
+    /* Elementos */
+    justify-content: space-between ;
+    display : flex ;
+    padding : 40px 280px ;
+    /* Contenedor */
+    height : 40px ;
+    background-color : white ;
+    border : solid ;
+    border-width : 10px ;
+    border-color : black ;
+    /* Posición */
+    top : 0px ;
+    right : 0px ;
+    left : 0px ;
+    position : fixed ;
+    z-index : 2 ;
+}
+
