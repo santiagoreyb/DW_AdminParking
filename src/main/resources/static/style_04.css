@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+h2 {
+    color: #333;
+    margin-top: 100px;
+}
+
+h3 {
+    font-size: 20px;
+    color: #333;
+
+}
+
+#tarifas, #espacios {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #555;
+}
+
+
+
+
+/* Estilos para .barra */
+.barra {
+    font-size: 20px;
+    text-align: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 20px; /* Reducido el relleno para hacerlo más estilizado */
+    height: auto; /* Altura automática basada en el contenido */
+    background-color: white;
+    color: black; /* Color de letra en negro */
+    font-weight: bold; /* Letra en negrilla */
+    border: 4px solid black; /* Borde sólido de 4px en negro */
+    border-radius: 8px; /* Bordes redondeados */
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilos para el contenido dentro de la barra */
+.barra-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.botones_barra {
+    /* Letra */
+    color: black;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    /* Fondo */
+    background-color: darkgrey;
+    /* Borde */
+    border: 4px solid black;
+    border-radius: 8px;
+    /* Botón */
+    height: 28px;
+    width: 200px;
+}
+/* Estilos para elementos dentro de la barra (por ejemplo, enlaces de navegación) */
+.barra a {
+    color: black;
+    text-decoration: none;
+    margin: 0 20px;
+    transition: color 0.3s;
+}
+
+.barra a:hover {
+    color: grey; /* Cambia el color del enlace al pasar el ratón a gris */
+}

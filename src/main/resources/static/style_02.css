@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    margin-top: 100px;
+}
+div {
+    margin-bottom: 20px;
+}
+
+.botoon {
+    /* Letra */
+    color: black;
+    font-size: 24px;
+    text-align: center;
+    text-decoration: none;
+    /* Fondo */
+    background-color: darkgrey;
+    /* Borde */
+    border: 4px solid black;
+    border-radius: 8px;
+    /* Botón */
+    padding: 10px 20px; /* Ajusta el relleno para controlar el tamaño del botón */
+    height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
+    width: auto; /* Permite que el ancho se ajuste automáticamente al contenido */
+    display: inline-block;
+    line-height: 1; /* Restablece la altura de línea para que no sea demasiado alta */
+}
+
+.botoon:hover {
+    background-color: grey;
+}
+
+ 
+#aviso {
+    font-size: 18px;
+    color: red; /* Color de texto rojo */
+    margin-top: 10px; /* Espacio superior para separar del botón */
+    text-align: center; /* Alineación al centro */
+}
+
+
+
+
+
+/* Estilos para .barra */
+.barra {
+    font-size: 20px;
+    text-align: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 20px; /* Reducido el relleno para hacerlo más estilizado */
+    height: auto; /* Altura automática basada en el contenido */
+    background-color: white;
+    color: black; /* Color de letra en negro */
+    font-weight: bold; /* Letra en negrilla */
+    border: 4px solid black; /* Borde sólido de 4px en negro */
+    border-radius: 8px; /* Bordes redondeados */
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilos para el contenido dentro de la barra */
+.barra-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.botones_barra {
+    /* Letra */
+    color: black;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    /* Fondo */
+    background-color: darkgrey;
+    /* Borde */
+    border: 4px solid black;
+    border-radius: 8px;
+    /* Botón */
+    height: 28px;
+    width: 200px;
+}
+/* Estilos para elementos dentro de la barra (por ejemplo, enlaces de navegación) */
+.barra a {
+    color: black;
+    text-decoration: none;
+    margin: 0 20px;
+    transition: color 0.3s;
+}
+
+.barra a:hover {
+    color: grey; /* Cambia el color del enlace al pasar el ratón a gris */
+}
