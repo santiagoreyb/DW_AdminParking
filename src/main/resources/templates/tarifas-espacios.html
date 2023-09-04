@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
+    <title>Aplicación AdminParking</title>
+    <link rel="stylesheet" type="text/css" href="style - tarifas y espacios.css">
+</head>
+
+<body>
+    <div class="barra">
+        <a class="botones_barra" href="crearPiso.html">Pisos</a>
+        <i>Tarifas y Espacios</i>
+        <a class="botones_barra" href="anadirVehiculo.html">Gestión de parqueo</a>
+        <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h3>Mostrar las tarifas por tipo de vehículo</h3>
+
+    <div id="tarifas">
+        <h4>Tarifas por tipo de vehículo:</h4>
+        <ul>
+            <!-- Iterar sobre la lista de tarifas y mostrar cada tarifa -->
+            <th:block th:each="tarifa : ${tarifas}">
+                <li th:text="${tarifa.tipoVehiculo} + ': $' + ${tarifa.tarifaPorMinuto} + ' por minuto'"></li>
+            </th:block>
+        </ul>
+    </div>
+
+    <h3>Mostrar los espacios disponibles por tipo de vehículo</h3>
+
+    <div id="espacios">
+        <h4>Espacios disponibles por tipo de vehículo:</h4>
+        <ul>
+            <!-- Iterar sobre la lista de información de espacios por piso y mostrar cada piso -->
+            <th:block th:each="infoPiso : ${infoEspaciosPorPiso}">
+                <li th:text="${infoPiso}"></li>
+            </th:block>
+        </ul>
+    </div>
+
+</body>
+
+</html>

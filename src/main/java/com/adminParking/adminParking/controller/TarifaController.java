@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 //@RestController
 @Controller
@@ -41,19 +43,38 @@ public class TarifaController {
     }*/
 
     @PostMapping("/")
-    public String createTarifa(@RequestParam("tarifaPorMinuto") double tarifaPorMinutos, @RequestParam("tipoVehiculo") String tipoVehiculo) {
-        TarifaEntity tarifa = new TarifaEntity(tipoVehiculo,tarifaPorMinutos);
-        tarifaRepository.save(tarifa);
-
-        return "redirect:/tarifas/getTarifas";
+    public String createTarifa(
+            @RequestParam("tarifaPorMinuto") double tarifaPorMinutos,
+            @RequestParam("tipoVehiculo") String tipoVehiculo,
+            RedirectAttributes redirectAttributes) {
+        
+        // Verificar si ya existe una tarifa para el tipo de vehículo
+        Optional<TarifaEntity> existingTarifa = tarifaRepository.findByTipoVehiculo(tipoVehiculo);
+    
+        if (existingTarifa.isPresent()) {
+            redirectAttributes.addFlashAttribute("errorTarifa", "Ya existe una tarifa para este tipo de vehículo");
+        } else {
+            // Crear una nueva tarifa solo si no existe
+            TarifaEntity tarifa = new TarifaEntity(tipoVehiculo, tarifaPorMinutos);
+            tarifaRepository.save(tarifa);
+            redirectAttributes.addFlashAttribute("exitoTarifa", "Se guardo la tarífa correctamente");
+        }
+    
+        return "redirect:/tarifas/anadirTarifa"; // Redirige de nuevo al formulario de creación
     }
-
+    
     //Vista Para añadir una tarifa
     @GetMapping("/anadirTarifa")
     public String showMenu(Model model){
-        return "crearTarifa"; 
-    }
 
+        if (model.containsAttribute("errorTarifa")) {
+            model.addAttribute("mensaje", model.getAttribute("errorTarifa"));
+        }else if(model.containsAttribute("exitoTarifa")){
+            model.addAttribute("mensaje", model.getAttribute("exitoTarifa"));
+        }
+        return "crearTarifa";
+
+    }
 
     @PutMapping("/{id}")
     public TarifaEntity updateTarifa(@PathVariable Long id, @RequestBody TarifaEntity tarifa) {
