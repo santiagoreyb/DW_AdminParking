@@ -14,10 +14,10 @@ public class PisoEntity {
     @Id
     @GeneratedValue
     private Long id;
-
     private String area;
+    private String tipoVehiculo; 
 
-    @OneToMany(mappedBy = "piso") //piso nombre del atributo de la otra clase que conforma esta asociaicon
+    @OneToMany(mappedBy = "piso") //"piso" nombre del atributo de la otra clase que conforma esta asociaicon
     @JsonIgnore // Ignore the vehiculos field during JSON serialization
     private List<VehiculoEntity> vehiculos = new ArrayList<>();
 
@@ -25,8 +25,9 @@ public class PisoEntity {
         // Constructor vacío necesario para JPA
     }
 
-    public PisoEntity(String area) {
+    public PisoEntity(String area, String tipoVehiculo) {
         this.area = area;
+        this.tipoVehiculo = tipoVehiculo;
     }
 
     public Long getId() {
@@ -43,6 +44,14 @@ public class PisoEntity {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public void setTipoVehiculo(String tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
+
+    public String getTipoVehiculo() {
+        return tipoVehiculo;
     }
 
     public List<VehiculoEntity> getVehiculos() {

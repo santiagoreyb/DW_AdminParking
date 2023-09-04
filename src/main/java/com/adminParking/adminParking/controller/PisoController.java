@@ -6,7 +6,7 @@ import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import java.util.List;
 
-@RestController // Cambia @Controller a @RestController
+@RestController // @RestController
 @RequestMapping("/pisos")
 public class PisoController {
 

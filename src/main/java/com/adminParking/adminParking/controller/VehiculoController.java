@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
+import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 @RestController
@@ -26,6 +28,9 @@ public class VehiculoController {
 
     @Autowired
     PisoRepository pisoRepository;
+
+    @Autowired 
+    TarifaRepository tarifaRepository; 
 
     @GetMapping("/")
     public List<VehiculoEntity> getAllVehiculos() {
@@ -42,17 +47,31 @@ public class VehiculoController {
         // Obtiene el ID del piso desde la solicitud JSON
         Long pisoId = vehiculo.getPiso().getId();
         // Obtiene el piso correspondiente desde la base de datos
-         PisoEntity piso = pisoRepository.findById(pisoId).orElse(null);
+        PisoEntity piso = pisoRepository.findById(pisoId).orElse(null);
         // Asigna el piso al vehículo
-        if (piso != null) {
-            // Asigna el piso al vehículo
-            vehiculo.setPiso(piso);
-            // Guarda el vehículo en la base de datos
-            return vehiculoRepository.save(vehiculo);
+    
+        if (piso != null && piso.getTipoVehiculo().equals(vehiculo.getTipoVehiculo())) {
+            // Busca la tarifa automáticamente por el tipo de vehículo
+            TarifaEntity tarifa = tarifaRepository.findByTipoVehiculo(vehiculo.getTipoVehiculo()).orElse(null);
+            
+            if (tarifa != null) {
+                // Asigna el piso al vehículo   
+                vehiculo.setPiso(piso);
+                // Asigna la tarifa automáticamente
+                vehiculo.setTarifa(tarifa);
+                // Guarda el vehículo en la base de datos
+                System.out.println("El vehiculo se guardo correctamente");
+                return vehiculoRepository.save(vehiculo);
+            } else {
+                System.out.println("No se encontró una tarifa para este tipo de vehículo");
+                return null;
+            }
         } else {
+            System.out.println("El vehiculo no se puede guardar en este piso");
             return null;
         }
     }
+    
 
     @PutMapping("/{id}")
     public VehiculoEntity updateVehiculo(@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {
