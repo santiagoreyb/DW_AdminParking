@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 
     <head>
@@ -12,7 +12,7 @@
         <link
 			rel="stylesheet"
 			type="text/css"
-			href="style - recuperar pisos.css"
+			th:href="@{/style-recuperarpisos.css}"
 		>
 
     </head>
@@ -23,7 +23,13 @@
             Recuperando pisos...
         </p>
     
-        <!-- CODE --> 
+        <table>
+            <tr th:each="piso : ${pisos}">
+                <td th:text="${piso.id}"></td>
+                <td th:text="${piso.area}"></td>
+                <td th:text="${piso.tipoVehiculo}"></td>
+            </tr>
+        </table>
 
     </body>
 

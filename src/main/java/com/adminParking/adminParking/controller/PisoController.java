@@ -2,6 +2,8 @@ package com.adminParking.adminParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.adminParking.adminParking.model.AdministradorEntity;
@@ -10,7 +12,7 @@ import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import java.util.List;
 
-@RestController // @RestController
+@Controller // @RestController
 @RequestMapping("/pisos")
 public class PisoController {
 
@@ -20,9 +22,11 @@ public class PisoController {
     @Autowired
     AdministradorRepository administradorRepository;
 
-    @GetMapping("/")
-    public List<PisoEntity> getAllPisos() {
-        return pisoRepository.findAll();
+    @GetMapping("/recu")
+    public String getAllPisos ( Model model ) {
+        List<PisoEntity> pisos = pisoRepository.findAll();
+        model.addAttribute("pisos", pisos);
+        return "recuperar pisos";
     }
 
     @GetMapping("/{id}")
