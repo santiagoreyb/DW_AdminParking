@@ -16,11 +16,10 @@ import com.adminParking.adminParking.repositories.AdministradorRepository;
 public class AdministradorController {
 
     @Autowired
-    AdministradorRepository administradorRepository; // Debes inyectar tu repositorio de administradores aquí
+    AdministradorRepository administradorRepository; //repositorio de administradores aquí
 
     @GetMapping("/calcular-espacios/{id}")
     public ResponseEntity<String> calcularEspaciosDisponibles(@PathVariable Long id) {
-        // Supongamos que tienes una instancia válida de AdministradorEntity
         AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null); 
         if (administrador == null) {
             return ResponseEntity.notFound().build();
@@ -30,6 +29,5 @@ public class AdministradorController {
 
         return ResponseEntity.ok("Espacios disponibles: " + espaciosDisponibles);
     }
-
 
 }
