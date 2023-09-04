@@ -70,7 +70,7 @@ public class PisoController {
         return "redirect:/pisos/anadirPiso";
     }
 
-    //Vista Para añadir un piso
+    // Vista Para añadir un piso.
     @GetMapping("/anadirPiso")
     public String showMenu(Model model){
         return "crearPiso";
@@ -90,6 +90,12 @@ public class PisoController {
         }
 
         return pisoRepository.save(piso);
+    }
+
+    // Vista para actualizar un piso.
+    @GetMapping("/actualizarPiso")
+    public String actualizarPiso(Model model){
+        return "actualizarPiso";
     }
 
     /*
