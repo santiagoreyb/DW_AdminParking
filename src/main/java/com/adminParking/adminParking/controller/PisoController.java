@@ -1,8 +1,12 @@
 package com.adminParking.adminParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import java.util.List;
 
@@ -12,6 +16,9 @@ public class PisoController {
 
     @Autowired
     PisoRepository pisoRepository;
+
+    @Autowired
+    AdministradorRepository administradorRepository;
 
     @GetMapping("/")
     public List<PisoEntity> getAllPisos() {
@@ -25,6 +32,16 @@ public class PisoController {
 
     @PostMapping("/")
     public PisoEntity createPiso(@RequestBody PisoEntity piso) {
+        //Obtiene el administrador único
+        AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
+        
+        if(administrador == null){
+            System.out.println("Error encontrando el ID del administrador único");
+            return null; 
+        }
+
+        piso.setAdministrador(administrador);
+
         return pisoRepository.save(piso);
     }
 
@@ -38,4 +55,5 @@ public class PisoController {
     public void deletePiso(@PathVariable Long id) {
         pisoRepository.deleteById(id);
     }
+
 }

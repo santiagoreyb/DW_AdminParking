@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.VehiculoEntity;
+import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
@@ -22,13 +23,19 @@ public class DataBaseInit implements ApplicationRunner {
 
      @Autowired
     private TarifaRepository tarifaRepository; 
+    
+    @Autowired
+    private AdministradorRepository administradorRepository; 
 
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-          // Coloca aquí el código que deseas ejecutar al iniciar la aplicación.
-        // Por ejemplo, la inicialización de datos.
-        PisoEntity piso = new PisoEntity("Piso A","Carro");
+      
+        AdministradorEntity admin = new AdministradorEntity(333L);
+        administradorRepository.save(admin);
+
+        PisoEntity piso = new PisoEntity("200","Carro");
+        piso.setAdministrador(admin);
         pisoRepository.save(piso);
 
         // Inicializar tarifas

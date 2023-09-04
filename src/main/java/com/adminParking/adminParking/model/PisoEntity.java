@@ -21,6 +21,9 @@ public class PisoEntity {
     @JsonIgnore // Ignore the vehiculos field during JSON serialization
     private List<VehiculoEntity> vehiculos = new ArrayList<>();
 
+    @ManyToOne
+    private AdministradorEntity administrador; //"administrador" nombre del atributo de la otra clase que conforma esta asociaicon
+
       public PisoEntity() {
         // Constructor vacío necesario para JPA
     }
@@ -54,6 +57,15 @@ public class PisoEntity {
         return tipoVehiculo;
     }
 
+    public void setAdministrador(AdministradorEntity administrador) {
+        this.administrador = administrador;
+    }
+
+
+    public AdministradorEntity getAdministrador() {
+        return administrador;
+    }
+
     public List<VehiculoEntity> getVehiculos() {
         return vehiculos;
     }
@@ -61,4 +73,6 @@ public class PisoEntity {
     public void setVehiculos(List<VehiculoEntity> vehiculos) {
         this.vehiculos = vehiculos;
     }
+
+
 }
