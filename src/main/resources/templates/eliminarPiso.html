@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
+    <title>Aplicación AdminParking</title>
+</head>
+<body>
+    <div class="barra">
+        <i>Pisos</i>
+        <a class="botones_barra" href="tarifas y espacios.html">Tarifas y Espacios</a>
+        <a class="botones_barra" href="gestioon de parqueos.html">Gestión de parqueo</a>
+        <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
+    </div>
+
+    <h4>CRUD pisos</h4>
+    <div class="barraCRUD">
+        <a class="botones_barra" href="tarifas y espacios.html">Create</a>
+        <a class="botones_barra" href="gestioon de parqueos.html">Read</a>
+        <a class="botones_barra" href="iniciar sesioon.html">Update</a>
+        <a class="botones_barra" href="iniciar sesioon.html">Delete</a>
+    </div>
+
+    <h4>Ingrese la información del piso</h4>
+
+    <form method="post" action="/pisos/"> <!-- pisos: Nombre del metodo -->
+        <label for="IdPiso">Id piso a eliminar (solo números):</label>
+        <input type="number" id="IdPiso" name="IdPiso" pattern="[0-9]+" title="Por favor, ingrese un valor numérico" required><br>
+        <!-- Menú desplegable para tipo de vehículo -->
+        <input type="submit" value="Eliminar Piso" class="botoon">
+    </form>
+
+    <div>
+        <!-- Mensaje de éxito -->
+        <p th:if="${exito}">[[${exito}]]</p>
+        <!-- Mensaje de error -->
+        <p th:if="${error}">[[${error}]]</p>
+    </div>
+
+</body>
+</html>
