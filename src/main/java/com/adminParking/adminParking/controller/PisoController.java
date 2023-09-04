@@ -73,10 +73,10 @@ public class PisoController {
     //Vista Para añadir un piso
     @GetMapping("/anadirPiso")
     public String showMenu(Model model){
-        return "crearPiso"; 
+        return "crearPiso";
     }
 
-    @PutMapping("/")
+    @PutMapping("/actu")
     public PisoEntity updatePiso(@RequestParam("id") Long id, @RequestParam("area") String area , @RequestParam("tipoVehiculo") String tipoVehiculo, RedirectAttributes redirectAttributes) {
 
         PisoEntity piso = pisoRepository.findById(id).orElse(null) ;
