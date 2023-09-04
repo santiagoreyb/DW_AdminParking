@@ -2,7 +2,10 @@ package com.adminParking.adminParking.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tabla_piso")
@@ -14,8 +17,9 @@ public class PisoEntity {
 
     private String area;
 
-    @OneToMany(mappedBy = "piso")
-    private List<VehiculoEntity> vehiculos;
+    @OneToMany(mappedBy = "piso") //piso nombre del atributo de la otra clase que conforma esta asociaicon
+    @JsonIgnore // Ignore the vehiculos field during JSON serialization
+    private List<VehiculoEntity> vehiculos = new ArrayList<>();
 
       public PisoEntity() {
         // Constructor vacío necesario para JPA

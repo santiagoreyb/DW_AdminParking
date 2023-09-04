@@ -39,16 +39,14 @@ public class VehiculoController {
 
     @PostMapping("/")
     public VehiculoEntity createVehiculo(@RequestBody VehiculoEntity vehiculo) {
-         // Obtiene el ID del piso desde la solicitud JSON
+        // Obtiene el ID del piso desde la solicitud JSON
         Long pisoId = vehiculo.getPiso().getId();
         // Obtiene el piso correspondiente desde la base de datos
          PisoEntity piso = pisoRepository.findById(pisoId).orElse(null);
-
         // Asigna el piso al vehículo
         if (piso != null) {
             // Asigna el piso al vehículo
             vehiculo.setPiso(piso);
-    
             // Guarda el vehículo en la base de datos
             return vehiculoRepository.save(vehiculo);
         } else {

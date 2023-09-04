@@ -1,5 +1,7 @@
 package com.adminParking.adminParking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +22,7 @@ public class VehiculoEntity {
     String tiempoSalida;
 
     @ManyToOne //Se utiliza para indicar que un vehículo pertenece a un piso 
-    @JoinColumn(name = "piso_id") //se usa para especificar la columna en la tabla de vehículos que almacena la clave foránea al piso
-    private PisoEntity piso; // Agrega la referencia al piso
+    private PisoEntity piso; // Agrega la referencia al piso que funciona como una clave foranea
 
     public VehiculoEntity() {
         // Constructor vacío necesario para JPA
