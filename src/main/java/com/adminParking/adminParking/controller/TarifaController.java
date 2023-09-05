@@ -35,7 +35,6 @@ public class TarifaController {
         return tarifaRepository.findByTipoVehiculo(tipoVehiculo).orElse(null);
     }
 
-
     /* 
     @PostMapping("/")
     public TarifaEntity createTarifa(@RequestBody TarifaEntity tarifa) {
