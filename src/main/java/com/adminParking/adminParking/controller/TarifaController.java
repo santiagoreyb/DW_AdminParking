@@ -71,7 +71,6 @@ public class TarifaController {
             model.addAttribute("mensaje", model.getAttribute("errorTarifa"));
         }else if(model.containsAttribute("exitoTarifa")){
             model.addAttribute("mensaje", model.getAttribute("exitoTarifa"));
-
         }
         return "crearTarifa";
 
