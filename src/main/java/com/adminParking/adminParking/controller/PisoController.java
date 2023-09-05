@@ -66,7 +66,6 @@ public class PisoController {
             pisoRepository.save(piso);
             redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
         }
-      
 
         return "redirect:/pisos/anadirPiso";
     }
