@@ -14,7 +14,6 @@
 			type="text/css"
 			href="style - pisos.css"
 		>
-
     </head>
 
     <body>
@@ -42,38 +41,18 @@
             </label>
         </form>
 
-        <form>
-            <div>
-                <label for="entrada_id">Tipo de vehículo</label>
-                <br>
-                <br>
-                <input type="text" id="entrada_id" placeholder="Ingresar id.">
-            </div>
-            <div>
-                <label for="entrada_aarea">Área</label>
-                <br>
-                <br>
-                <input type="text" id="entrada_aarea" placeholder="Ingresar área.">
-            </div>
-            <div>
-                <label for="entrada_tipo">Tipo de vehículo</label>
-                <br>
-                <br>
-                <input type="text" id="entrada_tipo" placeholder="Ingresar tipo.">
-            </div>
-            <br>
-            <br>
-            <br>
-            <div>
-                <a class="botoon" href="pisos.html">Validar acción</a>
-            </div>
-            <div>
-                <a class="botoon" href="recuperar pisos.html">Recuperar pisos</a>
-            </div>
-        </form>
+        <h4>Ingrese la información del piso</h2>
+            <form method="post" action="/pisos/">   <!-- pisos: Nombre del metodo -->
+                <label for="area">Área:</label>
+                <input type="text" id="area" name="area" required><br>  <!-- El atributo name tiene que concidir con el parámetro del método-->
+                <label for="tipoVehiculo">Tipo de Vehículo:</label>
+                <input type="text" id="tipoVehiculo" name="tipoVehiculo" required><br>
+                <input type="submit" value="Crear Piso" class="botoon">
+            </form>
+
+         <a class="botoon" href="recuperar pisos.html">Recuperar pisos</a>
 
     </body>
-
 
 </html>
 

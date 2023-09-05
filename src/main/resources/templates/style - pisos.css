@@ -38,17 +38,12 @@ form {
     background-color: grey;
 }
 
-
 #aviso {
     font-size: 18px;
     color: red; /* Color de texto rojo */
     margin-top: 10px; /* Espacio superior para separar del botón */
     text-align: center; /* Alineación al centro */
 }
-
-
-
-
 
 /* Estilos para .barra */
 .barra {

@@ -34,6 +34,8 @@ public class PisoController {
         return pisoRepository.findById(id).orElse(null);
     }
 
+    /* 
+
     @PostMapping("/")
     public PisoEntity createPiso(@RequestBody PisoEntity piso) {
         //Obtiene el administrador único
@@ -47,6 +49,28 @@ public class PisoController {
         piso.setAdministrador(administrador);
 
         return pisoRepository.save(piso);
+    }*/
+
+    @PostMapping("/")
+    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo){
+
+        PisoEntity piso = new PisoEntity(area, tipoVehiculo);
+        AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
+
+        if(administrador == null){
+            System.out.println("Error encontrando el ID del administrador único");
+            return null; 
+        }
+        piso.setAdministrador(administrador);
+        pisoRepository.save(piso);
+
+        return "redirect:/pisos/recu";
+    }
+
+    //Vista Para añadir un piso
+    @GetMapping("/anadirPiso")
+    public String showMenu(Model model){
+        return "crearPiso"; 
     }
 
     @PutMapping("/{id}")
