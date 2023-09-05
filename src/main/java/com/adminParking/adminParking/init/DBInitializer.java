@@ -1,11 +1,14 @@
-package com.adminParking.adminParking.model;
+package com.adminParking.adminParking.init;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
@@ -13,7 +16,7 @@ import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 @Component
-public class DataBaseInit implements ApplicationRunner {
+public class DBInitializer implements ApplicationRunner {
 
     @Autowired
     private PisoRepository pisoRepository;
