@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Formulario de Tarifa</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/style-crearTarifa.css}">
 </head>
 <body>
+    <div class="barra">
+        <i>Pisos</i>
+        <a class="botones_barra" href="tarifas y espacios.html">Tarifas y Espacios</a>
+        <a class="botones_barra" href="gestioon de parqueos.html">Gestión de parqueo</a>
+        <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
+    </div>
     <h1>Ingresar Información de Tarifa</h1>
-    <form method="post" action="/tarifas/"> <!-- Reemplaza "/tarifas/" con la URL de destino de tu formulario -->
+    <form method="post" action="/tarifas/"> 
         <label for="tipoVehiculo">Tipo de Vehículo:</label>
         <input type="text" id="tipoVehiculo" name="tipoVehiculo" required><br>
         <label for="tarifaPorMinuto">Tarifa por Minuto:</label>
         <input type="number" id="tarifaPorMinuto" name="tarifaPorMinuto" step="0.01" required><br>
-        <!-- "step" establece el número de decimales permitidos en el campo -->
 
         <div id="mensaje">
             <p th:if="${mensaje}" th:text="${mensaje}" class="error-message"></p>
         </div>
 
-        <input type="submit" value="Crear Tarifa">
+        <input type="submit" value="Crear Tarifa" class="botoon">
     </form>
 </body>
 </html>
