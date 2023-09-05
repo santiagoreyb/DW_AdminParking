@@ -62,7 +62,7 @@ public class PisoController {
             System.out.println("Error encontrando el ID del administrador único");
             redirectAttributes.addFlashAttribute("error", "Error al añadir el piso. No se encontró el administrador.");
         }{
-              piso.setAdministrador(administrador);
+            piso.setAdministrador(administrador);
             pisoRepository.save(piso);
             redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
         }
@@ -73,14 +73,32 @@ public class PisoController {
     //Vista Para añadir un piso
     @GetMapping("/anadirPiso")
     public String showMenu(Model model){
-        return "crearPiso"; 
+        return "crearPiso";
     }
 
+    @PutMapping("/actu")
+    public PisoEntity updatePiso(@RequestParam("id") Long id, @RequestParam("area") String area , @RequestParam("tipoVehiculo") String tipoVehiculo, RedirectAttributes redirectAttributes) {
+
+        PisoEntity piso = pisoRepository.findById(id).orElse(null) ;
+
+        if ( piso != null ) {
+            piso.setArea(area);
+            piso.setTipoVehiculo(tipoVehiculo);
+            redirectAttributes.addFlashAttribute("exito", "Piso actualizado exitosamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Error al encontrar el piso.");
+        }
+
+        return pisoRepository.save(piso);
+    }
+
+    /*
     @PutMapping("/{id}")
     public PisoEntity updatePiso(@PathVariable Long id, @RequestBody PisoEntity piso) {
         piso.setId(id);
         return pisoRepository.save(piso);
     }
+    */
 
     @DeleteMapping("/{id}")
     public void deletePiso(@PathVariable Long id) {
