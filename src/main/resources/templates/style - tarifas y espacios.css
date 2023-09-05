@@ -44,7 +44,7 @@ li {
     text-align: center;
     justify-content: space-between;
     display: flex;
-    padding: 20px; /* Reducido el relleno para hacerlo más estilizado */
+    padding: 20px 120px ; /* Reducido el relleno para hacerlo más estilizado */
     height: auto; /* Altura automática basada en el contenido */
     background-color: white;
     color: black; /* Color de letra en negro */

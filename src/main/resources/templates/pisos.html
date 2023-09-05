@@ -15,21 +15,6 @@
 			href="style - pisos.css"
 		>
 
-        <style>
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            label {
-                font-size: 36px;
-            }
-            input {
-                font-size: 24px;
-                padding: 10px;
-            }
-        </style>
-
     </head>
 
     <body>
@@ -40,6 +25,54 @@
             <a class="botones_barra" href="gestioon de parqueos.html">Gestión de parqueo</a>
             <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
         </div>
+
+        <form>
+            <label>
+                <input type="radio" name="options" value="opcioon_crear"> Crear piso
+            </label>
+            <br>
+            <br>
+            <label>
+                <input type="radio" name="options" value="opcioon_recuperar"> Recuperar piso
+            </label>
+            <br>
+            <br>
+            <label>
+                <input type="radio" name="options" value="opcioon_actualizar"> Actualizar piso
+            </label>
+            <br>
+            <br>
+            <label>
+                <input type="radio" name="options" value="opcioon_eliminar"> Eliminar piso
+            </label>
+        </form>
+
+        <form>
+            <div>
+                <label for="entrada_id">Tipo de vehículo</label>
+                <br>
+                <br>
+                <input type="text" id="entrada_id" placeholder="Ingresar id.">
+            </div>
+            <div>
+                <label for="entrada_aarea">Área</label>
+                <br>
+                <br>
+                <input type="text" id="entrada_aarea" placeholder="Ingresar área.">
+            </div>
+            <div>
+                <label for="entrada_tipo">Tipo de vehículo</label>
+                <br>
+                <br>
+                <input type="text" id="entrada_tipo" placeholder="Ingresar tipo.">
+            </div>
+                <br>
+                <br>
+                <br>
+            <div>
+                <a class="botoon" href="pisos.html">Validar acción</a>
+            </div>
+        </form>
 
     </body>
 
