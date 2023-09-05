@@ -57,6 +57,16 @@
                 <input type="number" id="IdPiso" name="IdPiso" placeholder="Escribe el identificador del piso.">
             </div>
 
+            <div id="mensajeError">
+                <p th:if="${mensajeError}" th:text="${mensajeError}" class="error-message"></p>
+            </div>
+
+            <div id="mensajeExito">
+                <p th:if="${mensajeExito}" th:text="${mensajeExito}" class="exito-message"></p>
+            </div>
+            
+            
+
             <br>
             <br>
             <div>

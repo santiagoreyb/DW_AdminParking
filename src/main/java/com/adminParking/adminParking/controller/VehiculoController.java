@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.TarifaEntity;
@@ -84,29 +85,20 @@ public class VehiculoController {
             @RequestParam("placa") String placa,
             @RequestParam("TiempoLlegada") String tiempoLlegada,
             @RequestParam("TiempoSalida") String tiempoSalida,
-            @RequestParam("IdPiso") Long idPiso) {
-    
+            @RequestParam("IdPiso") Long idPiso,
+            RedirectAttributes redirectAttributes) { // Cambiar de Model a RedirectAttributes
+
         // Crear una instancia de VehiculoEntity
         VehiculoEntity vehiculo = new VehiculoEntity(tiempoLlegada, tiempoSalida, placa, tipoVehiculo);
-    
+
         // Obtener el piso correspondiente desde la base de datos
-        //PisoEntity piso = pisoRepository.findById(idPiso).orElse(null);
-
-        PisoEntity piso = pisoRepository.findById(1L).orElse(null);
-
-        System.out.println("esadasd" + pisoRepository.findById(idPiso));
-
-        System.out.println("tiempo llegada " + tiempoLlegada);
-        System.out.println("tiempo salida " + tiempoSalida);
-        System.out.println("placa " + placa);
-        System.out.println("tipo vehiculo " + tipoVehiculo);
-
+        PisoEntity piso = pisoRepository.findById(idPiso).orElse(null);
 
         // Asignar el piso al vehículo si es válido
         if (piso != null && piso.getTipoVehiculo().equals(vehiculo.getTipoVehiculo())) {
             // Buscar la tarifa automáticamente por el tipo de vehículo
             TarifaEntity tarifa = tarifaRepository.findByTipoVehiculo(vehiculo.getTipoVehiculo()).orElse(null);
-    
+
             if (tarifa != null) {
                 // Asignar el piso al vehículo
                 vehiculo.setPiso(piso);
@@ -114,20 +106,25 @@ public class VehiculoController {
                 vehiculo.setTarifa(tarifa);
                 // Guardar el vehículo en la base de datos
                 vehiculoRepository.save(vehiculo);
-    
+
                 // Redirigir a una página de éxito después de guardar el vehículo
-                return "redirect:/vehiculos/exito"; // Cambia "/vehiculos/exito" por la URL real de la página de éxito
+                System.out.println("Vehiculo registrado con exito");
+                redirectAttributes.addFlashAttribute("exito", "El vehiculo se ha guardado con éxito");
             } else {
                 // No se encontró una tarifa para este tipo de vehículo
-                // Redirigir a una página de error (o mostrar un mensaje de error)
-                return "redirect:/vehiculos/error-tarifa"; // Cambia "/vehiculos/error-tarifa" por la URL real de la página de error
+                // Agregar mensaje de error para mostrar en la vista anadirVehiculo
+                redirectAttributes.addFlashAttribute("errorTarifa", "No se encontró una tarifa para este tipo de vehículo");
             }
         } else {
             // El vehículo no se puede guardar en este piso
-            // Redirigir a una página de error (o mostrar un mensaje de error)
-            return "redirect:/vehiculos/error-piso"; // Cambia "/vehiculos/error-piso" por la URL real de la página de error
+            // Agregar mensaje de error para mostrar en la vista anadirVehiculo
+            System.out.println("El vehiculo no se puede guardar en este piso");
+            redirectAttributes.addFlashAttribute("errorPiso", "El vehiculo no se puede guardar en este piso");
         }
+
+        return "redirect:/vehiculos/anadirVehiculo"; // Redirige después de agregar los mensajes de error
     }
+
     
 
     @PutMapping("/{id}")
@@ -142,10 +139,19 @@ public class VehiculoController {
     }
 
 
-    //Vista Para añadir un vehiculo
     @GetMapping("/anadirVehiculo")
     public String showMenu(Model model){
-        return "anadirVehiculo"; 
+        // Verificar si hay mensajes de error en el modelo
+        if (model.containsAttribute("errorPiso")) {
+            model.addAttribute("mensajeError", model.getAttribute("errorPiso"));
+        } else if (model.containsAttribute("errorTarifa")) {
+            model.addAttribute("mensajeError", model.getAttribute("errorTarifa"));
+        }else if (model.containsAttribute("exito")){
+            model.addAttribute("mensajeExito", model.getAttribute("exito"));
+        }
+
+        return "anadirVehiculo";
     }
+
 
 }
