@@ -20,7 +20,15 @@ public class TarifaEntity {
     private String tipoVehiculo;
     private double tarifaPorMinuto;
 
+    public TarifaEntity(){
+        
+    }
  
+    public TarifaEntity(String tipoVehiculo, double tarifaPorMinuto) {
+        this.tipoVehiculo = tipoVehiculo;
+        this.tarifaPorMinuto = tarifaPorMinuto;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

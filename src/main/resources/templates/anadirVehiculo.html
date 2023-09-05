@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+
+    <head>
+
+        <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
+
+        <title>Aplicación AdminParking</title>
+
+
+
+    </head>
+
+    <body>
+
+        <div class="barra">
+            <a class="botones_barra" href="pisos.html">Pisos</a>
+            <a class="botones_barra" href="tarifas y espacios.html">Tarifas y Espacios</a>
+            <i>Gestion de parqueos</i>
+            <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
+        </div>
+
+        <h3>Admitir un vehículo e indicarle el piso en el cual debe parquear</h3>
+        
+        <form method = "post" action = "/vehiculos/crearVehiculo">
+            <div>
+                <label for="tipoVehiculo">Tipo de Vehículo:</label>
+                <br>
+                <select id="tipoVehiculo" name="tipoVehiculo">
+                    <option value="Carro">Carro</option>
+                    <option value="Moto">Moto</option>
+                    <option value="Camión">Camión</option>
+                </select>
+            </div>
+            <div>
+                <label for="placa">Número de Placa:</label>
+                <br>
+                <input type="text" id="placa" name="placa" placeholder="Escribe la placa del vehículo.">
+            </div>
+            <div>
+                <label for="TiempoLlegada">Hora de llegada</label>
+                <br>
+                <input type="text" id="TiempoLlegada" name="TiempoLlegada" placeholder="Escribe la hora de llegada del vehiculo.">
+            </div>
+
+            <div>
+                <label for="TiempoSalida">Hora de salida</label>
+                <br>
+                <input type="text" id="TiempoSalida" name="TiempoSalida" placeholder="Escribe la hora de salida del vehiculo.">
+            </div>
+
+            <div>
+                <label for="IdPiso">ID del piso</label>
+                <br>
+                <input type="number" id="IdPiso" name="IdPiso" placeholder="Escribe el identificador del piso.">
+            </div>
+
+            <br>
+            <br>
+            <div>
+                <input type="submit" value="Añadir vehiculo">
+            </div>
+        </form>
+    
+        <div id="aviso"></div>
+
+    </body>
+
+
+</html>
