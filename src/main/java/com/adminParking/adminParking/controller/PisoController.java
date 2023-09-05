@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
@@ -52,19 +53,22 @@ public class PisoController {
     }*/
 
     @PostMapping("/")
-    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo){
+    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo, RedirectAttributes redirectAttributes){
 
         PisoEntity piso = new PisoEntity(area, tipoVehiculo);
         AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
 
         if(administrador == null){
             System.out.println("Error encontrando el ID del administrador único");
-            return null; 
+            redirectAttributes.addFlashAttribute("error", "Error al añadir el piso. No se encontró el administrador.");
+        }{
+              piso.setAdministrador(administrador);
+            pisoRepository.save(piso);
+            redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
         }
-        piso.setAdministrador(administrador);
-        pisoRepository.save(piso);
+      
 
-        return "redirect:/pisos/recu";
+        return "redirect:/pisos/anadirPiso";
     }
 
     //Vista Para añadir un piso
