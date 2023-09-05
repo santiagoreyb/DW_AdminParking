@@ -1,4 +1,8 @@
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
 div {
     margin-bottom: 20px;
 }
@@ -32,7 +36,7 @@ div {
     /* Elementos */
     justify-content: space-between ;
     display : flex ;
-    padding : 40px 180px ;
+    padding : 40px 160px ;
     /* Contenedor */
     height : 40px ;
     background-color : white ;
@@ -59,7 +63,7 @@ div {
     border-radius: 8px;
     /* Botón */
     height: 28px;
-    width: 160px;
+    width: 210px;
 }
 .botones_barra:hover {
     background-color: grey;
