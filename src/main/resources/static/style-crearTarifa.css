@@ -28,7 +28,7 @@ form {
     border: 4px solid black;
     border-radius: 8px;
     /* Botón */
-    padding: 10px 20px; /* Ajusta el relleno para controlar el tamaño del botón */
+    padding: 5px 10px; /* Ajusta el relleno para controlar el tamaño del botón */
     height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
     width: auto; /* Permite que el ancho se ajuste automáticamente al contenido */
     display: inline-block;
