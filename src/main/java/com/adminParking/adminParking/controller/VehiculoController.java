@@ -126,18 +126,16 @@ public class VehiculoController {
     }
 
     
-
     @PutMapping("/{id}")
     public VehiculoEntity updateVehiculo(@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {
         vehiculo.setId(id);
         return vehiculoRepository.save(vehiculo);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminarVehiculo/{id}")
     public void deleteVehiculo(@PathVariable Long id) {
         vehiculoRepository.deleteById(id);
     }
-
 
     @GetMapping("/anadirVehiculo")
     public String showMenu(Model model){
@@ -149,7 +147,6 @@ public class VehiculoController {
         }else if (model.containsAttribute("exito")){
             model.addAttribute("mensajeExito", model.getAttribute("exito"));
         }
-
         return "anadirVehiculo";
     }
 

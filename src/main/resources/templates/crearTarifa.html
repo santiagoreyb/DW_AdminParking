@@ -12,6 +12,11 @@
         <label for="tarifaPorMinuto">Tarifa por Minuto:</label>
         <input type="number" id="tarifaPorMinuto" name="tarifaPorMinuto" step="0.01" required><br>
         <!-- "step" establece el número de decimales permitidos en el campo -->
+
+        <div id="mensaje">
+            <p th:if="${mensaje}" th:text="${mensaje}" class="error-message"></p>
+        </div>
+
         <input type="submit" value="Crear Tarifa">
     </form>
 </body>
