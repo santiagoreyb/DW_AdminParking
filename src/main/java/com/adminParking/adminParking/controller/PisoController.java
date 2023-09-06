@@ -76,22 +76,30 @@ public class PisoController {
         return "crearPiso";
     }
 
-    @PutMapping("/actu")
-    public PisoEntity updatePiso(@RequestParam("id") Long id, @RequestParam("area") String area , @RequestParam("tipoVehiculo") String tipoVehiculo, RedirectAttributes redirectAttributes) {
 
-        PisoEntity piso = pisoRepository.findById(id).orElse(null) ;
+    //Actualizar piso
 
-        if ( piso != null ) {
+    @PostMapping("/actu")
+    public String updatePiso(
+        @RequestParam("id") Long id,
+        @RequestParam("area") String area,
+        @RequestParam("tipoVehiculo") String tipoVehiculo,
+        RedirectAttributes redirectAttributes
+    ) {
+        PisoEntity piso = pisoRepository.findById(id).orElse(null);
+    
+        if (piso != null) {
             piso.setArea(area);
             piso.setTipoVehiculo(tipoVehiculo);
+            pisoRepository.save(piso); // Mueve esta línea aquí
             redirectAttributes.addFlashAttribute("exito", "Piso actualizado exitosamente.");
         } else {
             redirectAttributes.addFlashAttribute("error", "Error al encontrar el piso.");
         }
-
-        return pisoRepository.save(piso);
+    
+        return "redirect:/pisos/actualizarPiso";
     }
-
+    
     // Vista para actualizar un piso.
     @GetMapping("/actualizarPiso")
     public String actualizarPiso(Model model){

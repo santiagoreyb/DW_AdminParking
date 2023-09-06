@@ -9,15 +9,14 @@
     <div class="barra">
         <i>Pisos</i>
         <a class="botones_barra" th:href="@{/admin/tarifas-espacios}">Tarifas y Espacios</a>
-        <a class="botones_barra" th:href="@{/vehiculos/anadirVehiculo}">Anadir Vehiculo</a>
-        <a class="botones_barra" th:href="@{/tarifas/anadirTarifa}">Anadir Tarifa</a>
+        <a class="botones_barra" th:href="@{/vehiculos/anadirVehiculo}">Añadir Vehiculo</a>
+        <a class="botones_barra" th:href="@{/tarifas/anadirTarifa}">Añadir Tarifa</a>
         <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
     </div>
 
     <h4>CRUD pisos</h4>
     <div class="barraCRUD">
-        <a class="botones_barra" href="gestioon de parqueos.html">Read</a>
-        <a class="botones_barra" href="iniciar sesioon.html">Update</a>
+        <a class="botones_barra" th:href="@{/pisos/actualizarPiso}">Update</a>
         <a class="botones_barra" href="iniciar sesioon.html">Delete</a>
     </div>
 

@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
     <title>Aplicación AdminParking</title>
-    <link rel="stylesheet" type="text/css" th:href="@{stylepisos.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylepisos.css}">
 </head>
 <body>
     <div class="barra">
-        <i>Pisos</i>
-        <a class="botones_barra" href="tarifas y espacios.html">Tarifas y Espacios</a>
-        <a class="botones_barra" href="gestioon de parqueos.html">Gestión de parqueo</a>
+        <i>Actualizar Pisos</i>
+        <a class="botones_barra" th:href="@{/admin/tarifas-espacios}">Tarifas y Espacios</a>
+        <a class="botones_barra" th:href="@{/vehiculos/anadirVehiculo}">Añadir Vehiculo</a>
+        <a class="botones_barra" th:href="@{/tarifas/anadirTarifa}">Añadir Tarifa</a>
         <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
     </div>
 
@@ -38,8 +39,6 @@
         <br>
         <input type="submit" value="Actualizar Piso" class="botoon">
     </form>
-
-    <a class="botoon" href="recuperar pisos.html">Recuperar pisos</a>
 
 </body>
 </html>
