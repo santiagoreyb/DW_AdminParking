@@ -9,8 +9,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
+import com.adminParking.adminParking.repositories.VehiculoRepository;
+
 import java.util.List;
 
 @Controller // @RestController
@@ -22,6 +25,9 @@ public class PisoController {
 
     @Autowired
     AdministradorRepository administradorRepository;
+
+    @Autowired 
+    VehiculoRepository vehiculoRepository;
 
     @GetMapping("/recu")
     public String getAllPisos ( Model model ) {
@@ -112,9 +118,40 @@ public class PisoController {
     }
     */
 
+    /* 
     @DeleteMapping("/{id}")
     public void deletePiso(@PathVariable Long id) {
         pisoRepository.deleteById(id);
+    }*/
+
+
+    @PostMapping("/delPiso")
+    public String deletePiso( @RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+
+        List<VehiculoEntity> vehiculos = vehiculoRepository.findAll();
+        int cont = 0 ; 
+
+        for(VehiculoEntity vehiculo : vehiculos){
+            if(vehiculo.getPiso().getId().equals(id)){
+                cont++;
+            }
+        }
+
+        if(cont!=0){
+             redirectAttributes.addFlashAttribute("error", "No se puede eliminar el piso, el piso tiene vehiculos parquedaos.");
+        }else{
+            pisoRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("error", "Piso eliminado correctamente");
+        }
+        return  "redirect:/pisos/borrarPiso";
     }
+
+
+    // Vista para actualizar un piso.
+    @GetMapping("/borrarPiso")
+    public String borrarPiso(Model model){
+        return "eliminarPiso";
+    }
+
 
 }
