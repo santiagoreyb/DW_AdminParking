@@ -36,7 +36,6 @@ public class PisoController {
     }
 
     /* 
-
     @PostMapping("/")
     public PisoEntity createPiso(@RequestBody PisoEntity piso) {
         //Obtiene el administrador único
@@ -76,7 +75,6 @@ public class PisoController {
         return "crearPiso";
     }
 
-
     //Actualizar piso
 
     @PostMapping("/actu")
@@ -99,7 +97,7 @@ public class PisoController {
     
         return "redirect:/pisos/actualizarPiso";
     }
-    
+
     // Vista para actualizar un piso.
     @GetMapping("/actualizarPiso")
     public String actualizarPiso(Model model){
