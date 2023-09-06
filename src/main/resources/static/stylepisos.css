@@ -1,60 +1,36 @@
+/* Estilos generales del cuerpo del documento */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    margin-top : 160px ;
+    margin-top: 160px;
 }
+
+/* Encabezados */
 h2 {
     color: #333;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 30px;
+    font-size: 32px;
 }
+
 h4 {
-    margin-top: 100px;
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
 }
+
+/* Estilos para los contenedores div */
 div {
     margin-bottom: 20px;
 }
-form {
-    margin-top : 60px ;
-}
 
-.botoon {
-    /* Letra */
-    color: black;
-    font-size: 24px;
-    text-align: center;
-    text-decoration: none;
-    /* Fondo */
-    background-color: darkgrey;
-    /* Borde */
-    border: 4px solid black;
-    border-radius: 8px;
-    /* Botón */
-    padding: 10px 20px; /* Ajusta el relleno para controlar el tamaño del botón */
-    height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
-    width: auto; /* Permite que el ancho se ajuste automáticamente al contenido */
-    display: inline-block;
-    line-height: 1; /* Restablece la altura de línea para que no sea demasiado alta */
-}
-
-.botoon:hover {
-    background-color: grey;
-}
-
-#aviso {
-    font-size: 18px;
-    color: red; /* Color de texto rojo */
-    margin-top: 10px; /* Espacio superior para separar del botón */
-    text-align: center; /* Alineación al centro */
-}
-
-/* Estilos para .barra */
+/* Estilos para la barra de navegación */
 .barra {
     font-size: 20px;
     text-align: center;
     justify-content: space-between;
     display: flex;
-    padding: 20px 140px ; /* Reducido el relleno para hacerlo más estilizado */
+    padding: 20px 120px; /* Reducido el relleno para hacerlo más estilizado */
     height: auto; /* Altura automática basada en el contenido */
     background-color: white;
     color: black; /* Color de letra en negro */
@@ -69,16 +45,14 @@ form {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Estilos para el contenido dentro de la barra */
-.barra-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+/* Estilos para etiquetas y selección de tipo de vehículo */
+label, select {
+    display: block;
+    margin: 0 auto; /* Centra horizontalmente */
+    text-align: center; /* Centra el texto dentro del select */
 }
+
+/* Estilos para los botones de la barra de navegación */
 .botones_barra {
     /* Letra */
     color: black;
@@ -94,14 +68,65 @@ form {
     height: 28px;
     width: 200px;
 }
-/* Estilos para elementos dentro de la barra (por ejemplo, enlaces de navegación) */
-.barra a {
-    color: black;
-    text-decoration: none;
-    margin: 0 20px;
-    transition: color 0.3s;
+.botones_barra:hover {
+    background-color: #444;
 }
 
-.barra a:hover {
-    color: grey; /* Cambia el color del enlace al pasar el ratón a gris */
+/* Estilos para h4 (títulos) */
+h4 {
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Estilos para la barraCRUD */
+.barraCRUD {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para etiquetas y selección de tipo de vehículo */
+label, select {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el formulario */
+form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Estilos para los botones */
+.botoon {
+    /* Letra */
+    color: black;
+    font-size: 24px;
+    text-align: center;
+    text-decoration: none;
+    /* Fondo */
+    background-color: darkgrey;
+    /* Borde */
+    border: 4px solid black;
+    border-radius: 8px;
+    /* Botón */
+    padding: 5px 10px; /* Ajusta el relleno para controlar el tamaño del botón */
+    height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
+    width: auto; /* Permite que el ancho se ajuste automáticamente al contenido */
+    display: inline-block;
+    line-height: 1; /* Restablece la altura de línea para que no sea demasiado alta */
+}
+
+.botoon:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+/* Estilos para el mensaje de aviso */
+#aviso {
+    font-size: 18px;
+    color: red;
+    margin-top: 10px;
+    text-align: center;
 }

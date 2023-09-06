@@ -1,50 +1,44 @@
+/* Estilos generales del cuerpo del documento */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center; /* Centra verticalmente */
+    height: 100vh; /* Establece la altura del cuerpo para centrar verticalmente */
+    margin: 0;
 }
 
+/* Encabezados */
 h3 {
     color: #333;
-    margin-top: 120px;
-    margin-bottom : 40px ;
-}
-div {
-    margin-bottom: 20px;
-}
-
-.botoon {
-    /* Letra */
-    color: black;
-    font-size: 24px;
+    margin-top: 20px; /* Reducido el espacio superior */
+    margin-bottom: 20px; /* Reducido el espacio inferior */
     text-align: center;
-    text-decoration: none;
-    /* Fondo */
-    background-color: darkgrey;
-    /* Borde */
-    border: 4px solid black;
-    border-radius: 8px;
-    /* Botón */
-    padding: 10px 20px; /* Ajusta el relleno para controlar el tamaño del botón */
-    height: auto; /* Permite que la altura se ajuste automáticamente al contenido */
-    width: auto; /* Permite que el ancho se ajuste automáticamente al contenido */
-    display: inline-block;
-    line-height: 1; /* Restablece la altura de línea para que no sea demasiado alta */
 }
 
-.botoon:hover {
-    background-color: grey;
+/* Estilos para el formulario */
+form {
+    text-align: center;
+    max-width: 400px; /* Ancho máximo del formulario */
+    width: 100%;
 }
 
- 
-#aviso {
-    font-size: 18px;
-    color: red; /* Color de texto rojo */
-    margin-top: 10px; /* Espacio superior para separar del botón */
-    text-align: center; /* Alineación al centro */
+/* Estilos para los elementos dentro del formulario */
+label, select, input[type="text"], input[type="number"], input[type="submit"] {
+    display: block;
+    margin: 10px auto; /* Centra horizontalmente con espaciado */
+    text-align: center; /* Centra el texto dentro de los elementos */
+    width: 80%; /* Ancho del 80% para mantenerlo contenido en el formulario */
 }
 
+/* Estilos para los mensajes de éxito y error */
+#mensajeExito, #mensajeError {
+    text-align: center;
+}
 
-/* Estilos para .barra */
+/* Estilos para la barra de navegación */
 .barra {
     font-size: 20px;
     text-align: center;
@@ -64,17 +58,62 @@ div {
     z-index: 2;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
-
-/* Estilos para el contenido dentro de la barra */
-.barra-content {
+/* Estilos generales del cuerpo del documento */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center; /* Centra verticalmente */
+    height: 100vh; /* Establece la altura del cuerpo para centrar verticalmente */
+    margin: 0;
 }
+
+/* Encabezados */
+h3 {
+    color: #333;
+    margin-top: 20px; /* Reducido el espacio superior */
+    margin-bottom: 20px; /* Reducido el espacio inferior */
+    text-align: center;
+}
+
+/* Estilos para el formulario */
+form {
+    text-align: center;
+    max-width: 400px; /* Ancho máximo del formulario */
+    width: 100%;
+}
+
+/* Estilos para los elementos dentro del formulario */
+label, select, input[type="text"], input[type="number"], input[type="submit"] {
+    display: block;
+    margin: 10px auto; /* Centra horizontalmente con espaciado */
+    text-align: center; /* Centra el texto dentro de los elementos */
+    width: 80%; /* Ancho del 80% para mantenerlo contenido en el formulario */
+}
+
+/* Estilos para los mensajes de éxito y error */
+#mensajeExito, #mensajeError {
+    text-align: center;
+}
+
+/* Estilos para la barra de navegación */
+.barra {
+    font-size: 20px;
+    text-align: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 20px 120px;
+    height: auto;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: 4px solid black;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .botones_barra {
     /* Letra */
     color: black;
@@ -89,15 +128,4 @@ div {
     /* Botón */
     height: 28px;
     width: 200px;
-}
-/* Estilos para elementos dentro de la barra (por ejemplo, enlaces de navegación) */
-.barra a {
-    color: black;
-    text-decoration: none;
-    margin: 0 20px;
-    transition: color 0.3s;
-}
-
-.barra a:hover {
-    color: grey; /* Cambia el color del enlace al pasar el ratón a gris */
 }
