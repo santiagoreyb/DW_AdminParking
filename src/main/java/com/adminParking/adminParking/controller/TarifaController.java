@@ -12,7 +12,6 @@ import com.adminParking.adminParking.repositories.TarifaRepository;
 import java.util.List;
 import java.util.Optional;
 
-//@RestController
 @Controller
 @RequestMapping("/tarifas")
 public class TarifaController {
@@ -72,7 +71,6 @@ public class TarifaController {
             model.addAttribute("mensaje", model.getAttribute("exitoTarifa"));
         }
         return "crearTarifa";
-
     }
 
     @PutMapping("/{id}")

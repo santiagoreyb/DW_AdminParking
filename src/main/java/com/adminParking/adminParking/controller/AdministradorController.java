@@ -33,8 +33,6 @@ public class AdministradorController {
     @Autowired
     TarifaRepository tarifaRepository;
 
-
-
    /*  @GetMapping("/calcular-espacios/{id}")
     public ResponseEntity<String> calcularEspaciosDisponibles(@PathVariable Long id) {
         AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null); 
@@ -59,7 +57,6 @@ public class AdministradorController {
 
         return ResponseEntity.ok("Espacios disponibles: " + espaciosDisponibles);
     }
-
 
     @GetMapping("tarifas-espacios")
     public String mostrarTarifas_Espacios(Model model){

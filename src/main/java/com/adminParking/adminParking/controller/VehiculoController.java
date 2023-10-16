@@ -2,9 +2,12 @@ package com.adminParking.adminParking.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +26,7 @@ import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
-//@RestController
-@Controller
+@RestController
 @RequestMapping("/vehiculos")
 public class VehiculoController {
     @Autowired
@@ -48,9 +50,13 @@ public class VehiculoController {
     
 
     //Rest
-    /* 
-    @PostMapping("/")
+    @CrossOrigin(origins="http://localhost:4200")
+    @PostMapping("")
     public VehiculoEntity createVehiculo(@RequestBody VehiculoEntity vehiculo) {
+        System.out.println(vehiculo.getPlaca());
+        System.out.println("jolasas");
+        Logger log = LogManager.getLogger(vehiculo);
+        log.info(vehiculo.getPlaca());
         // Obtiene el ID del piso desde la solicitud 
         Long pisoId = vehiculo.getPiso().getId();
         // Obtiene el piso correspondiente desde la base de datos
@@ -77,8 +83,9 @@ public class VehiculoController {
             System.out.println("El vehiculo no se puede guardar en este piso");
             return null;
         }
-    }*/
+    }
 
+    /* 
     @PostMapping("/crearVehiculo")
     public String createVehiculo(
             @RequestParam("tipoVehiculo") String tipoVehiculo,
@@ -123,7 +130,7 @@ public class VehiculoController {
         }
 
         return "redirect:/vehiculos/anadirVehiculo"; // Redirige después de agregar los mensajes de error
-    }
+    }*/
 
     
     @PutMapping("/{id}")
@@ -149,6 +156,5 @@ public class VehiculoController {
         }
         return "anadirVehiculo";
     }
-
 
 }

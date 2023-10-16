@@ -9,7 +9,8 @@
     <div class="barra">
         <i>Eliminar Pisos</i>
         <a class="botones_barra" th:href="@{/admin/tarifas-espacios}">Tarifas y Espacios</a>
-        <a class="botones_barra" th:href="@{/vehiculos/anadirVehiculo}">Añadir Vehiculo</a>
+        <a class="botones_barra" href="http://localhost:4200/vehiculo/registrarSalida">Registrar Salida</a>
+        <a class="botones_barra" href="http://localhost:4200/vehiculo/anadirVehiculo">Añadir Vehiculo</a>
         <a class="botones_barra" th:href="@{/tarifas/anadirTarifa}">Añadir Tarifa</a>
         <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
     </div>
@@ -21,8 +22,6 @@
     </div>
 
     <h4>Ingrese la información del piso</h4>
-
-
     <div>
         <!-- Mensaje de éxito -->
         <p th:if="${exito}">[[${exito}]]</p>
@@ -34,6 +33,8 @@
         <label for="id">Id de piso (solo números):</label>
         <input type="number" id="id" name="id" pattern="[0-9]+" title="Por favor, ingrese un valor numérico" required><br>
         <!-- Menú desplegable para tipo de vehículo -->
+        <br>
+        <br>
         <input type="submit" value="Eliminar Piso" class="botoon">
     </form>
 
