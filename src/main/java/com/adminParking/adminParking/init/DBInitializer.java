@@ -36,14 +36,15 @@ public class DBInitializer implements ApplicationRunner {
       
         AdministradorEntity admin = new AdministradorEntity(333L);
         administradorRepository.save(admin);
-
         PisoEntity piso = new PisoEntity("200","Carro");
+        piso.setCapacidad(200/2);
         piso.setAdministrador(admin);
         pisoRepository.save(piso);
 
         // Añado otro piso para pruebas
         PisoEntity piso2 = new PisoEntity("300","Carro");
         piso2.setAdministrador(admin);
+        piso2.setCapacidad(300/2);
         pisoRepository.save(piso2);
 
         // Inicializar tarifas

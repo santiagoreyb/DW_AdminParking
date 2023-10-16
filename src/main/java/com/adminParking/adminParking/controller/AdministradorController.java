@@ -70,10 +70,8 @@ public class AdministradorController {
 
         List<String> infoEspaciosPorPiso = new ArrayList<>();
 
-
         for (PisoEntity piso : pisos) {
-            int espaciosDisponibles = administrador.calcularEspaciosDisponibles(piso.getId());
-            String infoPiso = "Piso ID: " + piso.getId() + ", Tipo de Vehículo: " + piso.getTipoVehiculo() + ", Espacios Disponibles: " + espaciosDisponibles;
+            String infoPiso = "Piso ID: " + piso.getId() + ", Tipo de Vehículo: " + piso.getTipoVehiculo() + ", Espacios Disponibles: " + piso.getCapacidad();
             infoEspaciosPorPiso.add(infoPiso);
         }
 

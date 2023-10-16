@@ -58,7 +58,7 @@ public class PisoController {
     }*/
 
     @PostMapping("/")
-    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo, RedirectAttributes redirectAttributes){
+    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo,@RequestParam("areaPorVehiculo") String areaPorVehiculo , RedirectAttributes redirectAttributes){
 
         PisoEntity piso = new PisoEntity(area, tipoVehiculo);
         AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
@@ -66,12 +66,16 @@ public class PisoController {
         if(administrador == null){
             System.out.println("Error encontrando el ID del administrador único");
             redirectAttributes.addFlashAttribute("error", "Error al añadir el piso. No se encontró el administrador.");
-        }{
+        }else {
             piso.setAdministrador(administrador);
+           // Parse the text strings to integers
+            int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
+            int areaInt = Integer.parseInt(area);
+            // Perform the multiplication
+            piso.setCapacidad( areaInt/areaPorVehiculoInt);
             pisoRepository.save(piso);
             redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
         }
-
         return "redirect:/pisos/anadirPiso";
     }
 
@@ -88,13 +92,18 @@ public class PisoController {
         @RequestParam("id") Long id,
         @RequestParam("area") String area,
         @RequestParam("tipoVehiculo") String tipoVehiculo,
+        @RequestParam("areaPorVehiculo") String areaPorVehiculo,
         RedirectAttributes redirectAttributes
     ) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
-    
+        
         if (piso != null) {
             piso.setArea(area);
             piso.setTipoVehiculo(tipoVehiculo);
+             int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
+            int areaInt = Integer.parseInt(area);
+            // Perform the multiplication
+            piso.setCapacidad(areaInt/areaPorVehiculoInt);
             pisoRepository.save(piso); // Mueve esta línea aquí
             redirectAttributes.addFlashAttribute("exito", "Piso actualizado exitosamente.");
         } else {
@@ -152,5 +161,5 @@ public class PisoController {
     public String borrarPiso(Model model){
         return "eliminarPiso";
     }
-    
+
 }

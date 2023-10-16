@@ -22,26 +22,26 @@
 
     <h4>Ingrese la información del piso</h4>
 
+    <form method="post" action="/pisos/"> <!-- pisos: Nombre del metodo -->
+        <label for="area">Área del piso(solo números):</label>
+        <input type="number" id="area" name="area" pattern="[0-9]+" title="Por favor, ingrese un valor numérico" required><br>
+        <!-- Menú desplegable para tipo de vehículo -->
+        <br>    
+        <label for="tipoVehiculo">Tipo de Vehículo:</label>
+        <input type="text" id="tipoVehiculo" name="tipoVehiculo" required>
+        <br>
+        <label for="area">Área del vehiculo(solo números):</label>
+        <input type="number" id="areaPorVehiculo" name="areaPorVehiculo" step="0.01" required ><br>
+        <br>
+        <input type="submit" value="Crear Piso" class="botoon">
+    </form>
     <div>
         <!-- Mensaje de éxito -->
         <p th:if="${exito}">[[${exito}]]</p>
         <!-- Mensaje de error -->
         <p th:if="${error}">[[${error}]]</p>
     </div>
+    
 
-    <form method="post" action="/pisos/"> <!-- pisos: Nombre del metodo -->
-        <label for="area">Área (solo números):</label>
-        <input type="number" id="area" name="area" pattern="[0-9]+" title="Por favor, ingrese un valor numérico" required><br>
-        <!-- Menú desplegable para tipo de vehículo -->
-        <label for="tipoVehiculo">Tipo de Vehículo:</label>
-        <select id="tipoVehiculo" name="tipoVehiculo" required>
-            <option value="Carro">Carro</option>
-            <option value="Moto">Moto</option>
-            <option value="Camión">Camión</option>
-            <option value="Scooter">Scooter</option>
-        </select>
-        <br>
-        <input type="submit" value="Crear Piso" class="botoon">
-    </form>
 </body>
 </html>

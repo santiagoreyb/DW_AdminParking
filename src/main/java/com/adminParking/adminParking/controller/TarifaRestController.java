@@ -33,6 +33,7 @@ public class TarifaRestController {
         return tarifaRepository.findAll();
     }
 
+    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/{id}")
     public TarifaEntity getTarifaById(@PathVariable Long id) {
         return tarifaRepository.findById(id).orElse(null);
@@ -42,7 +43,7 @@ public class TarifaRestController {
     public TarifaEntity getTarifaByTipo(@PathVariable String tipoVehiculo) {
         return tarifaRepository.findByTipoVehiculo(tipoVehiculo).orElse(null);
     }
-
+    
     /* 
     @PostMapping("/")
     public TarifaEntity createTarifa(@RequestBody TarifaEntity tarifa) {

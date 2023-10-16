@@ -42,7 +42,6 @@
             this.tipoVehiculo = tipoVehiculo;
         }
 
-
         public void setId(Long id) {
             this.id = id;
         }

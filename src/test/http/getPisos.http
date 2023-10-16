@@ -1,0 +1,2 @@
+GET http://localhost:8080/pisosRest/getPisos HTTP/1.1
+GET http://localhost:8080/pisosRest/{id} HTTP/1.1

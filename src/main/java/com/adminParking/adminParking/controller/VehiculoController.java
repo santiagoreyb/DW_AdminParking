@@ -38,52 +38,62 @@ public class VehiculoController {
     @Autowired 
     TarifaRepository tarifaRepository; 
 
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/verVehiculos")
     public List<VehiculoEntity> getAllVehiculos() {
         return vehiculoRepository.findAll();
     }
-
+    
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{id}")
     public VehiculoEntity getVehiculoById(@PathVariable Long id) {
         return vehiculoRepository.findById(id).orElse(null);
     }
+
+    //Rest
+     @CrossOrigin(origins = "http://localhost:4200")
+     @PostMapping("")
+     public void createVehiculo(@RequestBody VehiculoEntity vehiculo) {
+        vehiculoRepository.save(vehiculo);
+     }
     
 
     //Rest
-    @CrossOrigin(origins="http://localhost:4200")
-    @PostMapping("")
-    public VehiculoEntity createVehiculo(@RequestBody VehiculoEntity vehiculo) {
-        System.out.println(vehiculo.getPlaca());
-        System.out.println("jolasas");
-        Logger log = LogManager.getLogger(vehiculo);
-        log.info(vehiculo.getPlaca());
-        // Obtiene el ID del piso desde la solicitud 
-        Long pisoId = vehiculo.getPiso().getId();
-        // Obtiene el piso correspondiente desde la base de datos
-        PisoEntity piso = pisoRepository.findById(pisoId).orElse(null);
-        // Asigna el piso al vehículo
+    // @CrossOrigin(origins="http://localhost:4200")
+    // @PostMapping("")
+    // public VehiculoEntity createVehiculo(@RequestBody VehiculoEntity vehiculo) {
+    //     System.out.println(vehiculo.getPlaca());
+    //     System.out.println("jolasas");
+    //     Logger log = LogManager.getLogger(vehiculo);
+    //     log.info(vehiculo.getPlaca());
+    //     // Obtiene el ID del piso desde la solicitud 
+    //     Long pisoId = vehiculo.getPiso().getId();
+    //     // Obtiene el piso correspondiente desde la base de datos
+    //     PisoEntity piso = pisoRepository.findById(pisoId).orElse(null);
+    //     // Asigna el piso al vehículo
     
-        if (piso != null && piso.getTipoVehiculo().equals(vehiculo.getTipoVehiculo())) {
-            // Busca la tarifa automáticamente por el tipo de vehículo
-            TarifaEntity tarifa = tarifaRepository.findByTipoVehiculo(vehiculo.getTipoVehiculo()).orElse(null);
+    //     if (piso != null && piso.getTipoVehiculo().equals(vehiculo.getTipoVehiculo())) {
+    //         // Busca la tarifa automáticamente por el tipo de vehículo
+    //         TarifaEntity tarifa = tarifaRepository.findByTipoVehiculo(vehiculo.getTipoVehiculo()).orElse(null);
             
-            if (tarifa != null) {
-                // Asigna el piso al vehículo   
-                vehiculo.setPiso(piso);
-                // Asigna la tarifa automáticamente
-                vehiculo.setTarifa(tarifa);
-                // Guarda el vehículo en la base de datos
-                System.out.println("El vehiculo se guardo correctamente");
-                return vehiculoRepository.save(vehiculo);
-            } else {
-                System.out.println("No se encontró una tarifa para este tipo de vehículo");
-                return null;
-            }
-        } else {
-            System.out.println("El vehiculo no se puede guardar en este piso");
-            return null;
-        }
-    }
+    //         if (tarifa != null) {
+    //             // Asigna el piso al vehículo   
+    //             vehiculo.setPiso(piso);
+    //             // Asigna la tarifa automáticamente
+    //             vehiculo.setTarifa(tarifa);
+    //             // Guarda el vehículo en la base de datos
+    //             System.out.println("El vehiculo se guardo correctamente");
+    //             return vehiculoRepository.save(vehiculo);
+    //         } else {
+    //             System.out.println("No se encontró una tarifa para este tipo de vehículo");
+    //             return null;
+    //         }
+    //     } else {
+    //         System.out.println("El vehiculo no se puede guardar en este piso");
+    //         return null;
+    //     }
+    // }
 
     /* 
     @PostMapping("/crearVehiculo")
@@ -132,7 +142,6 @@ public class VehiculoController {
         return "redirect:/vehiculos/anadirVehiculo"; // Redirige después de agregar los mensajes de error
     }*/
 
-    
     @PutMapping("/{id}")
     public VehiculoEntity updateVehiculo(@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {
         vehiculo.setId(id);

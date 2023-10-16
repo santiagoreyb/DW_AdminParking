@@ -16,6 +16,15 @@ public class PisoEntity {
     private Long id;
     private String area;
     private String tipoVehiculo; 
+    private int capacidad; 
+
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
 
     @OneToMany(mappedBy = "piso") //"piso" nombre del atributo de la otra clase que conforma esta asociaicon
     @JsonIgnore // Ignore the vehiculos field during JSON serialization
