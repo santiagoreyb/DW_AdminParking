@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8" name="robots" http-equiv="cache-control" content="no-store">
     <title>Formulario de Nuevo Tipo de Vehiculo</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/style-crearTarifa.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylepisos.css}">
 </head>
 <body>
+
     <div class="barra">
         <i>Tipo de Vehiculo</i>
         <a class="botones_barra" href="http://localhost:4200/vehiculo/anadirVehiculo">Registrar Vehiculo</a>
@@ -14,9 +15,17 @@
         <a class="botones_barra" th:href="@{/tarifas/anadirTarifa}">Añadir Tarifa</a>
         <a class="botones_barra" th:href="@{/admin/tarifas-espacios}">Tarifas y Espacios</a>
         <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
-
     </div>
-    <h1>Ingresar Información del Nuevo Tipo de Vehiculo</h1>
+    
+    <h4>CRUD Tipos</h4>
+    
+    <div class="barraCRUD">
+        <a class="botones_barra" th:href="@{/tiposvehiculo/actu}">Actualizar Tipo</a>
+        <a class="botones_barra" th:href="@{/tiposvehiculo/borrar}">Borrar Tipo</a>
+    </div>
+    
+    <h4>Ingresar Información del Nuevo Tipo de Vehiculo</h4>
+    
     <form method="post" action="/tiposvehiculo/"> 
         <label for="tipoVehiculo"> Nuevo Tipo de Vehículo:</label>
         <input type="text" id="tipoVehiculo" name="tipoVehiculo" required><br>
@@ -25,5 +34,6 @@
         </div>
         <input type="submit" value="Crear Tipo de Vehiculo" class="botoon">
     </form>
+
 </body>
 </html>
