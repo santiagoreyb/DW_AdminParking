@@ -12,7 +12,7 @@
     import jakarta.persistence.Table;
 
     @Entity
-    @Table (name = "tabla_vehiculo")
+    @Table (name = "vehiculo")
     public class VehiculoEntity {
 
         @Id
@@ -21,8 +21,10 @@
 
         private String tiempoLlegada; 
         private String tiempoSalida;
-        private String tipoVehiculo; 
-        private String placa; 
+        private String placa;
+        
+        @ManyToOne
+        private TipoVehiculoEntity tipoVehiculo;
 
         @ManyToOne //Se utiliza para indicar que un vehículo pertenece a un piso 
         private PisoEntity piso; // Agrega la referencia al piso que funciona como una clave foranea
@@ -35,11 +37,11 @@
             // Constructor vacío necesario para JPA
         }
 
-        public VehiculoEntity(String tiempoLlegada, String tiempoSalida, String placa,String tipoVehiculo) {
+        public VehiculoEntity(String tiempoLlegada, String tiempoSalida, String placa, TipoVehiculoEntity tipo) {
             this.placa = placa; 
             this.tiempoLlegada = tiempoLlegada;
             this.tiempoSalida = tiempoSalida;
-            this.tipoVehiculo = tipoVehiculo;
+            this.tipoVehiculo = tipo;
         }
 
         public void setId(Long id) {
@@ -71,7 +73,7 @@
             this.placa = placa;
         }
 
-        public void setTipoVehiculo(String tipoVehiculo) {
+        public void setTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
             this.tipoVehiculo = tipoVehiculo;
         }
 
@@ -79,7 +81,7 @@
             return placa;
         }
 
-        public String getTipoVehiculo() {
+        public TipoVehiculoEntity getTipoVehiculo() {
             return tipoVehiculo;
         }
         

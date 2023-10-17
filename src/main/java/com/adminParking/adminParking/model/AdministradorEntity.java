@@ -83,7 +83,7 @@ public class AdministradorEntity {
 
     private int obtenerCapacidadTotalPorTipoDeVehiculo(PisoEntity piso) {
 
-        String tipoVehiculo = piso.getTipoVehiculo();
+        String tipoVehiculo = piso.getTipoVehiculo().getTipo();
         int areaPiso = Integer.parseInt(piso.getArea());
 
         int capacidadPorTipoYArea = obtenerCapacidadPorTipoYArea(tipoVehiculo);

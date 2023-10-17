@@ -29,7 +29,7 @@ public class PisoRestController {
 
     @Autowired 
     VehiculoRepository vehiculoRepository;
-   
+
     @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/getPisos")
     public List<PisoEntity> getAllTarifas() {
@@ -71,7 +71,17 @@ public class PisoRestController {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
         piso.setCapacidad(piso.getCapacidad()+1);
         pisoRepository.save(piso);
+
     }
+
+    @CrossOrigin(origins =  "http://localhost:4200")
+    @PostMapping("/sacarVehiculoPiso")
+    public void sacarVehiculoPiso(@RequestBody Long id) {
+        VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
+        vehiculo.setPiso(null);
+        vehiculoRepository.save(vehiculo);
+    }
+
 
     
     /*

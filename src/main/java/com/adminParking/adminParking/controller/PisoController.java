@@ -9,9 +9,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
+import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 import java.util.List;
@@ -28,6 +30,10 @@ public class PisoController {
 
     @Autowired 
     VehiculoRepository vehiculoRepository;
+
+    
+    @Autowired
+    TipoVehiculoRepository tipoVehiculoRepository ;
 
     @GetMapping("/recu")
     public String getAllPisos ( Model model ) {
@@ -58,26 +64,34 @@ public class PisoController {
     }*/
 
     @PostMapping("/")
-    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo,@RequestParam("areaPorVehiculo") String areaPorVehiculo , RedirectAttributes redirectAttributes){
-
-        PisoEntity piso = new PisoEntity(area, tipoVehiculo);
-        AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
-
-        if(administrador == null){
-            System.out.println("Error encontrando el ID del administrador único");
-            redirectAttributes.addFlashAttribute("error", "Error al añadir el piso. No se encontró el administrador.");
-        }else {
-            piso.setAdministrador(administrador);
-           // Parse the text strings to integers
-            int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
-            int areaInt = Integer.parseInt(area);
-            // Perform the multiplication
-            piso.setCapacidad( areaInt/areaPorVehiculoInt);
-            pisoRepository.save(piso);
-            redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
+    public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo, @RequestParam("areaPorVehiculo") String areaPorVehiculo, RedirectAttributes redirectAttributes) {
+        // Verificar si el tipo de vehículo existe en la base de datos
+        TipoVehiculoEntity tipo = tipoVehiculoRepository.findByTipo(tipoVehiculo).orElse(null);
+    
+        if (tipo == null) {
+            redirectAttributes.addFlashAttribute("error", "No se encontró el tipo de vehículo en la base de datos. No se puede crear el piso.");
+        } else {
+            PisoEntity piso = new PisoEntity(area, tipo);
+            AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
+    
+            if (administrador == null) {
+                System.out.println("Error encontrando el ID del administrador único");
+                redirectAttributes.addFlashAttribute("error", "Error al añadir el piso. No se encontró el administrador.");
+            } else {
+                piso.setAdministrador(administrador);
+                // Parse the text strings to integers
+                int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
+                int areaInt = Integer.parseInt(area);
+                // Perform the multiplication
+                piso.setCapacidad(areaInt / areaPorVehiculoInt);
+                pisoRepository.save(piso);
+                redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
+            }
         }
+    
         return "redirect:/pisos/anadirPiso";
     }
+    
 
     // Vista Para añadir un piso.
     @GetMapping("/anadirPiso")
@@ -86,7 +100,6 @@ public class PisoController {
     }
 
     //Actualizar piso
-
     @PostMapping("/actu")
     public String updatePiso(
         @RequestParam("id") Long id,
@@ -98,20 +111,28 @@ public class PisoController {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
         
         if (piso != null) {
-            piso.setArea(area);
-            piso.setTipoVehiculo(tipoVehiculo);
-             int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
-            int areaInt = Integer.parseInt(area);
-            // Perform the multiplication
-            piso.setCapacidad(areaInt/areaPorVehiculoInt);
-            pisoRepository.save(piso); // Mueve esta línea aquí
-            redirectAttributes.addFlashAttribute("exito", "Piso actualizado exitosamente.");
+            // Verificar si el tipo de vehículo existe en la base de datos
+            TipoVehiculoEntity tipo = tipoVehiculoRepository.findByTipo(tipoVehiculo).orElse(null);
+    
+            if (tipo != null) {
+                piso.setArea(area);
+                piso.setTipoVehiculo(tipo);
+                int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
+                int areaInt = Integer.parseInt(area);
+                // Perform the multiplication
+                piso.setCapacidad(areaInt / areaPorVehiculoInt);
+                pisoRepository.save(piso);
+                redirectAttributes.addFlashAttribute("exito", "Piso actualizado exitosamente.");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "No se encontró el tipo de vehículo en la base de datos. No se puede actualizar el piso.");
+            }
         } else {
             redirectAttributes.addFlashAttribute("error", "Error al encontrar el piso.");
         }
     
         return "redirect:/pisos/actualizarPiso";
     }
+    
 
     // Vista para actualizar un piso.
     @GetMapping("/actualizarPiso")

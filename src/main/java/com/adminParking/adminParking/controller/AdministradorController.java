@@ -33,7 +33,7 @@ public class AdministradorController {
     @Autowired
     TarifaRepository tarifaRepository;
 
-   /*  @GetMapping("/calcular-espacios/{id}")
+/*  @GetMapping("/calcular-espacios/{id}")
     public ResponseEntity<String> calcularEspaciosDisponibles(@PathVariable Long id) {
         AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null); 
         if (administrador == null) {
@@ -71,7 +71,7 @@ public class AdministradorController {
         List<String> infoEspaciosPorPiso = new ArrayList<>();
 
         for (PisoEntity piso : pisos) {
-            String infoPiso = "Piso ID: " + piso.getId() + ", Tipo de Vehículo: " + piso.getTipoVehiculo() + ", Espacios Disponibles: " + piso.getCapacidad();
+            String infoPiso = "Piso ID: " + piso.getId() + ", Tipo de Vehículo: " + piso.getTipoVehiculo().getTipo() + ", Espacios Disponibles: " + piso.getCapacidad();
             infoEspaciosPorPiso.add(infoPiso);
         }
 

@@ -8,14 +8,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "tabla_piso")
+@Table(name = "piso")
 public class PisoEntity {
 
     @Id
     @GeneratedValue
     private Long id;
     private String area;
-    private String tipoVehiculo; 
+    
+    @ManyToOne
+    private TipoVehiculoEntity tipoVehiculo; 
+
     private int capacidad; 
 
     public int getCapacidad() {
@@ -37,7 +40,7 @@ public class PisoEntity {
         // Constructor vacío necesario para JPA
     }
 
-    public PisoEntity(String area, String tipoVehiculo) {
+    public PisoEntity(String area, TipoVehiculoEntity tipoVehiculo) {
         this.area = area;
         this.tipoVehiculo = tipoVehiculo;
     }
@@ -58,11 +61,11 @@ public class PisoEntity {
         this.area = area;
     }
 
-    public void setTipoVehiculo(String tipoVehiculo) {
+    public void setTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
         this.tipoVehiculo = tipoVehiculo;
     }
 
-    public String getTipoVehiculo() {
+    public TipoVehiculoEntity getTipoVehiculo() {
         return tipoVehiculo;
     }
 

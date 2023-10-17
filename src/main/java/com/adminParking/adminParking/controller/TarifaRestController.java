@@ -38,11 +38,12 @@ public class TarifaRestController {
     public TarifaEntity getTarifaById(@PathVariable Long id) {
         return tarifaRepository.findById(id).orElse(null);
     }
-
+    /*
     @GetMapping("/tipo/{tipoVehiculo}")
     public TarifaEntity getTarifaByTipo(@PathVariable String tipoVehiculo) {
         return tarifaRepository.findByTipoVehiculo(tipoVehiculo).orElse(null);
     }
+    */
     
     /* 
     @PostMapping("/")

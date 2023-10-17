@@ -2,32 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Tarifa</title>
+    <title>Formulario de Nuevo Tipo de Vehiculo</title>
     <link rel="stylesheet" type="text/css" th:href="@{/style-crearTarifa.css}">
 </head>
 <body>
     <div class="barra">
-        <i>Tarifas</i>
+        <i>Nuevo Tipo de Vehiculo</i>
         <a class="botones_barra" href="http://localhost:4200/vehiculo/registrarSalida">Registrar Salida</a>
         <a class="botones_barra" href="http://localhost:4200/vehiculo/anadirVehiculo">Añadir Vehiculo</a>
         <a class="botones_barra" th:href="@{/pisos/anadirPiso}">Añadir Piso</a>
-        <a class="botones_barra" th:href="@{/tiposvehiculo/anadirTipo}">Añadir Tipo</a>
         <a class="botones_barra" th:href="@{/admin/tarifas-espacios}">Tarifas y Espacios</a>
         <a class="botones_barra" href="iniciar sesioon.html">Cerrar sesión</a>
 
     </div>
-    <h1>Ingresar Información de Tarifa</h1>
-    <form method="post" action="/tarifas/"> 
-        <label for="tipoVehiculo">Tipo de Vehículo:</label>
+    <h1>Ingresar Información del Nuevo Tipo de Vehiculo</h1>
+    <form method="post" action="/tiposvehiculo/"> 
+        <label for="tipoVehiculo"> Nuevo Tipo de Vehículo:</label>
         <input type="text" id="tipoVehiculo" name="tipoVehiculo" required><br>
-        <label for="tarifaPorMinuto">Tarifa por Minuto:</label>
-        <input type="number" id="tarifaPorMinuto" name="tarifaPorMinuto" step="0.01" required><br>
-
         <div id="mensaje">
             <p th:if="${mensaje}" th:text="${mensaje}" class="error-message"></p>
         </div>
-
-        <input type="submit" value="Crear Tarifa" class="botoon">
+        <input type="submit" value="Crear Tipo de Vehiculo" class="botoon">
     </form>
 </body>
 </html>

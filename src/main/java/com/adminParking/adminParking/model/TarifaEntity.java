@@ -1,30 +1,27 @@
 package com.adminParking.adminParking.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tabla_tarifa")
+@Table(name = "tarifa")
 public class TarifaEntity {
     @Id
     @GeneratedValue
     private Long id;
-    private String tipoVehiculo;
     private double tarifaPorMinuto;
+
+    @ManyToOne
+    private TipoVehiculoEntity tipoVehiculo;
 
     public TarifaEntity(){
         
     }
  
-    public TarifaEntity(String tipoVehiculo, double tarifaPorMinuto) {
+    public TarifaEntity(TipoVehiculoEntity tipoVehiculo, double tarifaPorMinuto) {
         this.tipoVehiculo = tipoVehiculo;
         this.tarifaPorMinuto = tarifaPorMinuto;
     }
@@ -37,7 +34,7 @@ public class TarifaEntity {
         this.tarifaPorMinuto = tarifaPorMinuto;
     }
 
-    public void setTipoVehiculo(String tipoVehiculo) {
+    public void setTipoVehiculo(TipoVehiculoEntity tipoVehiculo) {
         this.tipoVehiculo = tipoVehiculo;
     }
 
@@ -50,7 +47,7 @@ public class TarifaEntity {
         return tarifaPorMinuto;
     }
 
-    public String getTipoVehiculo() {
+    public TipoVehiculoEntity getTipoVehiculo() {
         return tipoVehiculo;
     }
     
