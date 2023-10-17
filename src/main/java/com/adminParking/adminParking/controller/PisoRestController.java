@@ -15,6 +15,8 @@ import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -80,6 +82,20 @@ public class PisoRestController {
         VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
         vehiculo.setPiso(null);
         vehiculoRepository.save(vehiculo);
+    }
+    
+    @CrossOrigin(origins =  "http://localhost:4200")
+    @PostMapping("/sacarVehiculoPisoF")
+    public void sacarVehiculoPisoF(@RequestBody Long id) {
+        VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
+        vehiculo.setTiempoSalida(obtenerFechaYHoraActual());
+        vehiculoRepository.save(vehiculo);
+    }
+
+    public String obtenerFechaYHoraActual() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date now = new Date();
+        return formato.format(now);
     }
 
 
