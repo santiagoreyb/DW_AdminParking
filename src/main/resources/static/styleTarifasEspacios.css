@@ -35,9 +35,6 @@ li {
     color: #555;
 }
 
-
-
-
 /* Estilos para .barra */
 .barra {
     font-size: 20px;
@@ -45,7 +42,7 @@ li {
     justify-content: space-between;
     display: flex;
     padding: 20px 120px ; /* Reducido el relleno para hacerlo más estilizado */
-    height: auto; /* Altura automática basada en el contenido */
+    height: 60px; /* Altura automática basada en el contenido */
     background-color: white;
     color: black; /* Color de letra en negro */
     font-weight: bold; /* Letra en negrilla */
@@ -81,8 +78,17 @@ li {
     border: 4px solid black;
     border-radius: 8px;
     /* Botón */
-    height: 28px;
-    width: 200px;
+    height: 40px;
+    width: 300px;
+    line-height: 40px;
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+i{
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
 }
 /* Estilos para elementos dentro de la barra (por ejemplo, enlaces de navegación) */
 .barra a {

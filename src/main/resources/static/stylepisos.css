@@ -24,13 +24,14 @@ div {
     margin-bottom: 20px;
 }
 
-/* Estilos para la barra de navegación */
+
+/* Estilos para .barra */
 .barra {
     font-size: 20px;
     text-align: center;
     justify-content: space-between;
     display: flex;
-    padding: 20px 120px; /* Reducido el relleno para hacerlo más estilizado */
+    padding: 20px 120px ; /* Reducido el relleno para hacerlo más estilizado */
     height: auto; /* Altura automática basada en el contenido */
     background-color: white;
     color: black; /* Color de letra en negro */
@@ -45,14 +46,38 @@ div {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Estilos para etiquetas y selección de tipo de vehículo */
-label, select {
-    display: block;
-    margin: 0 auto; /* Centra horizontalmente */
-    text-align: center; /* Centra el texto dentro del select */
+
+/* Estilos para .barra */
+.barra {
+    font-size: 20px;
+    text-align: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 20px 120px ; /* Reducido el relleno para hacerlo más estilizado */
+    height: 60px; /* Altura automática basada en el contenido */
+    background-color: white;
+    color: black; /* Color de letra en negro */
+    font-weight: bold; /* Letra en negrilla */
+    border: 4px solid black; /* Borde sólido de 4px en negro */
+    border-radius: 8px; /* Bordes redondeados */
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-/* Estilos para los botones de la barra de navegación */
+/* Estilos para el contenido dentro de la barra */
+.barra-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 .botones_barra {
     /* Letra */
     color: black;
@@ -65,11 +90,35 @@ label, select {
     border: 4px solid black;
     border-radius: 8px;
     /* Botón */
-    height: 28px;
-    width: 200px;
+    height: 40px;
+    width: 300px;
+    line-height: 40px;
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.botones_barra:hover {
-    background-color: #444;
+i{
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+/* Estilos para elementos dentro de la barra (por ejemplo, enlaces de navegación) */
+.barra a {
+    color: black;
+    text-decoration: none;
+    margin: 0 20px;
+    transition: color 0.3s;
+}
+
+.barra a:hover {
+    color: grey; /* Cambia el color del enlace al pasar el ratón a gris */
+}
+
+/* Estilos para etiquetas y selección de tipo de vehículo */
+label, select {
+    display: block;
+    margin: 0 auto; /* Centra horizontalmente */
+    text-align: center; /* Centra el texto dentro del select */
 }
 
 /* Estilos para h4 (títulos) */

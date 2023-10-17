@@ -42,8 +42,8 @@ public class DBInitializer implements ApplicationRunner {
         AdministradorEntity admin = new AdministradorEntity(333L);
         administradorRepository.save(admin);
 
-        TipoVehiculoEntity tipo = new TipoVehiculoEntity("carro");
-        TipoVehiculoEntity tipo2 = new TipoVehiculoEntity("moto");
+        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
+        TipoVehiculoEntity tipo2 = new TipoVehiculoEntity("Moto");
         tipoVehiculoRepository.save(tipo);
         tipoVehiculoRepository.save(tipo2);
         PisoEntity piso = new PisoEntity("200",tipo);
@@ -52,7 +52,7 @@ public class DBInitializer implements ApplicationRunner {
         pisoRepository.save(piso);
 
         // Añado otro piso para pruebas
-        PisoEntity piso2 = new PisoEntity("300",tipo);
+        PisoEntity piso2 = new PisoEntity("300",tipo2);
         piso2.setAdministrador(admin);
         piso2.setCapacidad(300/2);
         pisoRepository.save(piso2);

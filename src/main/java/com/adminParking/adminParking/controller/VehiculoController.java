@@ -54,11 +54,11 @@ public class VehiculoController {
     }
 
     //Rest
-     @CrossOrigin(origins = "http://localhost:4200")
-     @PostMapping("")
-     public void createVehiculo(@RequestBody VehiculoEntity vehiculo) {
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("")
+    public void createVehiculo(@RequestBody VehiculoEntity vehiculo) {
         vehiculoRepository.save(vehiculo);
-     }
+    }
     
 
     //Rest
