@@ -50,17 +50,17 @@ public class DBInitializer implements ApplicationRunner {
         // Inicializar tarifas
         TarifaEntity tarifaCarro = new TarifaEntity();
         tarifaCarro.setTipoVehiculo("Carro");
-        tarifaCarro.setTarifaPorMinuto(0.1); // Establece la tarifa por minuto para carros
+        tarifaCarro.setTarifaPorMinuto(900); // Establece la tarifa por minuto para carros
 
         TarifaEntity tarifaMoto = new TarifaEntity();
         tarifaMoto.setTipoVehiculo("Moto");
-        tarifaMoto.setTarifaPorMinuto(0.05); // Establece la tarifa por minuto para motos
+        tarifaMoto.setTarifaPorMinuto(300); // Establece la tarifa por minuto para motos
 
         // Guardar las tarifas en la base de datos
         tarifaRepository.save(tarifaCarro);
         tarifaRepository.save(tarifaMoto);
 
-        VehiculoEntity vehiculo = new VehiculoEntity("10:00 AM", "12:00 PM","ERE202","Carro");
+        VehiculoEntity vehiculo = new VehiculoEntity("10:00", "19:00","ERE202","Carro");
         vehiculo.setPiso(piso);
         vehiculo.setTarifa(tarifaCarro);
         //piso.getVehiculos().add(vehiculo);

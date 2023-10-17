@@ -91,7 +91,6 @@
             this.piso = piso;
         }
 
-
         public void setTarifa(TarifaEntity tarifa) {
             this.tarifa = tarifa;
         }

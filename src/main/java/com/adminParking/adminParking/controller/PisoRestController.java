@@ -63,6 +63,16 @@ public class PisoRestController {
         piso.setCapacidad(piso.getCapacidad()-1);
         pisoRepository.save(piso);
     }
+
+
+    @CrossOrigin(origins =  "http://localhost:4200")
+    @PostMapping("/salirVehiculoPiso")
+    public void salirVehiculoPiso(@RequestBody Long id) {
+        PisoEntity piso = pisoRepository.findById(id).orElse(null);
+        piso.setCapacidad(piso.getCapacidad()+1);
+        pisoRepository.save(piso);
+    }
+
     
     /*
     @PutMapping("/{id}")

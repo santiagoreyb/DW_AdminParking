@@ -44,6 +44,8 @@ public class VehiculoController {
     public List<VehiculoEntity> getAllVehiculos() {
         return vehiculoRepository.findAll();
     }
+
+    
     
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{id}")
