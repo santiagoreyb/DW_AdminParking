@@ -67,6 +67,22 @@ public class TipoVehiculoController {
         return "redirect:/tiposvehiculo/anadirTipo"; // Redirige de nuevo al formulario de creación
     }
     
+    @PostMapping("/deleteTipo")
+    public String deleteTipo(@RequestParam("tipo") Long tipoId, RedirectAttributes redirectAttributes) {
+        // Realiza la eliminación del tipo de vehículo según el ID seleccionado
+        tipoVehiculoRepository.deleteById(tipoId);
+        redirectAttributes.addFlashAttribute("exito", "Tipo de vehículo eliminado correctamente");
+        return "redirect:/tiposvehiculo/borrar";
+    }
+
+    // Vista para actualizar un tipo.
+    @GetMapping("/borrar")
+    public String borrarTipo(Model model) {
+        List<TipoVehiculoEntity> tipos = tipoVehiculoRepository.findAll();
+        model.addAttribute("tipos", tipos); // Agrega la lista de tipos al modelo
+        return "eliminarTipo";
+    }
+
     //Vista Para añadir una tarifa
     @GetMapping("/anadirTipo")
     public String showMenu(Model model){
