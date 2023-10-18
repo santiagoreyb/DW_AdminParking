@@ -21,28 +21,36 @@
     <h4>CRUD tipos Vehiculo</h4>
 
     <div class="barraCRUD">
-        <a class="botones_barra" th:href="@{/tiposvehiculo/anadirTipo}">Añadir Piso</a>
-        <a class="botones_barra" th:href="@{/tiposvehiculo/actu}">Actualizar Piso</a>
+        <a class="botones_barra" th:href="@{/tiposvehiculo/anadirTipo}">Añadir Tipo</a>
     </div>
 
     <h4>Ingrese la información del tipo</h4>
     
-    <div>
-        <!-- Mensaje de éxito -->
-        <p th:if="${exito}">[[${exito}]]</p>
-        <!-- Mensaje de error -->
-        <p th:if="${error}">[[${error}]]</p>
-    </div>
+
 
     <form method="post" action="/tiposvehiculo/deleteTipo"> <!-- pisos: Nombre del metodo -->
-        <label for="id">Id del tipo de vehículo (solo números):</label>
-        <input type="number" id="id" name="id" pattern="[0-9]+" title="Por favor, ingrese un valor numérico" required><br>
-        <!-- Menú desplegable para tipo de vehículo -->
+        <select name="tipo" id="tipo">
+            <option value="">Seleccione un tipo de vehículo</option>
+            <!-- Aquí debes cargar dinámicamente los tipos de vehículos desde la base de datos -->
+            <th:block th:each="tipo : ${tipos}">
+                <option th:value="${tipo.id}" th:text="${tipo.tipo}"></option>
+            </th:block>
+        </select>
         <br>
         <br>
         <input type="submit" value="Eliminar Tipo" class="botoon">
     </form>
-
+    <div>
+        <!-- Mensaje de éxito -->
+        <p th:if="${exito}" class="mensaje-exito">[[${exito}]]</p>
+    
+        <!-- Mensaje de error -->
+        <p th:if="${error}" class="mensaje-error">[[${error}]]</p>
+    
+        <!-- Otro mensaje informativo -->
+        <p th:if="${mensaje}" class="mensaje-informativo">[[${mensaje}]]</p>
+    
+    </div>
 
 </body>
 </html>

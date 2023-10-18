@@ -80,15 +80,8 @@ public class PisoRestController {
     @PostMapping("/sacarVehiculoPiso")
     public void sacarVehiculoPiso(@RequestBody Long id) {
         VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
-        vehiculo.setPiso(null);
-        vehiculoRepository.save(vehiculo);
-    }
-    
-    @CrossOrigin(origins =  "http://localhost:4200")
-    @PostMapping("/sacarVehiculoPisoF")
-    public void sacarVehiculoPisoF(@RequestBody Long id) {
-        VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
         vehiculo.setTiempoSalida(obtenerFechaYHoraActual());
+        vehiculo.setPiso(null);
         vehiculoRepository.save(vehiculo);
     }
 

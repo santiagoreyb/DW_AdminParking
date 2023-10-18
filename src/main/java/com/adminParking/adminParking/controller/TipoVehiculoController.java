@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
+import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 
 @Controller
@@ -30,6 +32,9 @@ public class TipoVehiculoController {
 
     @Autowired
     TipoVehiculoRepository tipoVehiculoRepository ;
+
+    @Autowired
+    PisoRepository pisoRepository;
 
     @GetMapping ("/verTipos")
     public List<TipoVehiculoEntity> getAllTipos ( ) {
@@ -69,9 +74,21 @@ public class TipoVehiculoController {
     
     @PostMapping("/deleteTipo")
     public String deleteTipo(@RequestParam("tipo") Long tipoId, RedirectAttributes redirectAttributes) {
-        // Realiza la eliminación del tipo de vehículo según el ID seleccionado
-        tipoVehiculoRepository.deleteById(tipoId);
-        redirectAttributes.addFlashAttribute("exito", "Tipo de vehículo eliminado correctamente");
+        TipoVehiculoEntity tipoVehiculo = tipoVehiculoRepository.findById(tipoId).orElse(null);
+        
+        if (tipoVehiculo == null) {
+            redirectAttributes.addFlashAttribute("error", "Tipo de vehículo no encontrado");
+        } else {
+            List<PisoEntity> pisosConTipo = pisoRepository.findByTipoVehiculo(tipoVehiculo);
+            
+            if (!pisosConTipo.isEmpty()) {
+                redirectAttributes.addFlashAttribute("mensaje", "Existen pisos con este tipo de vehículo. Elimine los pisos primero.");
+            } else {
+                tipoVehiculoRepository.deleteById(tipoId);
+                redirectAttributes.addFlashAttribute("exito", "Tipo de vehículo eliminado correctamente");
+            }
+        }
+        
         return "redirect:/tiposvehiculo/borrar";
     }
 
