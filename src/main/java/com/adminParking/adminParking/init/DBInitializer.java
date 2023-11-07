@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.adminParking.adminParking.model.AdministradorEntity;
@@ -18,6 +19,7 @@ import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 @Component
+@Profile({"default"})
 public class DBInitializer implements ApplicationRunner {
 
     @Autowired

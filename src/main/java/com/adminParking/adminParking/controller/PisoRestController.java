@@ -32,12 +32,10 @@ public class PisoRestController {
     @Autowired 
     VehiculoRepository vehiculoRepository;
 
-    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/getPisos")
     public List<PisoEntity> getAllTarifas() {
         return pisoRepository.findAll();
     }
-    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/{id}")
     public PisoEntity getPisoById(@PathVariable Long id) {
         return pisoRepository.findById(id).orElse(null);
@@ -58,7 +56,6 @@ public class PisoRestController {
         return pisoRepository.save(piso);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
     @PostMapping("/updateEspacios")
     public void updateEspacios(@RequestBody Long id) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
@@ -66,8 +63,6 @@ public class PisoRestController {
         pisoRepository.save(piso);
     }
 
-
-    @CrossOrigin(origins =  "http://localhost:4200")
     @PostMapping("/salirVehiculoPiso")
     public void salirVehiculoPiso(@RequestBody Long id) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
@@ -76,7 +71,6 @@ public class PisoRestController {
 
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
     @PostMapping("/sacarVehiculoPiso")
     public void sacarVehiculoPiso(@RequestBody Long id) {
         VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
@@ -107,6 +101,4 @@ public class PisoRestController {
         pisoRepository.deleteById(id);
     }*/
 
-
-    
 }

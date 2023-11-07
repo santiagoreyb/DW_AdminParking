@@ -36,10 +36,9 @@ public class PisoController {
     TipoVehiculoRepository tipoVehiculoRepository ;
 
     @GetMapping("/recu")
-    public String getAllPisos ( Model model ) {
+    public List<PisoEntity> getAllPisos () {
         List<PisoEntity> pisos = pisoRepository.findAll();
-        model.addAttribute("pisos", pisos);
-        return "recuperar pisos";
+        return pisos;
     }
 
     @GetMapping("/{id}")
@@ -168,7 +167,7 @@ public class PisoController {
         }
 
         if(cont!=0){
-             redirectAttributes.addFlashAttribute("error", "No se puede eliminar el piso, el piso tiene vehiculos parquedaos.");
+            redirectAttributes.addFlashAttribute("error", "No se puede eliminar el piso, el piso tiene vehiculos parquedaos.");
         }else{
             pisoRepository.deleteById(id);
             redirectAttributes.addFlashAttribute("error", "Piso eliminado correctamente");
