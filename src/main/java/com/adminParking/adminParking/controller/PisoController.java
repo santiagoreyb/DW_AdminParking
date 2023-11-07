@@ -6,12 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.model.VehiculoEntity;
-import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
@@ -24,9 +21,6 @@ public class PisoController {
 
     @Autowired
     PisoRepository pisoRepository;
-
-    @Autowired
-    AdministradorRepository administradorRepository;
 
     @Autowired 
     VehiculoRepository vehiculoRepository;
@@ -71,21 +65,13 @@ public class PisoController {
             redirectAttributes.addFlashAttribute("error", "No se encontró el tipo de vehículo en la base de datos. No se puede crear el piso.");
         } else {
             PisoEntity piso = new PisoEntity(area, tipo);
-            AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
     
-            if (administrador == null) {
-                System.out.println("Error encontrando el ID del administrador único");
-                redirectAttributes.addFlashAttribute("error", "Error al añadir el piso. No se encontró el administrador.");
-            } else {
-                piso.setAdministrador(administrador);
-                // Parse the text strings to integers
-                int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
-                int areaInt = Integer.parseInt(area);
-                // Perform the multiplication
-                piso.setCapacidad(areaInt / areaPorVehiculoInt);
-                pisoRepository.save(piso);
-                redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
-            }
+            int areaPorVehiculoInt = Integer.parseInt(areaPorVehiculo);
+            int areaInt = Integer.parseInt(area);
+            // Perform the multiplication
+            piso.setCapacidad(areaInt / areaPorVehiculoInt);
+            pisoRepository.save(piso);
+            redirectAttributes.addFlashAttribute("exito", "Piso añadido exitosamente.");
         }
     
         return "redirect:/pisos/anadirPiso";

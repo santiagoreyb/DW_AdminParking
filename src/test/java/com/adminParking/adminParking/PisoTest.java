@@ -13,7 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,6 +25,9 @@ import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
@@ -52,9 +57,6 @@ class PisoTest {
 
     @Test
     public void test_returns_all_piso_entities() {
-        // Datos que se agregaron en el método init
-        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
-        PisoEntity expectedPiso = new PisoEntity("2000", tipo);
     
         ResponseEntity<List<PisoEntity>> responseEntity = rest.exchange(
             "http://localhost:" + port + "/pisosRest/getPisos",
@@ -63,15 +65,41 @@ class PisoTest {
             new ParameterizedTypeReference<List<PisoEntity>>() {}
         );
         List<PisoEntity> result = responseEntity.getBody();
-    
         // Compara los parámetros individualmente
-        assertEquals(expectedPiso.getArea(), result.get(0).getArea());
-        assertEquals(expectedPiso.getTipoVehiculo().getTipo(), result.get(0).getTipoVehiculo().getTipo());
+        assertEquals("2000", result.get(0).getArea());
+        assertEquals("Carro", result.get(0).getTipoVehiculo().getTipo());
         // Añade más comparaciones para otros parámetros según sea necesario
     }
-    
-    
-    
 
+    @Test
+    public void test_getPisoById() {
+        // ID del piso que deseas obtener
+        Long pisoId = 1L;
+        
+        // Realiza una solicitud HTTP para obtener el PisoEntity por su ID
+        ResponseEntity<PisoEntity> responseEntity = rest.exchange(
+            "http://localhost:" + port + "/pisosRest/" + pisoId,
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<PisoEntity>() {}
+        );
+        
+        PisoEntity result = responseEntity.getBody();
+        
+        // Compara los parámetros individualmente
+        assertEquals("2000", result.getArea());
+        assertEquals("Carro", result.getTipoVehiculo().getTipo());
+        // Añade más comparaciones para otros parámetros según sea necesario
+    }
+
+    @Test
+    public void test_createPiso() {
+        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Moto");
+        PisoEntity newPiso = new PisoEntity("3000", tipo);
+        tipoRepository.save(tipo);
+        PisoEntity piso = rest.postForObject("http://localhost:" + port + "/pisosRest/", newPiso, PisoEntity.class);
+        assertEquals("3000", piso.getArea());
+        assertEquals("Moto", piso.getTipoVehiculo().getTipo());
+    }
 
 }

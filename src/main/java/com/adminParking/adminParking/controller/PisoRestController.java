@@ -7,11 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.adminParking.adminParking.model.AdministradorEntity;
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.VehiculoEntity;
-import com.adminParking.adminParking.repositories.AdministradorRepository;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
@@ -26,8 +24,6 @@ public class PisoRestController {
     @Autowired
     PisoRepository pisoRepository;
 
-    @Autowired
-    AdministradorRepository administradorRepository;
 
     @Autowired 
     VehiculoRepository vehiculoRepository;
@@ -44,14 +40,14 @@ public class PisoRestController {
     @PostMapping("/")
     public PisoEntity createPiso(@RequestBody PisoEntity piso) {
         //Obtiene el administrador único
-        AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
+        /*AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
         
         if(administrador == null){
             System.out.println("Error encontrando el ID del administrador único");
             return null; 
         }
 
-        piso.setAdministrador(administrador);
+        piso.setAdministrador(administrador);*/
 
         return pisoRepository.save(piso);
     }
