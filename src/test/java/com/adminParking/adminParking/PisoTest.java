@@ -49,7 +49,7 @@ class PisoTest {
     void init() {
         TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
         tipoRepository.save(tipo);
-        pisoRepository.save(new PisoEntity("2000", tipo));
+        pisoRepository.save(new PisoEntity("2000", tipo, 2000));
     }
 
     @Autowired
@@ -68,6 +68,7 @@ class PisoTest {
         // Compara los parámetros individualmente
         assertEquals("2000", result.get(0).getArea());
         assertEquals("Carro", result.get(0).getTipoVehiculo().getTipo());
+        assertEquals(2000, result.get(0).getCapacidad());
         // Añade más comparaciones para otros parámetros según sea necesario
     }
 
@@ -75,7 +76,6 @@ class PisoTest {
     public void test_getPisoById() {
         // ID del piso que deseas obtener
         Long pisoId = 1L;
-        
         // Realiza una solicitud HTTP para obtener el PisoEntity por su ID
         ResponseEntity<PisoEntity> responseEntity = rest.exchange(
             "http://localhost:" + port + "/pisosRest/" + pisoId,
@@ -84,12 +84,10 @@ class PisoTest {
             new ParameterizedTypeReference<PisoEntity>() {}
         );
         
-        PisoEntity result = responseEntity.getBody();
-        
-        // Compara los parámetros individualmente
+        PisoEntity result = responseEntity.getBody();        
         assertEquals("2000", result.getArea());
         assertEquals("Carro", result.getTipoVehiculo().getTipo());
-        // Añade más comparaciones para otros parámetros según sea necesario
+        assertEquals(2000, result.getCapacidad());
     }
 
     @Test
@@ -100,6 +98,28 @@ class PisoTest {
         PisoEntity piso = rest.postForObject("http://localhost:" + port + "/pisosRest/", newPiso, PisoEntity.class);
         assertEquals("3000", piso.getArea());
         assertEquals("Moto", piso.getTipoVehiculo().getTipo());
+    }
+
+    @Test
+    public void test_updateEspacios() {
+        Long pisoId = 1L;
+        PisoEntity updatedPiso = pisoRepository.findById(pisoId).orElse(null);
+        int capacidadEsperada = updatedPiso.getCapacidad() -1;
+        rest.postForObject("http://localhost:" + port + "/pisosRest/updateEspacios", pisoId, Void.class);
+        PisoEntity updatedPiso2 = pisoRepository.findById(pisoId).orElse(null);
+        int capacidadNueva= updatedPiso2.getCapacidad();
+        assertEquals(capacidadEsperada, capacidadNueva);
+    }
+    
+    @Test
+    public void test_salirVehiculoPiso() {
+        Long pisoId = 1L;
+        PisoEntity updatedPiso = pisoRepository.findById(pisoId).orElse(null);
+        int capacidadEsperada = updatedPiso.getCapacidad() +1;
+        rest.postForObject("http://localhost:" + port + "/pisosRest/salirVehiculoPiso", pisoId, Void.class);
+        PisoEntity updatedPiso2 = pisoRepository.findById(pisoId).orElse(null);
+        int capacidadNueva= updatedPiso2.getCapacidad();
+        assertEquals(capacidadEsperada, capacidadNueva);
     }
 
 }

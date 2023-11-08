@@ -51,12 +51,14 @@ public class TarifaRestController {
         return tarifaRepository.save(tarifa);
     }*/
 
+    @CrossOrigin(origins =  "http://localhost:4200")
     @PutMapping("/{id}")
     public TarifaEntity updateTarifa(@PathVariable Long id, @RequestBody TarifaEntity tarifa) {
         tarifa.setId(id);
         return tarifaRepository.save(tarifa);
     }
 
+    @CrossOrigin(origins =  "http://localhost:4200")
     @DeleteMapping("/{id}")
     public void deleteTarifa(@PathVariable Long id) {
         tarifaRepository.deleteById(id);

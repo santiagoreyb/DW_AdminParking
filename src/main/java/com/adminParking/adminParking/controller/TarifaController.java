@@ -1,17 +1,23 @@
 package com.adminParking.adminParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
+import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -23,6 +29,9 @@ public class TarifaController {
 
     @Autowired
     TipoVehiculoRepository tipoVehiculoRepository ;
+
+    @Autowired
+    PisoRepository pisoRepository;
 
     @GetMapping("/getTarifas")
     public List<TarifaEntity> getAllTarifas() {
@@ -98,4 +107,92 @@ public class TarifaController {
     public void deleteTarifa(@PathVariable Long id) {
         tarifaRepository.deleteById(id);
     }
+
+    
+    @GetMapping("/calcular-espacios/{id}")
+    public ResponseEntity<String> calcularEspaciosDisponibles(@PathVariable Long id) {
+
+        int espaciosDisponibles = calcularEspaciosDisponiblesT(id);
+
+        return ResponseEntity.ok("Espacios disponibles: " + espaciosDisponibles);
+    }
+
+    @GetMapping("tarifas-espacios")
+    public String mostrarTarifas_Espacios(Model model){
+
+        List<PisoEntity> pisos = pisoRepository.findAll();
+
+        List<String> infoEspaciosPorPiso = new ArrayList<>();
+
+        for (PisoEntity piso : pisos) {
+            String infoPiso = "Piso ID: " + piso.getId() + ", Tipo de Vehículo: " + piso.getTipoVehiculo().getTipo() + ", Espacios Disponibles: " + piso.getCapacidad();
+            infoEspaciosPorPiso.add(infoPiso);
+        }
+
+        List<TarifaEntity> tarifas = tarifaRepository.findAll();
+        model.addAttribute("tarifas", tarifas);
+        model.addAttribute("infoEspaciosPorPiso", infoEspaciosPorPiso);
+        return "tarifas-espacios";
+    }
+
+    public int calcularEspaciosDisponiblesT(Long id) {
+        
+        int espaciosDisponibles = 0;
+        PisoEntity pisoDef = pisoRepository.findById(id).orElse(null);
+
+        if(pisoDef != null){
+            int capacidadTotal = obtenerCapacidadTotalPorTipoDeVehiculo(pisoDef);
+
+            // Obttiene la cantidad actual de vehículos estacionados en este piso
+            int vehiculosEstacionados = pisoDef.getVehiculos().size();
+
+        // System.out.println(vehiculosEstacionados);
+
+            // Calcular los espacios disponibles restando los vehículos estacionados de la capacidad total
+            espaciosDisponibles = capacidadTotal - vehiculosEstacionados;
+
+            // resultado no sea negativo
+            if (espaciosDisponibles < 0) {
+                espaciosDisponibles = 0;
+            }
+        }
+
+        return espaciosDisponibles;
+    }
+
+    private int obtenerCapacidadTotalPorTipoDeVehiculo(PisoEntity piso) {
+
+        String tipoVehiculo = piso.getTipoVehiculo().getTipo();
+        int areaPiso = Integer.parseInt(piso.getArea());
+
+        int capacidadPorTipoYArea = obtenerCapacidadPorTipoYArea(tipoVehiculo);
+
+        System.out.println("capacidadPorTipoYArea " + capacidadPorTipoYArea);
+        System.out.println("areaPiso " + areaPiso);
+
+        //Area por capacidad por tipo de vehiculo
+        return areaPiso * capacidadPorTipoYArea;
+
+    }
+
+    private int obtenerCapacidadPorTipoYArea(String tipoVehiculo){
+        Map<String, Integer> capacidadPorTipoYArea = new HashMap<>();
+        capacidadPorTipoYArea.put("Carro", 2); // 2 automóviles por metro cuadrado
+        capacidadPorTipoYArea.put("Moto", 3); // 3 metros por metro cuadrado
+        capacidadPorTipoYArea.put("Camión", 1);   // 1 camión por metro cuadrado
+        capacidadPorTipoYArea.put("Scooter", 4);   // 5 Scooters por metro cuadrado
+
+        // Obtener la capacidad para el tipo de vehículo dado
+        Integer capacidad = capacidadPorTipoYArea.get(tipoVehiculo);
+
+        // Verificar si se encontró una capacidad para el tipo de vehículo
+        if (capacidad != null) {
+            return capacidad;
+        } else {
+        // Aquí devolvemos -1 como valor predeterminado
+        return -1;
+        }
+
+    }
+    
 }

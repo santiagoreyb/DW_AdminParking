@@ -1,5 +1,7 @@
 package com.adminParking.adminParking.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -144,17 +146,20 @@ public class VehiculoController {
         return "redirect:/vehiculos/anadirVehiculo"; // Redirige después de agregar los mensajes de error
     }*/
 
+    @CrossOrigin(origins =  "http://localhost:4200")
     @PutMapping("/{id}")
     public VehiculoEntity updateVehiculo(@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {
         vehiculo.setId(id);
         return vehiculoRepository.save(vehiculo);
     }
 
+    @CrossOrigin(origins =  "http://localhost:4200")
     @DeleteMapping("/eliminarVehiculo/{id}")
     public void deleteVehiculo(@PathVariable Long id) {
         vehiculoRepository.deleteById(id);
     }
 
+    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/anadirVehiculo")
     public String showMenu(Model model){
         // Verificar si hay mensajes de error en el modelo
@@ -166,6 +171,21 @@ public class VehiculoController {
             model.addAttribute("mensajeExito", model.getAttribute("exito"));
         }
         return "anadirVehiculo";
+    }
+
+    @CrossOrigin(origins =  "http://localhost:4200")
+    @PostMapping("/sacarVehiculoPiso")
+    public void sacarVehiculoPiso(@RequestBody Long id) {
+        VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
+        vehiculo.setTiempoSalida(obtenerFechaYHoraActual());
+        vehiculo.setPiso(null);
+        vehiculoRepository.save(vehiculo);
+    }
+
+    public String obtenerFechaYHoraActual() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date now = new Date();
+        return formato.format(now);
     }
 
 }

@@ -44,6 +44,12 @@ public class PisoEntity {
         this.tipoVehiculo = tipoVehiculo;
     }
 
+    public PisoEntity(String area, TipoVehiculoEntity tipoVehiculo, int Capacidad) {
+        this.area = area;
+        this.tipoVehiculo = tipoVehiculo;
+        this.capacidad = Capacidad;
+    }
+
     public Long getId() {
         return id;
     }
