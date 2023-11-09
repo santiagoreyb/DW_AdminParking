@@ -48,7 +48,6 @@ public class VehiculoTest {
         tipoRepository.save(tipo);
         VehiculoEntity vehiculo = new VehiculoEntity(obtenerFechaYHoraActual(), obtenerFechaYHoraActual(),"xxx", tipo);
         vehiculoRepository.save(vehiculo);
-
     }
 
     @Autowired
