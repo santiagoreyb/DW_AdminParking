@@ -14,6 +14,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,12 +52,15 @@ class PisoTest {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TestRestTemplate rest;
+
     @BeforeEach
     void init() {
         userRepository.save(
-            new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.ADMIN));
+            new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(
-            new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.PORTERO));
+            new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
 
 
         TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
@@ -73,50 +77,55 @@ class PisoTest {
 		assertNotNull(body);
 		return body;
 	}
-    @Autowired
-    private TestRestTemplate rest;
-
 
     @Test
     public void test_returns_all_piso_entities() {
         JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
-
+    
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + bob.getToken());
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-        
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+    
         ResponseEntity<List<PisoEntity>> responseEntity = rest.exchange(
                 "http://localhost:" + port + "/pisosRest/getPisos",
                 HttpMethod.GET,
-                entity,
+                requestEntity,
                 new ParameterizedTypeReference<List<PisoEntity>>() {}
         );
-
-        RequestEntity.get("http://localhost:" + port + "/pisosRest/getPisos")
-				.header(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken()).build();
-        
+    
         List<PisoEntity> result = responseEntity.getBody();
-        // Compara los parámetros individualmente
-        assertEquals("2000", result.get(0).getArea());
-        assertEquals("Carro", result.get(0).getTipoVehiculo().getTipo());
-        assertEquals(2000, result.get(0).getCapacidad());
-        // Añade más comparaciones para otros parámetros según sea necesario
+        assertNotNull(result); // Verifica que la lista no sea nula
+    
+        if (!result.isEmpty()) {
+            assertEquals("2000", result.get(0).getArea());
+            assertEquals("Carro", result.get(0).getTipoVehiculo().getTipo());
+            assertEquals(2000, result.get(0).getCapacidad());
+        }
     }
-
+    
     @Test
     public void test_getPisoById() {
-        // ID del piso que deseas obtener
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
         Long pisoId = 1L;
-        // Realiza una solicitud HTTP para obtener el PisoEntity por su ID
+
         ResponseEntity<PisoEntity> responseEntity = rest.exchange(
-            "http://localhost:" + port + "/pisosRest/" + pisoId,
-            HttpMethod.GET,
-            null,
-            new ParameterizedTypeReference<PisoEntity>() {}
+                "http://localhost:" + port + "/pisosRest/" + pisoId,
+                HttpMethod.GET,
+                requestEntity,
+                PisoEntity.class
         );
-        
-        
-        PisoEntity result = responseEntity.getBody();        
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        PisoEntity result = responseEntity.getBody();
+        assertNotNull(result); // Verifica que el resultado no sea nulo
+
+        // Verifica los atributos del PisoEntity
         assertEquals("2000", result.getArea());
         assertEquals("Carro", result.getTipoVehiculo().getTipo());
         assertEquals(2000, result.getCapacidad());
@@ -124,34 +133,75 @@ class PisoTest {
 
     @Test
     public void test_createPiso() {
+        // Simular el inicio de sesión para obtener el token JWT
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+    
         TipoVehiculoEntity tipo = new TipoVehiculoEntity("Moto");
-        PisoEntity newPiso = new PisoEntity("3000", tipo);
-        tipoRepository.save(tipo);
-        PisoEntity piso = rest.postForObject("http://localhost:" + port + "/pisosRest/", newPiso, PisoEntity.class);
-        assertEquals("3000", piso.getArea());
-        assertEquals("Moto", piso.getTipoVehiculo().getTipo());
+        tipo = tipoRepository.save(tipo); // Guarda el tipo de vehículo y obtiene el ID generado
+    
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<PisoEntity> requestEntity = new HttpEntity<>(new PisoEntity("3000", tipo), headers);
+    
+        ResponseEntity<PisoEntity> responseEntity = rest.exchange(
+                "http://localhost:" + port + "/pisosRest/",
+                HttpMethod.POST,
+                requestEntity,
+                PisoEntity.class
+        );
+    
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    
+        PisoEntity createdPiso = responseEntity.getBody();
+        assertNotNull(createdPiso); // Verifica que el PisoEntity creado no sea nulo
+    
+        assertEquals("3000", createdPiso.getArea());
+        assertEquals("Moto", createdPiso.getTipoVehiculo().getTipo());
     }
+    
+
 
     @Test
     public void test_updateEspacios() {
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+    
         Long pisoId = 1L;
         PisoEntity updatedPiso = pisoRepository.findById(pisoId).orElse(null);
-        int capacidadEsperada = updatedPiso.getCapacidad() -1;
-        rest.postForObject("http://localhost:" + port + "/pisosRest/updateEspacios", pisoId, Void.class);
+        int capacidadEsperada = updatedPiso.getCapacidad() - 1;
+    
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<Long> requestEntity = new HttpEntity<>(pisoId, headers);
+    
+        rest.postForObject("http://localhost:" + port + "/pisosRest/updateEspacios", requestEntity, Void.class);
+    
         PisoEntity updatedPiso2 = pisoRepository.findById(pisoId).orElse(null);
-        int capacidadNueva= updatedPiso2.getCapacidad();
+        int capacidadNueva = updatedPiso2.getCapacidad();
+    
         assertEquals(capacidadEsperada, capacidadNueva);
     }
     
+    
+    
     @Test
     public void test_salirVehiculoPiso() {
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+    
         Long pisoId = 1L;
         PisoEntity updatedPiso = pisoRepository.findById(pisoId).orElse(null);
-        int capacidadEsperada = updatedPiso.getCapacidad() +1;
-        rest.postForObject("http://localhost:" + port + "/pisosRest/salirVehiculoPiso", pisoId, Void.class);
+        int capacidadEsperada = updatedPiso.getCapacidad() + 1;
+    
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<Long> requestEntity = new HttpEntity<>(pisoId, headers);
+    
+        rest.postForObject("http://localhost:" + port + "/pisosRest/salirVehiculoPiso", requestEntity, Void.class);
+    
         PisoEntity updatedPiso2 = pisoRepository.findById(pisoId).orElse(null);
-        int capacidadNueva= updatedPiso2.getCapacidad();
+        int capacidadNueva = updatedPiso2.getCapacidad();
+    
         assertEquals(capacidadEsperada, capacidadNueva);
     }
+    
 
 }

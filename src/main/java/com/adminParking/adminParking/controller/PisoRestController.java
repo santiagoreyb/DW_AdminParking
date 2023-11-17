@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
-import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,37 +20,34 @@ public class PisoRestController {
 
     @Autowired 
     VehiculoRepository vehiculoRepository;
-
-    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/getPisos")
-    @Secured({ "PORTERO" })
+    @Secured({ "ADMIN" })
     public List<PisoEntity> getAllTarifas() {
         return pisoRepository.findAll();
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @GetMapping("/{id}")
     public PisoEntity getPisoById(@PathVariable Long id) {
         return pisoRepository.findById(id).orElse(null);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @PostMapping("/")
     public PisoEntity createPiso(@RequestBody PisoEntity piso) {
         piso.setCapacidad(obtenerCapacidadTotalPorTipoDeVehiculo(piso));
         return pisoRepository.save(piso);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @PostMapping("/updateEspacios")
-    @Transactional
     public void updateEspacios(@RequestBody Long id) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
         piso.setCapacidad(piso.getCapacidad()-1);
         pisoRepository.save(piso);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @PostMapping("/salirVehiculoPiso")
     public void salirVehiculoPiso(@RequestBody Long id) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
@@ -70,15 +66,9 @@ public class PisoRestController {
         if(pisoDef != null){
             int capacidadTotal = obtenerCapacidadTotalPorTipoDeVehiculo(pisoDef);
 
-            // Obttiene la cantidad actual de vehículos estacionados en este piso
             int vehiculosEstacionados = pisoDef.getVehiculos().size();
-
-        // System.out.println(vehiculosEstacionados);
-
-            // Calcular los espacios disponibles restando los vehículos estacionados de la capacidad total
             espaciosDisponibles = capacidadTotal - vehiculosEstacionados;
 
-            // resultado no sea negativo
             if (espaciosDisponibles < 0) {
                 espaciosDisponibles = 0;
             }
@@ -123,19 +113,4 @@ public class PisoRestController {
     }
     
 }
-
-    
-    /*
-    @PutMapping("/{id}")
-    public PisoEntity updatePiso(@PathVariable Long id, @RequestBody PisoEntity piso) {
-        piso.setId(id);
-        return pisoRepository.save(piso);
-    }
-    */
-
-    /* 
-    @DeleteMapping("/{id}")
-    public void deletePiso(@PathVariable Long id) {
-        pisoRepository.deleteById(id);
-    }*/
 
