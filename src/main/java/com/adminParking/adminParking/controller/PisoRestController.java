@@ -1,6 +1,7 @@
 package com.adminParking.adminParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
@@ -23,6 +24,7 @@ public class PisoRestController {
 
     @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/getPisos")
+    @Secured({ "PORTERO" })
     public List<PisoEntity> getAllTarifas() {
         return pisoRepository.findAll();
     }

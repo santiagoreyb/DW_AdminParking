@@ -4,15 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.model.Role;
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
+import com.adminParking.adminParking.model.User;
 import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
+import com.adminParking.adminParking.repositories.UserRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 @Component
@@ -31,7 +34,11 @@ public class DBInitializer implements ApplicationRunner {
     @Autowired
     private TarifaRepository tarifaRepository; 
     
+    @Autowired
+    private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -67,6 +74,11 @@ public class DBInitializer implements ApplicationRunner {
         vehiculo.setTarifa(tarifaCarro);
         //piso.getVehiculos().add(vehiculo);
         vehiculoRepository.save(vehiculo);
+
+        userRepository.save(
+                new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.ADMIN));
+        userRepository.save(
+                new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.CONDUCTOR));
         
     }
 }
