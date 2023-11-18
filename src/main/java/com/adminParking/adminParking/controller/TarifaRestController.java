@@ -19,40 +19,22 @@ public class TarifaRestController {
     
     @Autowired
     private TarifaRepository tarifaRepository;
-
-
-    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/getTarifas")
     public List<TarifaEntity> getAllTarifas() {
         return tarifaRepository.findAll();
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
     @GetMapping("/{id}")
     public TarifaEntity getTarifaById(@PathVariable Long id) {
         return tarifaRepository.findById(id).orElse(null);
     }
-    /*
-    @GetMapping("/tipo/{tipoVehiculo}")
-    public TarifaEntity getTarifaByTipo(@PathVariable String tipoVehiculo) {
-        return tarifaRepository.findByTipoVehiculo(tipoVehiculo).orElse(null);
-    }
-    */
-    
-    /* 
-    @PostMapping("/")
-    public TarifaEntity createTarifa(@RequestBody TarifaEntity tarifa) {
-        return tarifaRepository.save(tarifa);
-    }*/
 
-    @CrossOrigin(origins =  "http://localhost:4200")
     @PutMapping("/{id}")
     public TarifaEntity updateTarifa(@PathVariable Long id, @RequestBody TarifaEntity tarifa) {
         tarifa.setId(id);
         return tarifaRepository.save(tarifa);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
     @DeleteMapping("/{id}")
     public void deleteTarifa(@PathVariable Long id) {
         tarifaRepository.deleteById(id);

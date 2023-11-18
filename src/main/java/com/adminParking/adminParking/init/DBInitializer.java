@@ -22,7 +22,7 @@ import com.adminParking.adminParking.repositories.UserRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 @Component
-@Profile({"integrationtest"})
+@Profile({"default"})
 public class DBInitializer implements ApplicationRunner {
 
     @Autowired
