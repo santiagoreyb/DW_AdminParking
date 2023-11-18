@@ -1,5 +1,8 @@
 package com.adminParking.adminParking.init;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -19,7 +22,7 @@ import com.adminParking.adminParking.repositories.UserRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
 @Component
-@Profile({"default"})
+@Profile({"integrationtest"})
 public class DBInitializer implements ApplicationRunner {
 
     @Autowired
@@ -69,7 +72,7 @@ public class DBInitializer implements ApplicationRunner {
         tarifaRepository.save(tarifaCarro);
         tarifaRepository.save(tarifaMoto);
 
-        VehiculoEntity vehiculo = new VehiculoEntity("10:00", "19:00","ERE202",tipo);
+        VehiculoEntity vehiculo = new VehiculoEntity(obtenerFechaYHoraActual(),"ERE202",tipo);
         vehiculo.setPiso(piso);
         vehiculo.setTarifa(tarifaCarro);
         //piso.getVehiculos().add(vehiculo);
@@ -80,5 +83,11 @@ public class DBInitializer implements ApplicationRunner {
         userRepository.save(
                 new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.CONDUCTOR));
         
+    }
+
+    public String obtenerFechaYHoraActual() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date now = new Date();
+        return formato.format(now);
     }
 }
