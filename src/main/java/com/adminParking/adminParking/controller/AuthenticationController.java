@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adminParking.adminParking.dto.JwtAuthenticationResponse;
 import com.adminParking.adminParking.dto.LoginDTO;
-import com.adminParking.adminParking.dto.UserRegistrationDTO;
 import com.adminParking.adminParking.service.AuthenticationService;
 
 @RestController
@@ -18,11 +17,6 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationService authenticationService;
-
-    @PostMapping("/signup")
-    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody UserRegistrationDTO request) {
-        return ResponseEntity.ok(authenticationService.signup(request));
-    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody LoginDTO request) {

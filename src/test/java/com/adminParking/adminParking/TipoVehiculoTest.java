@@ -23,10 +23,6 @@ public class TipoVehiculoTest {
 
     @Autowired
     TipoVehiculoRepository tipoVehiculoRepository ;
-
-    @Autowired
-    private TestRestTemplate rest;
-
     @BeforeEach
     void init() {
         TipoVehiculoEntity tipoVehiculoEntity = new TipoVehiculoEntity("Carro");
