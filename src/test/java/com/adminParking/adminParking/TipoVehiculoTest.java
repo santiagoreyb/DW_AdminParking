@@ -52,4 +52,13 @@ public class TipoVehiculoTest {
         assertEquals(null, listaTiposVehiculo);
     }
 
+    @Test
+    public void testGetTipoVehiculoById() {
+        Long tipoId = 1L; // Ajusta este ID según tu lógica
+        ResponseEntity<TipoVehiculoEntity> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/" + tipoId, TipoVehiculoEntity.class);
+        TipoVehiculoEntity IdTiposVehiculo = response.getBody();
+        LOGGER.info("Response Body: {}", IdTiposVehiculo);
+        assertEquals(null, IdTiposVehiculo);
+    }
+
 }
