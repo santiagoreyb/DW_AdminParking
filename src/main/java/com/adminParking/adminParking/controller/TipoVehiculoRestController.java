@@ -22,8 +22,7 @@ public class TipoVehiculoRestController {
     public List<TipoVehiculoEntity> getAllTarifas() {
         return tipoVehiculoRepository.findAll();
     }
-
-    @Secured({ "CONDUCTOR" })
+    
     @GetMapping("/{id}")
     public TipoVehiculoEntity getTipoById(@PathVariable Long id) {
         return tipoVehiculoRepository.findById(id).orElse(null);

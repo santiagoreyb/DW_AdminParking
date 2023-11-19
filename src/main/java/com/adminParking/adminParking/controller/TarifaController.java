@@ -15,7 +15,6 @@ import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,23 +118,6 @@ public class TarifaController {
         return ResponseEntity.ok("Espacios disponibles: " + espaciosDisponibles);
     }
 
-    @GetMapping("tarifas-espacios")
-    public String mostrarTarifas_Espacios(Model model){
-
-        List<PisoEntity> pisos = pisoRepository.findAll();
-
-        List<String> infoEspaciosPorPiso = new ArrayList<>();
-
-        for (PisoEntity piso : pisos) {
-            String infoPiso = "Piso ID: " + piso.getId() + ", Tipo de Vehículo: " + piso.getTipoVehiculo().getTipo() + ", Espacios Disponibles: " + piso.getCapacidad();
-            infoEspaciosPorPiso.add(infoPiso);
-        }
-
-        List<TarifaEntity> tarifas = tarifaRepository.findAll();
-        model.addAttribute("tarifas", tarifas);
-        model.addAttribute("infoEspaciosPorPiso", infoEspaciosPorPiso);
-        return "tarifas-espacios";
-    }
 
     public int calcularEspaciosDisponiblesT(Long id) {
         
@@ -147,9 +129,6 @@ public class TarifaController {
 
             // Obttiene la cantidad actual de vehículos estacionados en este piso
             int vehiculosEstacionados = pisoDef.getVehiculos().size();
-
-        // System.out.println(vehiculosEstacionados);
-
             // Calcular los espacios disponibles restando los vehículos estacionados de la capacidad total
             espaciosDisponibles = capacidadTotal - vehiculosEstacionados;
 

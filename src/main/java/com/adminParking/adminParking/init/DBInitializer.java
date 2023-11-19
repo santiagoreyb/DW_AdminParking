@@ -53,8 +53,6 @@ public class DBInitializer implements ApplicationRunner {
         PisoEntity piso = new PisoEntity("200",tipo);
         piso.setCapacidad(200/2);
         pisoRepository.save(piso);
-
-        // Añado otro piso para pruebas
         PisoEntity piso2 = new PisoEntity("300",tipo2);
         piso2.setCapacidad(300/2);
         pisoRepository.save(piso2);
@@ -75,13 +73,14 @@ public class DBInitializer implements ApplicationRunner {
         VehiculoEntity vehiculo = new VehiculoEntity(obtenerFechaYHoraActual(),"ERE202",tipo);
         vehiculo.setPiso(piso);
         vehiculo.setTarifa(tarifaCarro);
-        //piso.getVehiculos().add(vehiculo);
         vehiculoRepository.save(vehiculo);
 
         userRepository.save(
                 new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(
                 new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
+        userRepository.save(
+                new User("Pepito", "Perez", "pepito@perez.com", passwordEncoder.encode("pepito123"), Role.CONDUCTOR));
         
     }
 
