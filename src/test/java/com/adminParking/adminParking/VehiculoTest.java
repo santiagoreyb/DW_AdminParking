@@ -51,9 +51,11 @@ public class VehiculoTest {
         VehiculoEntity vehi = vehiculoRepository.findById(vehiculoId).orElse(null);
         assertEquals(null, vehi.getPiso());
     }
+
     public String obtenerFechaYHoraActual() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date now = new Date();
         return formato.format(now);
     }
+    
 }
