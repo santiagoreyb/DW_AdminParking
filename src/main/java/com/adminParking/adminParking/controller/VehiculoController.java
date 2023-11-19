@@ -22,6 +22,7 @@ import com.adminParking.adminParking.repositories.VehiculoRepository;
 @RestController
 @RequestMapping("/vehiculos")
 public class VehiculoController {
+
     @Autowired
     VehiculoRepository vehiculoRepository;
 
@@ -30,7 +31,6 @@ public class VehiculoController {
 
     @Autowired 
     TarifaRepository tarifaRepository; 
-
 
     @Secured({ "ADMIN", "PORTERO" })
     @GetMapping("/verVehiculos")

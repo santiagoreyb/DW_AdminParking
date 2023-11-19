@@ -107,5 +107,6 @@ public class VehiculoEntity {
 
     public TarifaEntity getTarifa() {
         return tarifa;
-    }  
+    }
+    
 }
