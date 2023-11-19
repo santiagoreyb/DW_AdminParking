@@ -21,12 +21,12 @@ public class PisoRestController {
     @Autowired 
     VehiculoRepository vehiculoRepository;
     @GetMapping("/getPisos")
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO", "CONDUCTOR" })
     public List<PisoEntity> getAllTarifas() {
         return pisoRepository.findAll();
     }
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @GetMapping("/{id}")
     public PisoEntity getPisoById(@PathVariable Long id) {
         return pisoRepository.findById(id).orElse(null);
@@ -39,7 +39,7 @@ public class PisoRestController {
         return pisoRepository.save(piso);
     }
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @PostMapping("/updateEspacios")
     public void updateEspacios(@RequestBody Long id) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
@@ -47,7 +47,7 @@ public class PisoRestController {
         pisoRepository.save(piso);
     }
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @PostMapping("/salirVehiculoPiso")
     public void salirVehiculoPiso(@RequestBody Long id) {
         PisoEntity piso = pisoRepository.findById(id).orElse(null);
@@ -57,16 +57,12 @@ public class PisoRestController {
     }
 
     public int calcularEspaciosDisponibles(Long id) {
-        
         int espaciosDisponibles = 0;
         PisoEntity pisoDef = pisoRepository.findById(id).orElse(null);
-
         if(pisoDef != null){
             int capacidadTotal = obtenerCapacidadTotalPorTipoDeVehiculo(pisoDef);
-
             int vehiculosEstacionados = pisoDef.getVehiculos().size();
             espaciosDisponibles = capacidadTotal - vehiculosEstacionados;
-
             if (espaciosDisponibles < 0) {
                 espaciosDisponibles = 0;
             }
@@ -79,13 +75,9 @@ public class PisoRestController {
 
         String tipoVehiculo = piso.getTipoVehiculo().getTipo();
         int areaPiso = Integer.parseInt(piso.getArea());
-
         int capacidadPorTipoYArea = obtenerCapacidadPorTipoYArea(tipoVehiculo);
-
         System.out.println("capacidadPorTipoYArea " + capacidadPorTipoYArea);
         System.out.println("areaPiso " + areaPiso);
-
-        //Area por capacidad por tipo de vehiculo
         return areaPiso * capacidadPorTipoYArea;
 
     }

@@ -132,9 +132,7 @@ public class PisoController {
         }
         return  "redirect:/pisos/borrarPiso";
     }
-
-
-    // Vista para actualizar un piso.
+    
     @GetMapping("/borrarPiso")
     public String borrarPiso(Model model){
         return "eliminarPiso";

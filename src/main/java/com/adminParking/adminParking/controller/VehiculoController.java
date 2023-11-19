@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,27 +32,24 @@ public class VehiculoController {
     TarifaRepository tarifaRepository; 
 
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @GetMapping("/verVehiculos")
     public List<VehiculoEntity> getAllVehiculos() {
         return vehiculoRepository.findAll();
     }
 
-    
-    
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @GetMapping("/{id}")
     public VehiculoEntity getVehiculoById(@PathVariable Long id) {
         return vehiculoRepository.findById(id).orElse(null);
     }
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @PostMapping("")
     public void createVehiculo(@RequestBody VehiculoEntity vehiculo) {
         vehiculoRepository.save(vehiculo);
     }
     
-
     @Secured({ "ADMIN" })
     @PutMapping("/{id}")
     public VehiculoEntity updateVehiculo(@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {
@@ -67,7 +63,7 @@ public class VehiculoController {
         vehiculoRepository.deleteById(id);
     }
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @GetMapping("/anadirVehiculo")
     public String showMenu(Model model){
         // Verificar si hay mensajes de error en el modelo
@@ -81,7 +77,7 @@ public class VehiculoController {
         return "anadirVehiculo";
     }
 
-    @Secured({ "ADMIN" })
+    @Secured({ "ADMIN", "PORTERO" })
     @PostMapping("/sacarVehiculoPiso")
     public void sacarVehiculoPiso(@RequestBody Long id) {
         VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);
