@@ -56,8 +56,6 @@ public class PisoRestController {
 
     }
 
-
-
     public int calcularEspaciosDisponibles(Long id) {
         
         int espaciosDisponibles = 0;
@@ -109,7 +107,6 @@ public class PisoRestController {
         // Aquí devolvemos -1 como valor predeterminado
         return -1;
         }
-
     }
     
 }

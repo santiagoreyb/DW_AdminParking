@@ -39,6 +39,13 @@
             this.tipoVehiculo = tipo;
         }
 
+        public VehiculoEntity(String tiempoLlegada, String placa, TipoVehiculoEntity tipo, PisoEntity piso) {
+            this.placa = placa; 
+            this.tiempoLlegada = tiempoLlegada;
+            this.tipoVehiculo = tipo;
+            this.piso = piso;
+        }
+
         public VehiculoEntity(String tiempoLlegada, String placa, TipoVehiculoEntity tipo) {
             this.placa = placa; 
             this.tiempoLlegada = tiempoLlegada;;

@@ -1,6 +1,7 @@
 package com.adminParking.adminParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,33 +29,20 @@ public class PisoController {
     @Autowired
     TipoVehiculoRepository tipoVehiculoRepository ;
 
+    @Secured({ "ADMIN" })
     @GetMapping("/recu")
     public List<PisoEntity> getAllPisos () {
         List<PisoEntity> pisos = pisoRepository.findAll();
         return pisos;
     }
 
+    @Secured({ "ADMIN" })
     @GetMapping("/{id}")
     public PisoEntity getPisoById(@PathVariable Long id) {
         return pisoRepository.findById(id).orElse(null);
     }
 
-    /* 
-    @PostMapping("/")
-    public PisoEntity createPiso(@RequestBody PisoEntity piso) {
-        //Obtiene el administrador único
-        AdministradorEntity administrador = administradorRepository.findById(333L).orElse(null);
-        
-        if(administrador == null){
-            System.out.println("Error encontrando el ID del administrador único");
-            return null; 
-        }
-
-        piso.setAdministrador(administrador);
-
-        return pisoRepository.save(piso);
-    }*/
-
+    @Secured({ "ADMIN" })
     @PostMapping("/")
     public String createPiso(@RequestParam("area") String area, @RequestParam("tipoVehiculo") String tipoVehiculo, @RequestParam("areaPorVehiculo") String areaPorVehiculo, RedirectAttributes redirectAttributes) {
         // Verificar si el tipo de vehículo existe en la base de datos
@@ -77,13 +65,13 @@ public class PisoController {
     }
     
 
-    // Vista Para añadir un piso.
+    @Secured({ "ADMIN" })
     @GetMapping("/anadirPiso")
     public String showMenu(Model model){
         return "crearPiso";
     }
 
-    //Actualizar piso
+    @Secured({ "ADMIN" })
     @PostMapping("/actu")
     public String updatePiso(
         @RequestParam("id") Long id,
@@ -118,26 +106,11 @@ public class PisoController {
     }
     
 
-    // Vista para actualizar un piso.
+    @Secured({ "ADMIN" })
     @GetMapping("/actualizarPiso")
     public String actualizarPiso(Model model){
         return "actualizarPiso";
     }
-
-    /*
-    @PutMapping("/{id}")
-    public PisoEntity updatePiso(@PathVariable Long id, @RequestBody PisoEntity piso) {
-        piso.setId(id);
-        return pisoRepository.save(piso);
-    }
-    */
-
-    /* 
-    @DeleteMapping("/{id}")
-    public void deletePiso(@PathVariable Long id) {
-        pisoRepository.deleteById(id);
-    }*/
-
 
     @PostMapping("/delPiso")
     public String deletePiso( @RequestParam("id") Long id, RedirectAttributes redirectAttributes) {

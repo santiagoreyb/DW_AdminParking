@@ -1,11 +1,13 @@
 package com.adminParking.adminParking;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,12 +41,10 @@ import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.UserRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
-import io.ous.jtoml.ParseException;
-
 @ActiveProfiles("integrationtest")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class SalidaVehiculoCobroTest {
+public class TarifasEspaciosTest {
     private ChromeDriver driver;
     private WebDriverWait wait;
 
@@ -93,23 +94,8 @@ public class SalidaVehiculoCobroTest {
         options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
 
         this.driver = new ChromeDriver(options);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         this.baseUrl = "http://localhost:4200";
-    }
-
-  
-
-    public String obtenerFechaFormateada(int dia, int mes, int anio, int hora, int minuto) {
-        Calendar calendario = Calendar.getInstance();
-        calendario.set(anio, mes - 1, dia, hora, minuto); // El mes se resta en 1 porque en Calendar, enero es 0
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        return formato.format(calendario.getTime());
-    }
-    
-    public String obtenerFechaYHoraActual() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date now = new Date();
-        return formato.format(now);
     }
 
     @AfterEach
@@ -137,22 +123,20 @@ public class SalidaVehiculoCobroTest {
         }
 	}
 
-    @Test
-    void verificarCobroTest() {
-        login();
-        driver.get(baseUrl + "/vehiculo/registrarSalida");
-        WebElement placa = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("placa")));
-        placa.sendKeys(Keys.BACK_SPACE);
-        placa.sendKeys("xxx");
-        WebElement btnCobro = driver.findElement(By.id("btnCobro"));
-        btnCobro.click();
-        String cobro = calcularTarifa(obtenerFechaFormateada(18, 11, 2023, 12, 0), obtenerFechaYHoraActual());
-        cobroDebeSer(cobro);
+    public String obtenerFechaFormateada(int dia, int mes, int anio, int hora, int minuto) {
+        Calendar calendario = Calendar.getInstance();
+        calendario.set(anio, mes - 1, dia, hora, minuto); // El mes se resta en 1 porque en Calendar, enero es 0
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return formato.format(calendario.getTime());
+    }
+    
+    public String obtenerFechaYHoraActual() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date now = new Date();
+        return formato.format(now);
     }
 
-    @Test
-    void verificarSalidaTest() {
-        login();
+    public void retirarVehiculo(){
         driver.get(baseUrl + "/vehiculo/registrarSalida");
         WebElement placa = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("placa")));
         placa.sendKeys(Keys.BACK_SPACE);
@@ -169,59 +153,62 @@ public class SalidaVehiculoCobroTest {
         }
     }
 
-    private void cobroDebeSer(String cobro) {
+    public void ingresarVehiculo(){
+        PisoEntity pi = pisoRepository.findById(1L).orElse(null);
+        pi.setCapacidad(pi.getCapacidad()-1);
+        pisoRepository.save(pi);
+    }
 
-        WebElement cobroFinal = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("cobroFinal")));
+    @Test
+    void verificarEspacios() {
+        login();
+        driver.get(baseUrl + "/tarifa/tarifas-espacios");
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("pisos"), 1));
+        List<WebElement> cuentas = driver.findElements(By.className("pisos"));
         try {
-            wait.until(ExpectedConditions.textToBePresentInElement(cobroFinal, cobro));
+            wait.until(ExpectedConditions.textToBePresentInElement(cuentas.get(0), "Carro: 2000 espacios disponibles"));
         } catch (TimeoutException e) {
-            fail("Could not find " + cobro + ", instead found " + cobroFinal.getText(), e);
+            fail("Could not find " + "Carro: 2000 espacios disponibles" + ", instead found " +cuentas.get(0).getText(), e);
         }
     }
-    
-    
-    public Date parsearFecha(String fechaStr) {
-        String[] partes = fechaStr.split(" ");
-        String fecha = partes[0];
-        String hora = partes[1];
-        String[] fechaArray = fecha.split("/");
-        String[] horaArray = hora.split(":");
 
-        int dia = Integer.parseInt(fechaArray[0]);
-        int mes = Integer.parseInt(fechaArray[1]) - 1; // El mes se resta en 1 porque en Calendar, enero es 0
-        int anio = Integer.parseInt(fechaArray[2]);
-        int horaStr = Integer.parseInt(horaArray[0]);
-        int minutoStr = Integer.parseInt(horaArray[1]);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(anio, mes, dia, horaStr, minutoStr);
-        return calendar.getTime();
-    }
-
-    public String calcularTarifa(String tiempoLlegada, String tiempoSalida) {
-        double cobroFinal = 0;
+    @Test
+    void verificarEspaciosDespuesDeIngresar() {
+        login();
+        ingresarVehiculo();
+        driver.get(baseUrl + "/tarifa/tarifas-espacios");
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("pisos"), 1));
+        List<WebElement> cuentas = driver.findElements(By.className("pisos"));
         try {
-            Date llegada = parsearFecha(tiempoLlegada);
-            Date salida = parsearFecha(tiempoSalida);
-            double tarifaMinuto = 900; // Ejemplo de tarifa por minuto
-    
-            System.out.println("Llegada: " + llegada);
-            System.out.println("Salida: " + salida);
-    
-            if (llegada != null && salida != null) {
-                long minutosTranscurridos = (salida.getTime() - llegada.getTime()) / (1000 * 60);
-                cobroFinal = minutosTranscurridos * tarifaMinuto;
-            } else {
-                System.out.println("La hora de llegada o la hora de salida no son válidas.");
-            }
-        } catch (ParseException e) {
-            System.out.println("Error al parsear la fecha: " + e.getMessage());
+            wait.until(ExpectedConditions.textToBePresentInElement(cuentas.get(0), "Carro: 1999 espacios disponibles"));
+        } catch (TimeoutException e) {
+            fail("Could not find " + "Carro: 1999 espacios disponibles" + ", instead found " +cuentas.get(0).getText(), e);
         }
-        // Formatear el resultado como moneda
-        return String.format("$%,.2f", cobroFinal).replace('.', '*').
-                replace(',', '.').replace('*', ',');
-
     }
-    
+
+    @Test
+    void verificarEspaciosDespuesDeRetirada() {
+        login();
+        retirarVehiculo();
+        driver.get(baseUrl + "/tarifa/tarifas-espacios");
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("pisos"), 1));
+        List<WebElement> cuentas = driver.findElements(By.className("pisos"));
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(cuentas.get(0), "Carro: 2001 espacios disponibles"));
+        } catch (TimeoutException e) {
+            fail("Could not find " + "Carro: 2001 espacios disponibles" + ", instead found " +cuentas.get(0).getText(), e);
+        }
+    }
+
+    @Test
+    void verificarTarifas() {
+        login();
+        driver.get(baseUrl + "/tarifa/tarifas-espacios");
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("tarifas"), 1));
+        List<WebElement> cuentas = driver.findElements(By.className("tarifas"));
+        assertEquals("Carro: $900 por minuto", cuentas.get(0).getText());
+    }
+
+
 
 }

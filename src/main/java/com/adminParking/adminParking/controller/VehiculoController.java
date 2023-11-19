@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +33,7 @@ public class VehiculoController {
     TarifaRepository tarifaRepository; 
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @GetMapping("/verVehiculos")
     public List<VehiculoEntity> getAllVehiculos() {
         return vehiculoRepository.findAll();
@@ -40,33 +41,33 @@ public class VehiculoController {
 
     
     
-    @CrossOrigin(origins = "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @GetMapping("/{id}")
     public VehiculoEntity getVehiculoById(@PathVariable Long id) {
         return vehiculoRepository.findById(id).orElse(null);
     }
 
-    //Rest
+    @Secured({ "ADMIN" })
     @PostMapping("")
     public void createVehiculo(@RequestBody VehiculoEntity vehiculo) {
         vehiculoRepository.save(vehiculo);
     }
     
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @PutMapping("/{id}")
     public VehiculoEntity updateVehiculo(@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {
         vehiculo.setId(id);
         return vehiculoRepository.save(vehiculo);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @DeleteMapping("/eliminarVehiculo/{id}")
     public void deleteVehiculo(@PathVariable Long id) {
         vehiculoRepository.deleteById(id);
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @GetMapping("/anadirVehiculo")
     public String showMenu(Model model){
         // Verificar si hay mensajes de error en el modelo
@@ -80,7 +81,7 @@ public class VehiculoController {
         return "anadirVehiculo";
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @PostMapping("/sacarVehiculoPiso")
     public void sacarVehiculoPiso(@RequestBody Long id) {
         VehiculoEntity vehiculo = vehiculoRepository.findById(id).orElse(null);

@@ -79,9 +79,9 @@ public class DBInitializer implements ApplicationRunner {
         vehiculoRepository.save(vehiculo);
 
         userRepository.save(
-                new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.ADMIN));
+                new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(
-                new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.CONDUCTOR));
+                new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
         
     }
 

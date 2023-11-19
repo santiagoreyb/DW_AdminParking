@@ -196,6 +196,7 @@ class PisoTest {
         HttpEntity<Long> requestEntity = new HttpEntity<>(pisoId, headers);
     
         rest.postForObject("http://localhost:" + port + "/pisosRest/salirVehiculoPiso", requestEntity, Void.class);
+        
     
         PisoEntity updatedPiso2 = pisoRepository.findById(pisoId).orElse(null);
         int capacidadNueva = updatedPiso2.getCapacidad();

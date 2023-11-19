@@ -2,6 +2,7 @@ package com.adminParking.adminParking.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +18,13 @@ public class TipoVehiculoRestController {
     @Autowired
     TipoVehiculoRepository tipoVehiculoRepository ;
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "ADMIN" })
     @GetMapping("/getTipos")
     public List<TipoVehiculoEntity> getAllTarifas() {
         return tipoVehiculoRepository.findAll();
     }
 
-    @CrossOrigin(origins =  "http://localhost:4200")
+    @Secured({ "CONDUCTOR" })
     @GetMapping("/{id}")
     public TipoVehiculoEntity getTipoById(@PathVariable Long id) {
         return tipoVehiculoRepository.findById(id).orElse(null);

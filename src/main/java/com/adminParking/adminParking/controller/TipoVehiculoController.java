@@ -4,6 +4,7 @@ package com.adminParking.adminParking.controller;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,12 +32,13 @@ public class TipoVehiculoController {
     @Autowired
     PisoRepository pisoRepository;
 
+    @Secured({ "CONDUCTOR" })
     @GetMapping ("/verTipos")
     public List<TipoVehiculoEntity> getAllTipos ( ) {
         return tipoVehiculoRepository.findAll();
     }
 
-    
+    @Secured({ "CONDUCTOR" })
     @GetMapping("/{id}")
     public TipoVehiculoEntity getTipoVehiculoById(@PathVariable Long id) {
         return tipoVehiculoRepository.findById(id).orElse(null);
@@ -47,6 +49,7 @@ public class TipoVehiculoController {
     public TipoVehiculoEntity createTipoVehiculo(@RequestBody TipoVehiculoEntity tipo) {
         return tipoVehiculoRepository.save(tipo);
     }*/
+    @Secured({ "CONDUCTOR" })
     @PostMapping("/")
     public String createTipoVehiculo(
         @RequestParam("tipoVehiculo") String tipo,
@@ -67,6 +70,7 @@ public class TipoVehiculoController {
         return "redirect:/tiposvehiculo/anadirTipo"; // Redirige de nuevo al formulario de creación
     }
     
+    @Secured({ "CONDUCTOR" })
     @PostMapping("/deleteTipo")
     public String deleteTipo(@RequestParam("tipo") Long tipoId, RedirectAttributes redirectAttributes) {
         TipoVehiculoEntity tipoVehiculo = tipoVehiculoRepository.findById(tipoId).orElse(null);
@@ -87,7 +91,8 @@ public class TipoVehiculoController {
         return "redirect:/tiposvehiculo/borrar";
     }
 
-    // Vista para actualizar un tipo.
+
+    @Secured({ "CONDUCTOR" })
     @GetMapping("/borrar")
     public String borrarTipo(Model model) {
         List<TipoVehiculoEntity> tipos = tipoVehiculoRepository.findAll();
@@ -95,7 +100,7 @@ public class TipoVehiculoController {
         return "eliminarTipo";
     }
 
-    //Vista Para añadir una tarifa
+    @Secured({ "CONDUCTOR" })
     @GetMapping("/anadirTipo")
     public String showMenu(Model model){
 
@@ -107,12 +112,14 @@ public class TipoVehiculoController {
         return "crearTipoVehiculo";
     }
 
+    @Secured({ "CONDUCTOR" })
     @PutMapping("/{id}")
     public TipoVehiculoEntity updateTipo(@PathVariable Long id, @RequestBody TipoVehiculoEntity tipo) {
         tipo.setId(id);
         return tipoVehiculoRepository.save(tipo);
     }
 
+    @Secured({ "CONDUCTOR" })
     @DeleteMapping("/{id}")
     public void deleteTipo(@PathVariable Long id) {
         tipoVehiculoRepository.deleteById(id);
