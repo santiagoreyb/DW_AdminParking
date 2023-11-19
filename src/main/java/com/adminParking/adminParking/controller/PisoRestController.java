@@ -17,7 +17,6 @@ public class PisoRestController {
     @Autowired
     PisoRepository pisoRepository;
 
-
     @Autowired 
     VehiculoRepository vehiculoRepository;
     @GetMapping("/getPisos")
