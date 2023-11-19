@@ -29,6 +29,9 @@ public class VehiculoTest {
 
     @Autowired
     VehiculoRepository vehiculoRepository;
+
+    @Autowired
+    private TestRestTemplate rest;
     
     @Autowired
     TipoVehiculoRepository tipoRepository;
@@ -40,9 +43,6 @@ public class VehiculoTest {
         VehiculoEntity vehiculo = new VehiculoEntity(obtenerFechaYHoraActual(), obtenerFechaYHoraActual(),"xxx", tipo);
         vehiculoRepository.save(vehiculo);
     }
-
-    @Autowired
-    private TestRestTemplate rest;
 
     @Test
     public void test_sacarVehiculoPiso() {

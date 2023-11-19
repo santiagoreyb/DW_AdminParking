@@ -54,7 +54,7 @@ public class TipoVehiculoTest {
 
     @Test
     public void testGetTipoVehiculoById() {
-        Long tipoId = 1L; // Ajusta este ID según tu lógica
+        Long tipoId = 1L ;
         ResponseEntity<TipoVehiculoEntity> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/" + tipoId, TipoVehiculoEntity.class);
         TipoVehiculoEntity IdTiposVehiculo = response.getBody();
         LOGGER.info("Response Body: {}", IdTiposVehiculo);
