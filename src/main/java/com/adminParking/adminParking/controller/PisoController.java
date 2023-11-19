@@ -112,6 +112,7 @@ public class PisoController {
         return "actualizarPiso";
     }
 
+    @Secured({ "ADMIN" })
     @PostMapping("/delPiso")
     public String deletePiso( @RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
 
@@ -132,7 +133,7 @@ public class PisoController {
         }
         return  "redirect:/pisos/borrarPiso";
     }
-    
+
     @GetMapping("/borrarPiso")
     public String borrarPiso(Model model){
         return "eliminarPiso";
