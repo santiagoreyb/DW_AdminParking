@@ -3,8 +3,13 @@ package com.adminParking.adminParking.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.adminParking.adminParking.model.PisoEntity;
+import com.adminParking.adminParking.model.TipoVehiculoEntity;
+import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
+import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +24,10 @@ public class PisoRestController {
 
     @Autowired 
     VehiculoRepository vehiculoRepository;
+
+    @Autowired
+    TipoVehiculoRepository tipoVehiculoRepository ;
+
     @GetMapping("/getPisos")
     @Secured({ "ADMIN", "PORTERO", "CONDUCTOR" })
     public List<PisoEntity> getAllTarifas() {
@@ -32,7 +41,7 @@ public class PisoRestController {
     }
 
     @Secured({ "ADMIN" })
-    @PostMapping("/")
+    @PostMapping("/createPiso")
     public PisoEntity createPiso(@RequestBody PisoEntity piso) {
         piso.setCapacidad(obtenerCapacidadTotalPorTipoDeVehiculo(piso));
         return pisoRepository.save(piso);
@@ -53,6 +62,32 @@ public class PisoRestController {
         piso.setCapacidad(piso.getCapacidad()+1);
         pisoRepository.save(piso);
 
+    }
+
+    @Secured({ "ADMIN" })
+    @PostMapping("/actu")
+    public PisoEntity updatePiso(@RequestBody PisoEntity pisoo) {
+        PisoEntity piso = pisoRepository.findById(pisoo.getId()).orElse(null);
+        
+        if (piso != null) {
+            // Verificar si el tipo de vehículo existe en la base de datos
+            TipoVehiculoEntity tipo = tipoVehiculoRepository.findByTipo(pisoo.getTipoVehiculo().getTipo()).orElse(null);
+            if (tipo != null) {
+                piso.setArea(pisoo.getArea());
+                piso.setTipoVehiculo(tipo);
+                piso.setCapacidad(pisoo.getCapacidad());
+                
+            } 
+        }
+        return pisoRepository.save(piso);
+    }
+
+    @Secured({ "ADMIN" })
+    @PostMapping("/delete")
+    public void deletePiso(@RequestBody PisoEntity pisoo) {
+        Long id = pisoo.getId();
+        pisoRepository.deleteById(id);
+            
     }
 
     public int calcularEspaciosDisponibles(Long id) {
@@ -95,8 +130,8 @@ public class PisoRestController {
         if (capacidad != null) {
             return capacidad;
         } else {
-        // Aquí devolvemos -1 como valor predeterminado
-        return -1;
+            // Aquí devolvemos -1 como valor predeterminado
+            return -1;
         }
     }
     

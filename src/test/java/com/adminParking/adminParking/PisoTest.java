@@ -69,7 +69,6 @@ class PisoTest {
     }
 
     private JwtAuthenticationResponse login(String email, String password) {
-
 		RequestEntity<LoginDTO> request = RequestEntity.post("http://localhost:" + port + "/auth/login")
 				.body(new LoginDTO(email, password));
 		ResponseEntity<JwtAuthenticationResponse> jwtResponse = rest.exchange(request, JwtAuthenticationResponse.class);
