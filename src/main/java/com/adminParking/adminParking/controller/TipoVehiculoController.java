@@ -79,7 +79,7 @@ public class TipoVehiculoController {
             redirectAttributes.addFlashAttribute("error", "Tipo de vehículo no encontrado");
         } else {
             List<PisoEntity> pisosConTipo = pisoRepository.findByTipoVehiculo(tipoVehiculo);
-            
+
             if (!pisosConTipo.isEmpty()) {
                 redirectAttributes.addFlashAttribute("mensaje", "Existen pisos con este tipo de vehículo. Elimine los pisos primero.");
             } else {

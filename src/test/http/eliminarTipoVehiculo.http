@@ -1,0 +1,2 @@
+DELETE http://localhost:8080/tiposvehiculoRest/deleteTipoVehiculo/{id}
+GET http://localhost:8080/tiposvehiculoRest/getPisosByTipoVehiculo/{id}
