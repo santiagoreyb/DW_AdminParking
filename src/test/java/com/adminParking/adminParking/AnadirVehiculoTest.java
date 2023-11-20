@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.time.Duration;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -86,7 +88,7 @@ public class AnadirVehiculoTest {
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        //options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+        options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
         //options.setBinary("C:\\Users\\kevin\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -125,25 +127,34 @@ public class AnadirVehiculoTest {
         tipoVehiculoSelect.selectByVisibleText("Carro");
 
         // Esperar a que el elemento idPiso sea interactivo después de seleccionar el tipo de vehículo
-        WebElement idPisoDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.id("idPiso")));
-
-        // Seleccionar un piso
-        Select idPisoSelect = new Select(idPisoDropdown);
-        // Esperar a que las opciones del idPiso estén presentes
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//select[@id='idPiso']/option")));
-        // Seleccionar la segunda opción (ajustar el índice según sea necesario)
-        idPisoSelect.selectByIndex(0);
-        // Verificar la opción seleccionada
-        WebElement selectedOption = idPisoSelect.getFirstSelectedOption();
-        System.out.println("Selected option in idPiso dropdown: " + selectedOption.getText());
-        // Ingresar el valor de la placa
         WebElement placaInput = driver.findElement(By.id("placa"));
         placaInput.sendKeys("EMR040");
+
+
+        // Aumenta el tiempo de espera si es necesario
+        WebElement idPisoDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.id("idPiso")));
+        Select idPisoSelect = new Select(idPisoDropdown);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[contains(text(),'ID del piso: 1 - Espacios disponibles: 2000')]")));
+
+        idPisoSelect.selectByVisibleText("ID del piso: 1 - Espacios disponibles: 2000");
         // Hacer clic en el botón de submit
         WebElement submitButton = driver.findElement(By.id("btnIngresar"));
+        idPisoSelect.selectByIndex(1);
         submitButton.click();
+        
+        WebElement AvisoFinal = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("mensaje")));
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(AvisoFinal, "El vehículo se guardó correctamente."));
+        } catch (TimeoutException e) {
+            fail("Could not find " + "El vehículo se guardó correctamente." + ", instead found " + AvisoFinal.getText(), e);
+        }
+        
     }
 
-    
+    @AfterEach
+    void end() {
+        // driver.close();
+        driver.quit();
+    }
 
 }
