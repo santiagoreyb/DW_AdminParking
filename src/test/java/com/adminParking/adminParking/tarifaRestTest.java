@@ -3,6 +3,8 @@ package com.adminParking.adminParking;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
+
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,28 +91,88 @@ public class tarifaRestTest {
 		return body;
 	}
 
+
     @Test
-    public void test_deleteTarifa() {
+    public void testGetAllTarifas() {
         JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
         HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-        restTemplate.delete("http://localhost:" + port + "/tarifasRest/", 1);
+
+        ResponseEntity<List> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/getTarifas",
+                HttpMethod.GET,
+                requestEntity,
+                List.class
+        );
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
     }
 
-    // @Test
-    // public void testUpdateTarifa() {
-    //     Long id = 1L; 
+    @Test
+    public void testGetTarifaById() {
+        Long id = 1L;
 
-    //     TarifaEntity tarifa = new TarifaEntity(); // Ajusta según tus necesidades
-    //     ResponseEntity<TarifaEntity> response = restTemplate.exchange(
-    //             "http://localhost:" + port + "/tarifasRest/" + id,
-    //             HttpMethod.PUT,
-    //             new HttpEntity<>(tarifa),
-    //             TarifaEntity.class
-    //     );
-    //     assertEquals(HttpStatus.OK, response.getStatusCode());
-    //     assertNotNull(response.getBody());
-    // }
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<TarifaEntity> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/" + id,
+                HttpMethod.GET,
+                requestEntity,
+                TarifaEntity.class
+        );
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+    }
+
+
+    @Test
+    public void testDeleteTarifa() {
+        Long id = 1L;
+
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        
+        System.out.println("User roles: " + bob.getRole()); 
+        
+        ResponseEntity<Void> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/" + id,
+                HttpMethod.DELETE,
+                new HttpEntity<>(headers),
+                Void.class
+        );
+        
+        System.out.println("Response status code: " + response.getStatusCodeValue()); 
+        
+        assertEquals(200, response.getStatusCodeValue());
+    }
+
+
+
+    @Test
+    public void testUpdateTarifa() {
+        Long id = 1L;
+        TarifaEntity existingTarifa = tarifaRepository.findById(id).orElse(null);
+
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        
+        ResponseEntity<TarifaEntity> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/" + id,
+                HttpMethod.PUT,
+                new HttpEntity<>(existingTarifa, headers),
+                TarifaEntity.class
+        );
+        assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+    }
+
 
 }

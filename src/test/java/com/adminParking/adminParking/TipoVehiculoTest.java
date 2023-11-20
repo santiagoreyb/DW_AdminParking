@@ -2,9 +2,12 @@
 package com.adminParking.adminParking;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,7 +93,6 @@ public class TipoVehiculoTest {
 
     @Test
     public void testGetTipoVehiculoById() {
-
         JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
@@ -101,6 +104,64 @@ public class TipoVehiculoTest {
         LOGGER.info("Response Body: {}", IdTiposVehiculo);
         assertEquals(null, IdTiposVehiculo);
 
+    }
+
+
+    @Test
+    public void testCreateTipoVehiculo() {
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        String tipoNombre = "Motoneta";
+        HttpEntity<String> requestEntity = new HttpEntity<>(tipoNombre, headers);
+
+        ResponseEntity<Void> response = restTemplate.postForEntity(
+                "http://localhost:" + port + "/tiposvehiculoRest/anadirTipoVehiculo",
+                requestEntity,
+                Void.class
+        );
+
+        assertEquals(200, response.getStatusCodeValue());
+
+        // Retrieve the created TipoVehiculoEntity
+        Optional<TipoVehiculoEntity> createdTipoVehiculoOptional = tipoVehiculoRepository.findByTipo(tipoNombre);
+        assertTrue(createdTipoVehiculoOptional.isPresent());
+
+        // Now you can get the TipoVehiculoEntity from the Optional
+        TipoVehiculoEntity createdTipoVehiculo = createdTipoVehiculoOptional.get();
+        assertNotNull(createdTipoVehiculo);
+        assertEquals(tipoNombre, createdTipoVehiculo.getTipo());
+    }
+
+
+    @Test
+    public void testDeleteTipoVehiculo() {
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+
+        TipoVehiculoEntity tipoVehiculoToDelete = new TipoVehiculoEntity("TipoToDelete");
+        tipoVehiculoRepository.save(tipoVehiculoToDelete);
+
+        Long tipoIdToDelete = tipoVehiculoToDelete.getId();
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<Void> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tiposvehiculoRest/deleteTipoVehiculo/" + tipoIdToDelete,
+                HttpMethod.DELETE,
+                requestEntity,
+                Void.class
+        );
+
+        assertEquals(200, response.getStatusCodeValue());
+
+        Optional<TipoVehiculoEntity> deletedTipoVehiculoOptional = tipoVehiculoRepository.findById(tipoIdToDelete);
+        assertFalse(deletedTipoVehiculoOptional.isPresent());
     }
 
 }
