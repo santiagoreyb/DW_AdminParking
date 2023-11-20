@@ -23,7 +23,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.adminParking.adminParking.controller.TarifaController;
 import com.adminParking.adminParking.dto.JwtAuthenticationResponse;
 import com.adminParking.adminParking.dto.LoginDTO;
 import com.adminParking.adminParking.model.PisoEntity;
@@ -31,7 +30,6 @@ import com.adminParking.adminParking.model.Role;
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.model.User;
-import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;

@@ -90,8 +90,8 @@ public class SalidaVehiculoCobroTest {
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        //options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
-        options.setBinary("C:\\Users\\kevin\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+        options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+        //options.setBinary("C:\\Users\\kevin\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         this.baseUrl = "http://localhost:4200";

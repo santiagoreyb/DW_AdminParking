@@ -3,7 +3,6 @@ package com.adminParking.adminParking;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.Duration;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -25,8 +23,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import com.adminParking.adminParking.model.PisoEntity;
@@ -34,7 +30,6 @@ import com.adminParking.adminParking.model.Role;
 import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.model.User;
-import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
 import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;

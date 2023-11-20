@@ -2,11 +2,7 @@ package com.adminParking.adminParking;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,17 +25,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.Role;
-import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.model.User;
-import com.adminParking.adminParking.model.VehiculoEntity;
 import com.adminParking.adminParking.repositories.PisoRepository;
-import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.UserRepository;
-import com.adminParking.adminParking.repositories.VehiculoRepository;
-
-import io.ous.jtoml.ParseException;
 
 @ActiveProfiles("integrationtest")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -79,7 +69,7 @@ public class CrudPisosTest {
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        // options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+        options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
 
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
