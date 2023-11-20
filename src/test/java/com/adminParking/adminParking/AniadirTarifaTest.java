@@ -1,9 +1,9 @@
+
 package com.adminParking.adminParking;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -155,23 +155,6 @@ public class AniadirTarifaTest {
         }
 
         assertTrue(respuesta);
-
-        /*
-        // Analizar el resultado para obtener el número de espacios disponibles
-        String resultadoTexto = resultadoEspaciosDisponibles.getText();
-        int espaciosDisponibles = Integer.parseInt(resultadoTexto.split(": ")[1]);
-        
-        // Obtener el piso correspondiente para verificar la lógica
-        
-        // Calcular manualmente los espacios disponibles para comparar
-        int vehiculosEstacionados = piso.getVehiculos().size();
-        int espaciosCalculados = capacidadTotal - vehiculosEstacionados;
-        if (espaciosCalculados < 0) {
-            espaciosCalculados = 0;
-        }
-        
-        assertEquals(espaciosCalculados, espaciosDisponibles);
-        */
         
     }
     
