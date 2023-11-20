@@ -11,8 +11,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -82,7 +80,6 @@ public class TipoVehiculoTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
-        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<List> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/getTipos", List.class);
         List<TipoVehiculoEntity> listaTiposVehiculo = response.getBody();
         assertEquals(null, listaTiposVehiculo);
