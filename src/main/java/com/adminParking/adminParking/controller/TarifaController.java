@@ -115,7 +115,7 @@ public class TarifaController {
 
         int espaciosDisponibles = calcularEspaciosDisponiblesT(id);
 
-        return ResponseEntity.ok("Espacios disponibles: " + espaciosDisponibles);
+    return ResponseEntity.ok("Espacios disponibles: " + espaciosDisponibles);
     }
 
 
@@ -138,7 +138,7 @@ public class TarifaController {
             }
         }
 
-        return espaciosDisponibles;
+    return espaciosDisponibles;
     }
 
     private int obtenerCapacidadTotalPorTipoDeVehiculo(PisoEntity piso) {
@@ -157,6 +157,7 @@ public class TarifaController {
     }
 
     private int obtenerCapacidadPorTipoYArea(String tipoVehiculo){
+
         Map<String, Integer> capacidadPorTipoYArea = new HashMap<>();
         capacidadPorTipoYArea.put("Carro", 2); // 2 automóviles por metro cuadrado
         capacidadPorTipoYArea.put("Moto", 3); // 3 metros por metro cuadrado
@@ -170,8 +171,8 @@ public class TarifaController {
         if (capacidad != null) {
             return capacidad;
         } else {
-        // Aquí devolvemos -1 como valor predeterminado
-        return -1;
+            // Aquí devolvemos -1 como valor predeterminado
+            return -1;
         }
 
     }

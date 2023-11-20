@@ -41,9 +41,6 @@ public class AniadirTarifaTest {
     private WebDriverWait wait;
     
     @Autowired
-    PisoRepository pisoRepository;
-
-    @Autowired
     TipoVehiculoRepository tipoRepository;
 
     @Autowired
@@ -60,16 +57,17 @@ public class AniadirTarifaTest {
         userRepository.save(new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
 
-        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
+        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Bus");
         tipoRepository.save(tipo);
-        PisoEntity piso = new PisoEntity("2000", tipo, 2000);
-        pisoRepository.save(piso);
 
         ChromeOptions options = new ChromeOptions();
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
+<<<<<<< HEAD
         options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+=======
+>>>>>>> 85cbe003484a4810d09470892e506e1aa5c53fc6
 
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -105,7 +103,7 @@ public class AniadirTarifaTest {
 	}
 
     @Test
-    void createTarifaTest() {
+    void test_createTarifa ( ) {
 
         login();
     
@@ -114,7 +112,7 @@ public class AniadirTarifaTest {
         WebElement tipoVehiculoInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tipoVehiculo")));
         WebElement tarifaPorMinutoInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tarifaPorMinuto")));
     
-        tipoVehiculoInput.sendKeys("Carro");
+        tipoVehiculoInput.sendKeys("Bus");
         tarifaPorMinutoInput.sendKeys("200");
     
         WebElement btnCrearTarifa = driver.findElement(By.className("botoon"));
@@ -122,7 +120,14 @@ public class AniadirTarifaTest {
     
         WebElement AvisoFinal = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("mensaje")));
         try {
+<<<<<<< HEAD
             wait.until(ExpectedConditions.textToBePresentInElement(AvisoFinal, "Tarifa creada exitosamente"));
+=======
+            WebElement mensajeExito = wait.until (
+                ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(),'Se guardó la tarifa correctamente.')]"))
+            );
+            assertNotNull(mensajeExito);
+>>>>>>> 85cbe003484a4810d09470892e506e1aa5c53fc6
         } catch (TimeoutException e) {
             fail("Could not find " + "Tarifa creada exitosamente" + ", instead found " + AvisoFinal.getText(), e);
         }
