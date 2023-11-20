@@ -14,6 +14,7 @@ import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 @RestController
 @RequestMapping("/tiposvehiculoRest")
 public class TipoVehiculoRestController {
+    
 
     @Autowired
     TipoVehiculoRepository tipoVehiculoRepository;

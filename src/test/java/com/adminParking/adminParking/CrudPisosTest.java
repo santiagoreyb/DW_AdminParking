@@ -219,8 +219,8 @@ public class CrudPisosTest {
         } catch (TimeoutException e) {
             fail("La eliminación del piso no se completó correctamente.", e);
         }
+    
     }
     
-
 
 }
