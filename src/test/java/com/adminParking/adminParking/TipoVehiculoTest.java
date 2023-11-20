@@ -80,7 +80,6 @@ public class TipoVehiculoTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
-        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<List> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/getTipos", List.class);
         List<TipoVehiculoEntity> listaTiposVehiculo = response.getBody();
         assertEquals(null, listaTiposVehiculo);
