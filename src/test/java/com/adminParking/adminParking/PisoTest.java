@@ -61,8 +61,6 @@ class PisoTest {
             new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(
             new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
-
-
         TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
         tipoRepository.save(tipo);
         pisoRepository.save(new PisoEntity("2000", tipo, 2000));
@@ -134,7 +132,6 @@ class PisoTest {
     public void test_createPiso() {
         // Simular el inicio de sesión para obtener el token JWT
         JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
-    
         TipoVehiculoEntity tipo = new TipoVehiculoEntity("Moto");
         tipo = tipoRepository.save(tipo); // Guarda el tipo de vehículo y obtiene el ID generado
     
@@ -179,9 +176,6 @@ class PisoTest {
     
         assertEquals(capacidadEsperada, capacidadNueva);
     }
-    
-    
-    
     @Test
     public void test_salirVehiculoPiso() {
         JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
@@ -196,12 +190,9 @@ class PisoTest {
     
         rest.postForObject("http://localhost:" + port + "/pisosRest/salirVehiculoPiso", requestEntity, Void.class);
         
-    
         PisoEntity updatedPiso2 = pisoRepository.findById(pisoId).orElse(null);
         int capacidadNueva = updatedPiso2.getCapacidad();
     
         assertEquals(capacidadEsperada, capacidadNueva);
     }
-    
-
 }
