@@ -66,6 +66,7 @@ public class CrudPisosTest {
 
     @BeforeEach
     void init() {
+        
         userRepository.save(new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
 
@@ -78,11 +79,12 @@ public class CrudPisosTest {
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+        // options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
 
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         this.baseUrl = "http://localhost:4200";
+
     }
 
     @AfterEach
@@ -92,6 +94,7 @@ public class CrudPisosTest {
     }
 
     void login() {
+
         String email = "bob@bob.com";
         String password = "bob123";
         driver.get(baseUrl + "/login");
@@ -108,6 +111,7 @@ public class CrudPisosTest {
         } catch (TimeoutException e) {
             fail("Could not find the expected URL: http://localhost:4200/vehiculo/anadirVehiculo", e);
         }
+
 	}
 
     @Test
@@ -115,7 +119,7 @@ public class CrudPisosTest {
 
         login();
 
-        driver.get(baseUrl + "/pisos/anadirPiso");
+        driver.get(baseUrl + "/piso/anadirPiso");
 
         WebElement areaInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("area")));
         WebElement tipoVehiculoInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tipoVehiculo")));
@@ -134,6 +138,8 @@ public class CrudPisosTest {
         } catch (TimeoutException e) {
             fail("La creación del piso no se completó correctamente.", e);
         }
+
+        driver.close();
     
     }
 
