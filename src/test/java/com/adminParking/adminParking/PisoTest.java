@@ -128,7 +128,7 @@ class PisoTest {
         assertEquals(2000, result.getCapacidad());
     }
 
-    /* 
+
     @Test
     public void test_createPiso() {
         // Simular el inicio de sesión para obtener el token JWT
@@ -141,7 +141,7 @@ class PisoTest {
         HttpEntity<PisoEntity> requestEntity = new HttpEntity<>(new PisoEntity("3000", tipo), headers);
     
         ResponseEntity<PisoEntity> responseEntity = rest.exchange(
-                "http://localhost:" + port + "/pisosRest/",
+                "http://localhost:" + port + "/pisosRest/createPiso",
                 HttpMethod.POST,
                 requestEntity,
                 PisoEntity.class
@@ -150,12 +150,11 @@ class PisoTest {
         //assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     
         PisoEntity createdPiso = responseEntity.getBody();
-        assertNotNull(createdPiso); // Verifica que el PisoEntity creado no sea nulo
     
         assertEquals("3000", createdPiso.getArea());
         assertEquals("Moto", createdPiso.getTipoVehiculo().getTipo());
     }
-    */
+
 
 
     @Test
