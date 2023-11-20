@@ -45,7 +45,6 @@ public class DBInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
         TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
         TipoVehiculoEntity tipo2 = new TipoVehiculoEntity("Moto");
         tipoVehiculoRepository.save(tipo);

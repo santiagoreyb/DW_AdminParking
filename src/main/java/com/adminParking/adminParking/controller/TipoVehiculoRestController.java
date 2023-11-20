@@ -55,6 +55,4 @@ public class TipoVehiculoRestController {
         List<PisoEntity> pisosConTipo = pisoRepository.findByTipoVehiculo(tipoVehiculo);
         return pisosConTipo;
     }
-
-
 }

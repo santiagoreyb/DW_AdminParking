@@ -1,18 +1,13 @@
-
 package com.adminParking.adminParking;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -28,22 +23,28 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.adminParking.adminParking.controller.TarifaController;
 import com.adminParking.adminParking.dto.JwtAuthenticationResponse;
 import com.adminParking.adminParking.dto.LoginDTO;
+import com.adminParking.adminParking.model.PisoEntity;
 import com.adminParking.adminParking.model.Role;
+import com.adminParking.adminParking.model.TarifaEntity;
 import com.adminParking.adminParking.model.TipoVehiculoEntity;
 import com.adminParking.adminParking.model.User;
+import com.adminParking.adminParking.model.VehiculoEntity;
+import com.adminParking.adminParking.repositories.PisoRepository;
+import com.adminParking.adminParking.repositories.TarifaRepository;
 import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.UserRepository;
+import com.adminParking.adminParking.repositories.VehiculoRepository;
 
-// mvn test -Dtest=TipoVehiculoTests
 @ActiveProfiles("integrationtest")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class TipoVehiculoTest {
-
+public class tarifaRestTest {
+    
     @LocalServerPort
-    private int port ;
+    private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -55,14 +56,30 @@ public class TipoVehiculoTest {
 	private PasswordEncoder passwordEncoder;
 
     @Autowired
-    TipoVehiculoRepository tipoVehiculoRepository ;
+	private PisoRepository pisoRepository;
 
-    @BeforeEach
+    @Autowired
+    VehiculoRepository vehiculoRepository;
+    
+    @Autowired
+    TipoVehiculoRepository tipoRepository;
+
+     @Autowired
+    TarifaRepository tarifaRepository;
+
+
+     @BeforeEach
     void init() {
         userRepository.save(new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
-        TipoVehiculoEntity tipoVehiculoEntity = new TipoVehiculoEntity("Carro");
-        tipoVehiculoRepository.save ( tipoVehiculoEntity ) ;
+        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Moto");
+        tipoRepository.save(tipo);
+        PisoEntity piso = new PisoEntity("2000", tipo, 2000);
+        pisoRepository.save(piso);
+        TarifaEntity tarifaCarro = new TarifaEntity();
+        tarifaCarro.setTipoVehiculo(tipo);
+        tarifaCarro.setTarifaPorMinuto(900);
+        tarifaRepository.save(tarifaCarro);
     }
 
     private JwtAuthenticationResponse login(String email, String password) {
@@ -76,86 +93,86 @@ public class TipoVehiculoTest {
 
 
     @Test
-    public void test_getAllTarifas ( ) {
-
+    public void testGetAllTarifas() {
         JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
-
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
         HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<List> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/getTipos", List.class);
-        List<TipoVehiculoEntity> listaTiposVehiculo = response.getBody();
-        assertEquals(null, listaTiposVehiculo);
 
-    }
-
-    @Test
-    public void testGetTipoVehiculoById() {
-        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
-        Long tipoId = 1L ;
-        ResponseEntity<TipoVehiculoEntity> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/" + tipoId, TipoVehiculoEntity.class);
-        TipoVehiculoEntity IdTiposVehiculo = response.getBody();
-        assertEquals(null, IdTiposVehiculo);
-    }
-
-
-    @Test
-    public void testCreateTipoVehiculo() {
-        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
-        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
-
-        String tipoNombre = "Motoneta";
-        HttpEntity<String> requestEntity = new HttpEntity<>(tipoNombre, headers);
-
-        ResponseEntity<Void> response = restTemplate.postForEntity(
-                "http://localhost:" + port + "/tiposvehiculoRest/anadirTipoVehiculo",
+        ResponseEntity<List> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/getTarifas",
+                HttpMethod.GET,
                 requestEntity,
-                Void.class
+                List.class
         );
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+    }
 
-        // Retrieve the created TipoVehiculoEntity
-        Optional<TipoVehiculoEntity> createdTipoVehiculoOptional = tipoVehiculoRepository.findByTipo(tipoNombre);
-        assertTrue(createdTipoVehiculoOptional.isPresent());
+    @Test
+    public void testGetTarifaById() {
+        Long id = 1L;
 
-        // Now you can get the TipoVehiculoEntity from the Optional
-        TipoVehiculoEntity createdTipoVehiculo = createdTipoVehiculoOptional.get();
-        assertNotNull(createdTipoVehiculo);
-        assertEquals(tipoNombre, createdTipoVehiculo.getTipo());
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<TarifaEntity> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/" + id,
+                HttpMethod.GET,
+                requestEntity,
+                TarifaEntity.class
+        );
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
     }
 
 
     @Test
-    public void testDeleteTipoVehiculo() {
-        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+    public void testDeleteTarifa() {
+        Long id = 1L;
 
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
-
-        TipoVehiculoEntity tipoVehiculoToDelete = new TipoVehiculoEntity("TipoToDelete");
-        tipoVehiculoRepository.save(tipoVehiculoToDelete);
-
-        Long tipoIdToDelete = tipoVehiculoToDelete.getId();
-
-        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-
+        
+        System.out.println("User roles: " + bob.getRole()); 
+        
         ResponseEntity<Void> response = restTemplate.exchange(
-                "http://localhost:" + port + "/tiposvehiculoRest/deleteTipoVehiculo/" + tipoIdToDelete,
+                "http://localhost:" + port + "/tarifasRest/" + id,
                 HttpMethod.DELETE,
-                requestEntity,
+                new HttpEntity<>(headers),
                 Void.class
         );
-
+        
+        System.out.println("Response status code: " + response.getStatusCodeValue()); 
+        
         assertEquals(200, response.getStatusCodeValue());
-
-        Optional<TipoVehiculoEntity> deletedTipoVehiculoOptional = tipoVehiculoRepository.findById(tipoIdToDelete);
-        assertFalse(deletedTipoVehiculoOptional.isPresent());
     }
+
+
+
+    @Test
+    public void testUpdateTarifa() {
+        Long id = 1L;
+        TarifaEntity existingTarifa = tarifaRepository.findById(id).orElse(null);
+
+        JwtAuthenticationResponse bob = login("bob@bob.com", "bob123");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
+        
+        ResponseEntity<TarifaEntity> response = restTemplate.exchange(
+                "http://localhost:" + port + "/tarifasRest/" + id,
+                HttpMethod.PUT,
+                new HttpEntity<>(existingTarifa, headers),
+                TarifaEntity.class
+        );
+        assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+    }
+
 
 }
