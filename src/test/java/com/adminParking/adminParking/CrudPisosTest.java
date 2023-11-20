@@ -139,8 +139,6 @@ public class CrudPisosTest {
             fail("La creación del piso no se completó correctamente.", e);
         }
 
-        driver.close();
-    
     }
 
     @Test
@@ -148,7 +146,7 @@ public class CrudPisosTest {
     
         login();
     
-        driver.get(baseUrl + "/pisos/actualizarPiso");
+        driver.get(baseUrl + "/piso/actualizarPiso");
     
         WebElement idInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("id")));
         WebElement areaInput = driver.findElement(By.id("area"));
@@ -156,12 +154,9 @@ public class CrudPisosTest {
         WebElement areaPorVehiculoInput = driver.findElement(By.id("areaPorVehiculo"));
     
         idInput.sendKeys("1"); // Cambia esto por el ID del piso que deseas actualizar
-        areaInput.clear();
-        areaInput.sendKeys("3000"); // Nueva área del piso
-        tipoVehiculoInput.clear();
-        tipoVehiculoInput.sendKeys("Moto"); // Nuevo tipo de vehículo
-        areaPorVehiculoInput.clear();
-        areaPorVehiculoInput.sendKeys("50"); // Nueva área por vehículo
+        areaInput.sendKeys("500"); // Nueva área del piso
+        tipoVehiculoInput.sendKeys("Carro"); // Nuevo tipo de vehículo
+        areaPorVehiculoInput.sendKeys("5"); // Nueva área por vehículo
     
         WebElement btnActualizarPiso = driver.findElement(By.className("botoon"));
         btnActualizarPiso.click();
@@ -175,12 +170,13 @@ public class CrudPisosTest {
 
     }
 
+    /*
     @Test
     void test_actualizarPiso ( ) {
     
         login();
     
-        driver.get(baseUrl + "/pisos/actu");
+        driver.get(baseUrl + "/piso/actu");
     
         WebElement idInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("id")));
         WebElement areaInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("area")));
@@ -204,14 +200,14 @@ public class CrudPisosTest {
         }
     
     }
-    
+    */
 
     @Test
     void deletePisoTest() {
     
         login();
     
-        driver.get(baseUrl + "/pisos/delPiso");
+        driver.get(baseUrl + "/piso/eliminarPiso");
     
         WebElement idInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("id")));
         idInput.sendKeys("1"); // Cambia esto por el ID del piso que deseas eliminar

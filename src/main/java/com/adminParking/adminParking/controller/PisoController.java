@@ -1,3 +1,4 @@
+
 package com.adminParking.adminParking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,6 @@ public class PisoController {
     
         return "redirect:/pisos/anadirPiso";
     }
-    
 
     @Secured({ "ADMIN" })
     @GetMapping("/anadirPiso")
