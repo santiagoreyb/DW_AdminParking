@@ -1,8 +1,10 @@
 package com.adminParking.adminParking;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +71,7 @@ public class AniadirTarifaTest {
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
+        // options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
 
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -127,6 +129,50 @@ public class AniadirTarifaTest {
             fail("Could not find " + "Tarifa creada exitosamente" + ", instead found " + AvisoFinal.getText(), e);
         }
 
+    }
+
+    @Test
+    void test_calcularEspaciosDisponibles ( ) {
+
+        login();
+
+        driver.get(baseUrl + "/tarifa/tarifas-espacios");
+
+        WebElement divEspacios = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("espacios")));
+        List<WebElement> listaElementosEspacios = divEspacios.findElements(By.tagName("li"));
+
+        PisoEntity piso = pisoRepository.findById(1L).orElse(null);
+        assertNotNull(piso);
+        String tipoPiso = piso.getTipoVehiculo().getTipo() ;
+        String capacidadTotal = Integer.toString(piso.getCapacidad()) ;
+
+        Boolean respuesta = false ;
+        for (WebElement elemento : listaElementosEspacios) {
+            if ( elemento.getText().contains(tipoPiso) && elemento.getText().contains(capacidadTotal) ) {
+                respuesta = true ;
+                break ;
+            }
+        }
+
+        assertTrue(respuesta);
+
+        /*
+        // Analizar el resultado para obtener el número de espacios disponibles
+        String resultadoTexto = resultadoEspaciosDisponibles.getText();
+        int espaciosDisponibles = Integer.parseInt(resultadoTexto.split(": ")[1]);
+        
+        // Obtener el piso correspondiente para verificar la lógica
+        
+        // Calcular manualmente los espacios disponibles para comparar
+        int vehiculosEstacionados = piso.getVehiculos().size();
+        int espaciosCalculados = capacidadTotal - vehiculosEstacionados;
+        if (espaciosCalculados < 0) {
+            espaciosCalculados = 0;
+        }
+        
+        assertEquals(espaciosCalculados, espaciosDisponibles);
+        */
+        
     }
     
 

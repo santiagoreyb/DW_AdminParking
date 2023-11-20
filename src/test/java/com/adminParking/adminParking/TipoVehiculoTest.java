@@ -70,7 +70,6 @@ public class TipoVehiculoTest {
 		return body;
 	}
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TipoVehiculoTest.class);
 
     @Test
     public void test_getAllTarifas ( ) {
@@ -83,7 +82,6 @@ public class TipoVehiculoTest {
 
         ResponseEntity<List> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/getTipos", List.class);
         List<TipoVehiculoEntity> listaTiposVehiculo = response.getBody();
-        LOGGER.info("Response Body: {}", listaTiposVehiculo);
         assertEquals(null, listaTiposVehiculo);
 
     }
@@ -95,12 +93,11 @@ public class TipoVehiculoTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + bob.getToken());
-        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+        //HttpEntity<?> requestEntity = new HttpEntity<>(headers);
         
         Long tipoId = 1L ;
         ResponseEntity<TipoVehiculoEntity> response = restTemplate.getForEntity("http://localhost:" + port + "/tiposvehiculoRest/" + tipoId, TipoVehiculoEntity.class);
         TipoVehiculoEntity IdTiposVehiculo = response.getBody();
-        LOGGER.info("Response Body: {}", IdTiposVehiculo);
         assertEquals(null, IdTiposVehiculo);
 
     }
