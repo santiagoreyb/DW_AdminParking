@@ -36,10 +36,11 @@ import com.adminParking.adminParking.repositories.TipoVehiculoRepository;
 import com.adminParking.adminParking.repositories.UserRepository;
 import com.adminParking.adminParking.repositories.VehiculoRepository;
 
-    @ActiveProfiles("integrationtest")
-    @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
-    @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("integrationtest")
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class AnadirVehiculoTest {
+
     private ChromeDriver driver;
     private WebDriverWait wait;
 
@@ -63,7 +64,6 @@ public class AnadirVehiculoTest {
 
     private String baseUrl;
 
-
     @BeforeEach
     void init() {
         userRepository.save(new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
@@ -83,7 +83,6 @@ public class AnadirVehiculoTest {
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
         //options.setBinary("C:\\Users\\kevin\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
