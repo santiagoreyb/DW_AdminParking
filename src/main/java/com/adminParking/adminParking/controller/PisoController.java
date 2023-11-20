@@ -73,7 +73,7 @@ public class PisoController {
 
     @Secured({ "ADMIN" })
     @PostMapping("/actu")
-    public String updatePiso(
+    public String updatePiso (
         @RequestParam("id") Long id,
         @RequestParam("area") String area,
         @RequestParam("tipoVehiculo") String tipoVehiculo,

@@ -11,6 +11,7 @@ import com.adminParking.adminParking.repositories.UserRepository;
 
 @Service
 public class UserService {
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -23,5 +24,6 @@ public class UserService {
             }
         };
     }
+
 }
 

@@ -2,6 +2,9 @@
 *.mv.db
 *.trace.db
 
+### Chrome driver ###
+chrome/
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
