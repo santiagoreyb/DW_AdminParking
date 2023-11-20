@@ -51,9 +51,6 @@ public class AniadirTarifaTest {
     private WebDriverWait wait;
     
     @Autowired
-    PisoRepository pisoRepository;
-
-    @Autowired
     TipoVehiculoRepository tipoRepository;
 
     @Autowired
@@ -128,7 +125,9 @@ public class AniadirTarifaTest {
         btnCrearTarifa.click();
     
         try {
-            WebElement mensajeExito = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(),'Se guardó la tarifa correctamente.')]")));
+            WebElement mensajeExito = wait.until (
+                ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(),'Se guardó la tarifa correctamente.')]"))
+            );
             assertNotNull(mensajeExito);
         } catch (TimeoutException e) {
             fail("La creación de la tarifa no se completó correctamente.", e);
