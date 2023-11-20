@@ -70,16 +70,13 @@ public class AniadirTarifaTest {
         userRepository.save(new User("Alice", "Alisson", "alice@alice.com", passwordEncoder.encode("alice123"), Role.PORTERO));
         userRepository.save(new User("Bob", "Bobson", "bob@bob.com", passwordEncoder.encode("bob123"), Role.ADMIN));
 
-        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Carro");
+        TipoVehiculoEntity tipo = new TipoVehiculoEntity("Bus");
         tipoRepository.save(tipo);
-        PisoEntity piso = new PisoEntity("2000", tipo, 2000);
-        pisoRepository.save(piso);
 
         ChromeOptions options = new ChromeOptions();
         //options.addArguments("--headless");
         options.addArguments("--disable-extensions"); // disabling extensions
         options.addArguments("start-maximized"); // open Browser in maximized mode
-        // options.setBinary("C:\\Users\\camil\\chrome\\win64-114.0.5735.133\\chrome-win64\\chrome.exe");
 
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -115,7 +112,7 @@ public class AniadirTarifaTest {
 	}
 
     @Test
-    void createTarifaTest() {
+    void test_createTarifa ( ) {
 
         login();
     
@@ -124,7 +121,7 @@ public class AniadirTarifaTest {
         WebElement tipoVehiculoInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tipoVehiculo")));
         WebElement tarifaPorMinutoInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tarifaPorMinuto")));
     
-        tipoVehiculoInput.sendKeys("Carro");
+        tipoVehiculoInput.sendKeys("Bus");
         tarifaPorMinutoInput.sendKeys("200");
     
         WebElement btnCrearTarifa = driver.findElement(By.className("botoon"));
