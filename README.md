@@ -1,7 +1,7 @@
 # DW_AdminParking
 
 Repositorio para el proyecto de Desarrollo Web.
-
+Sistema de información para un parqueadero. El parqueadero está compuesto por varios pisos, en cada uno de los cuales se guarda un tipo de vehículo (automóviles, buses, motos). Puede haber más de un piso para un mismo tipo de vehículo. Dicho ordenamiento lo revisa periódicamente el administrador según el porcentaje de ocupación que haya tenido cada piso en el mes anterior y se puede cambiar. Todos los pisos son de igual tamaño (rectangulares), y el número de vehículos que puede parquearse en cada uno de ellos depende del tipo de vehículo. 
 
 
 ## Diagrama de clases UML
